@@ -1,2 +1,2 @@
-# Museeq
-Multilingual Semantic Parsing Approach for QALD
+# Museeqa
+Multilingual Semantic Parsing Approach for Question Answering
