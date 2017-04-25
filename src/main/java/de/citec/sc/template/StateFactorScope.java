@@ -17,7 +17,7 @@ import templates.AbstractTemplate;
  * @author sherzod
  * @param <HiddenVariable>
  */
-public class StateFactorScope<State> extends FactorScope{
+public class StateFactorScope<State> extends FactorScope {
 
     private State state;
 
@@ -57,6 +57,4 @@ public class StateFactorScope<State> extends FactorScope{
         return "SingleNodeFactorScope{" + "state=" + state + '}';
     }
 
-    
-    
 }

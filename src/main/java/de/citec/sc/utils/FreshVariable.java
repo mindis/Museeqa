@@ -10,9 +10,10 @@ package de.citec.sc.utils;
  * @author sherzod
  */
 public class FreshVariable {
-    private static int variableCount=100;
-    
-    public static int get(){
+
+    private static int variableCount = 100;
+
+    public static int get() {
         variableCount++;
         return variableCount;
     }

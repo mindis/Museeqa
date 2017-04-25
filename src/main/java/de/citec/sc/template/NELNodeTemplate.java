@@ -61,21 +61,18 @@ public class NELNodeTemplate extends AbstractTemplate<AnnotatedDocument, State, 
         Vector featureVector = factor.getFeatureVector();
 
         Map<String, Double> nodeFeatures = getValidNodeFeatures(state);
-        
-        
+
         for (String k : nodeFeatures.keySet()) {
             featureVector.addToValue(k, nodeFeatures.get(k));
         }
 
     }
 
-
-
     /**
      * checks whether the node is valid postag, and should have URI or not.
      */
     private Map<String, Double> getValidNodeFeatures(State state) {
-        
+
         Map<String, Double> features = new HashMap<>();
 
         //add dependency feature between tokens
@@ -90,13 +87,12 @@ public class NELNodeTemplate extends AbstractTemplate<AnnotatedDocument, State, 
             if (dudeID != -1) {
                 dudeName = semanticTypes.get(dudeID);
             }
-            
+
             double similarityScore = getSimilarityScore(headToken, headURI);
-            
+
 //            if(similarityScore == 1.0 && dudeName.equals("Individual")){
 //                features.put("NEL NODE - FEATURE: PERFECT MATCH Individual" + " SEM-TYPE: " + dudeName + ":" + headPOS + " dep-relation: " + depRelation + " ", 1.0);
 //            }
-            
             if (validPOSTags.contains(headPOS) && !frequentWordsToExclude.contains(headToken.toLowerCase())) {
                 if (headURI.equals("EMPTY_STRING")) {
                     features.put("NEL NODE - FEATURE: HAS EMPTY_URI " + " SEM-TYPE: " + dudeName + ":" + headPOS + " dep-relation: " + depRelation + " ", 1.0);
@@ -133,7 +129,7 @@ public class NELNodeTemplate extends AbstractTemplate<AnnotatedDocument, State, 
             }
             temp += c;
         }
-        
+
         temp = temp.replaceAll("\\s+", " ");
 
         uri = temp.trim().toLowerCase();

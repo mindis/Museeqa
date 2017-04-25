@@ -81,10 +81,10 @@ public class QAEdgeTemplate extends AbstractTemplate<AnnotatedDocument, State, S
                 headVar = state.getHiddenVariables().get(slotVar.getTokenID());
             }
 
-            if(headVar == null){
+            if (headVar == null) {
                 continue;
             }
-            
+
             String headURI = headVar.getCandidate().getUri();
 
             String range = "", domain = "";
@@ -104,15 +104,14 @@ public class QAEdgeTemplate extends AbstractTemplate<AnnotatedDocument, State, S
             } else {
                 featureVector.addToValue("QA EDGE - FEATURE: " + " token: " + token.toLowerCase() + "   head-dudeID: " + headVar.getDudeId() + "  Slot : " + slotVar.getSlotNumber() + " range:  " + range, 1.0);
             }
-            
+
 //            if(token.toLowerCase().startsWith("how") && (headURI.toLowerCase().contains("total") || headURI.toLowerCase().contains("number"))){
 //                featureVector.addToValue("QA LEXICAL DEP FEATURE: CHILD_TOKEN: " + token.toLowerCase() + " SEM-DEP: WHAT    number/total: ", 1.0);
 //            }
-
             String depRelation = state.getDocument().getParse().getDependencyRelation(tokenID);
 
             featureVector.addToValue("QA LEXICAL DEP FEATURE: CHILD_TOKEN: " + token.toLowerCase() + " SEM-DEP: WHAT    DEP-REL: " + depRelation, 1.0);
-            featureVector.addToValue("QA LEXICAL DEP FEATURE: CHILD_TOKEN: " + token.toLowerCase() + " SEM-DEP: WHAT" , 1.0);
+            featureVector.addToValue("QA LEXICAL DEP FEATURE: CHILD_TOKEN: " + token.toLowerCase() + " SEM-DEP: WHAT", 1.0);
         }
 //
 //        //add dependency feature between tokens

@@ -57,30 +57,31 @@ public class StanfordParser {
     private static StanfordCoreNLP dePipeline;
     private static StanfordCoreNLP esPipeline;
 
-    public enum Language{EN, DE, ES};
-    
+    public enum Language {
+
+        EN, DE, ES
+    };
+
     private static void loadModels() {
-            System.out.println("Loading Stanford models for EN");
-            
-            Properties enProps = StringUtils.argsToProperties(
+        System.out.println("Loading Stanford models for EN");
+
+        Properties enProps = StringUtils.argsToProperties(
                 new String[]{"-props", "src/main/resources/dep-parse-properties/english.props"});
 
-            enPipeline = new StanfordCoreNLP(enProps);
+        enPipeline = new StanfordCoreNLP(enProps);
 
-            System.out.println("Loading Stanford models for DE");
-            
-            Properties deProps = StringUtils.argsToProperties(
+        System.out.println("Loading Stanford models for DE");
+
+        Properties deProps = StringUtils.argsToProperties(
                 new String[]{"-props", "src/main/resources/dep-parse-properties/german.props"});
-            dePipeline = new StanfordCoreNLP(deProps);
-            
-            
-            System.out.println("Loading Stanford models for ES");
-            
-            Properties esProps = StringUtils.argsToProperties(
+        dePipeline = new StanfordCoreNLP(deProps);
+
+        System.out.println("Loading Stanford models for ES");
+
+        Properties esProps = StringUtils.argsToProperties(
                 new String[]{"-props", "src/main/resources/dep-parse-properties/spanish.props"});
-            esPipeline = new StanfordCoreNLP(esProps);
-        
-        
+        esPipeline = new StanfordCoreNLP(esProps);
+
 //        String parserModel = "edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz";
 //        lp = LexicalizedParser.loadModel(parserModel);
     }
@@ -116,18 +117,14 @@ public class StanfordParser {
         DependencyParse parse = new DependencyParse();
 
         Annotation document = new Annotation(text);
-        
-        if(lang.equals(Language.EN)){
+
+        if (lang.equals(Language.EN)) {
             enPipeline.annotate(document);
-        }
-        else if(lang.equals(Language.DE)){
+        } else if (lang.equals(Language.DE)) {
             dePipeline.annotate(document);
-        }
-        else if(lang.equals(Language.ES)){
+        } else if (lang.equals(Language.ES)) {
             esPipeline.annotate(document);
         }
-
-        
 
         List<CoreMap> sentences = document.get(SentencesAnnotation.class);
 
@@ -179,13 +176,13 @@ public class StanfordParser {
         Annotation document = new Annotation(documentText);
 
         // run all Annotators on this text
-        if(lang.equals(Language.EN)){
+        if (lang.equals(Language.EN)) {
             enPipeline.annotate(document);
         }
-        if(lang.equals(Language.DE)){
+        if (lang.equals(Language.DE)) {
             dePipeline.annotate(document);
         }
-        if(lang.equals(Language.ES)){
+        if (lang.equals(Language.ES)) {
             esPipeline.annotate(document);
         }
 
@@ -221,13 +218,13 @@ public class StanfordParser {
             Annotation document = new Annotation(t);
 
             // run all Annotators on this text
-            if(lang.equals(Language.EN)){
-            enPipeline.annotate(document);
+            if (lang.equals(Language.EN)) {
+                enPipeline.annotate(document);
             }
-            if(lang.equals(Language.DE)){
+            if (lang.equals(Language.DE)) {
                 dePipeline.annotate(document);
             }
-            if(lang.equals(Language.ES)){
+            if (lang.equals(Language.ES)) {
                 esPipeline.annotate(document);
             }
 
@@ -236,14 +233,14 @@ public class StanfordParser {
             for (CoreMap sentence : sentences) {
                 // Iterate over all tokens in a sentence
                 for (CoreLabel token : sentence.get(TokensAnnotation.class)) {
-            // Retrieve and add the lemma for each word into the
+                    // Retrieve and add the lemma for each word into the
                     // list of lemmas
                     lemma += " " + token.get(CoreAnnotations.LemmaAnnotation.class);
 
                 }
             }
         } catch (Exception e) {
-            System.err.println("Stanford Lemmatizer error exception Word: "+ t);
+            System.err.println("Stanford Lemmatizer error exception Word: " + t);
         }
 
         return lemma.trim();

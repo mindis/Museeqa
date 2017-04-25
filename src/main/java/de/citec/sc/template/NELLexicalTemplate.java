@@ -77,7 +77,7 @@ public class NELLexicalTemplate extends AbstractTemplate<AnnotatedDocument, Stat
             }
 
             if (dudeName.equals("Property") || dudeName.equals("RestrictionClass")) {
-                
+
                 List<Integer> dependentNodes = state.getDocument().getParse().getDependentEdges(tokenID, validPOSTags, frequentWordsToExclude);
                 List<Integer> siblings = state.getDocument().getParse().getSiblings(tokenID, validPOSTags, frequentWordsToExclude);
 

@@ -13,12 +13,13 @@ import java.util.Objects;
  * @author sherzod
  */
 public class Question {
+
     private String questionText;
     private String queryText;
     private List<String> answers;
     private String keywords;
     private String id;
-    
+
     private String onlyDBO;
     private String aggregation;
     private String answerType;
@@ -68,15 +69,13 @@ public class Question {
         this.questionText = questionText;
         this.queryText = queryText;
     }
+
     public Question(String questionText, String queryText, String id) {
         this.questionText = questionText;
         this.queryText = queryText;
         this.id = id;
     }
-    
-    
 
-    
     public Question(String questionText, String queryText, ArrayList<String> answers) {
         this.questionText = questionText;
         this.queryText = queryText;
@@ -147,9 +146,6 @@ public class Question {
         return true;
     }
 
-
-    
-
     public String getQuestionText() {
         return questionText;
     }
@@ -165,8 +161,6 @@ public class Question {
     public void setAnswers(List<String> answers) {
         this.answers = answers;
     }
-    
-    
 
     public void setQueryText(String queryText) {
         this.queryText = queryText;
@@ -181,8 +175,6 @@ public class Question {
         return "Question{" + "questionText=" + questionText + ", queryText=" + queryText + ", id=" + id + ", onlyDBO=" + onlyDBO + ", aggregation=" + aggregation + ", answerType=" + answerType + ", hybrid=" + hybrid + '}';
     }
 
-    
-
     public String getKeywords() {
         return keywords;
     }
@@ -191,7 +183,4 @@ public class Question {
         this.keywords = keywords;
     }
 
-  
-
-    
 }

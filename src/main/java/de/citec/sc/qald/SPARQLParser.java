@@ -5,7 +5,6 @@
  */
 package de.citec.sc.qald;
 
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -33,31 +32,30 @@ import org.apache.jena.sparql.syntax.ElementTriplesBlock;
 public class SPARQLParser {
 
     public static List<String> extractURIsFromQuery(String queryString) {
-        
+
         List<String> uris = new ArrayList<>();
-        
+
         List<Triple> triples = extractTriplesFromQuery(queryString);
-        for(Triple t : triples){
-            
-            if(!t.IsReturnVariable()){
-                
-                if(!t.getPredicate().IsVariable()){
+        for (Triple t : triples) {
+
+            if (!t.IsReturnVariable()) {
+
+                if (!t.getPredicate().IsVariable()) {
                     uris.add(t.getPredicate().getPredicateName());
                 }
-                
-                if(t.getSubject() instanceof Constant){
+
+                if (t.getSubject() instanceof Constant) {
                     Constant c = (Constant) t.getSubject();
                     uris.add(c.getUri());
                 }
-                
-                if(t.getObject() instanceof Constant){
+
+                if (t.getObject() instanceof Constant) {
                     Constant c = (Constant) t.getObject();
                     uris.add(c.getUri());
                 }
             }
         }
-        
-        
+
 //        try {
 //            String[] data = queryString.split(" ");
 //
@@ -72,14 +70,13 @@ public class SPARQLParser {
 //
 //        } catch (Exception e) {
 //        }
-
         return uris;
     }
 
     public static String getQuery(List<Triple> triples) {
         String query = "";
 
-        if(triples.isEmpty()){
+        if (triples.isEmpty()) {
             return "";
         }
         String returnVariables = "";
@@ -101,7 +98,7 @@ public class SPARQLParser {
         return query;
     }
 
-     public static List<Triple> extractTriplesFromQuery(String queryString) {
+    public static List<Triple> extractTriplesFromQuery(String queryString) {
 
         try {
             //replaces SELECT COUNT ?x with SELECT (COUNT ?x AS ?count) => because jena can't parse the first one
@@ -230,7 +227,7 @@ public class SPARQLParser {
         try {
 
             List<String> returnVars = query.getResultVars();
-            
+
             List<Var> VARS = query.getProjectVars();
 
             //query starts with SELECT * WHERE
@@ -375,7 +372,6 @@ public class SPARQLParser {
 
         Set<Triple> triples = new LinkedHashSet<>();
 
-        
         Iterator<org.apache.jena.graph.Triple> iterator = block.patternElts();
 
         while (iterator.hasNext()) {
@@ -477,7 +473,7 @@ public class SPARQLParser {
 
         return triples;
     }
-    
+
     private static Set<Triple> getTripleFromFilter(Expr expr, int count) {
         Set<Triple> triples = new LinkedHashSet<>();
 

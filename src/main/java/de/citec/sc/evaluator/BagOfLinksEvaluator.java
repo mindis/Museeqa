@@ -14,20 +14,18 @@ import java.util.List;
  */
 public class BagOfLinksEvaluator {
 
-    
     public static double evaluate(List<String> derived, List<String> goldStandard) {
-        
+
         double recall = getIntersectionScore(derived, goldStandard);
         double precision = getIntersectionScore(goldStandard, derived);
-        
-        double f1 = (2 * precision * recall)/(precision + recall);
-        
+
+        double f1 = (2 * precision * recall) / (precision + recall);
+
 //        double f1 = recall;
-        
-        if(Double.isNaN(f1) || Double.isInfinite(f1)){
+        if (Double.isNaN(f1) || Double.isInfinite(f1)) {
             f1 = 0;
         }
-        
+
         return f1;
     }
 

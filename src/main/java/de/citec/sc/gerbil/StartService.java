@@ -12,7 +12,6 @@ import java.net.URLDecoder;
 import org.json.simple.JSONArray;
 import spark.Spark;
 
-
 /**
  *
  * @author sherzod
@@ -22,7 +21,7 @@ public class StartService {
     private static Gson gson = new GsonBuilder().create();
 
     public static void main(String[] args) throws Exception {
-        
+
         int port = 8080;
         Spark.port(port);
 
@@ -35,18 +34,15 @@ public class StartService {
             try {
                 input = URLDecoder.decode(input, "UTF-8");
             } catch (UnsupportedEncodingException ex) {
-                
-            }
-            
-            JSONArray questions = new JSONArray();
-            
 
-            System.out.println("Input : "+input);
+            }
+
+            JSONArray questions = new JSONArray();
+
+            System.out.println("Input : " + input);
             return input;
-            
-            
+
         }, new JsonTransformer());
     }
 
-    
 }

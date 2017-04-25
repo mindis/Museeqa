@@ -65,8 +65,6 @@ public class State extends AbstractState<AnnotatedDocument> {
         this.slotVariables = slotVariables;
     }
 
-    
-
     public Map<Integer, HiddenVariable> getHiddenVariables() {
         return hiddenVariables;
     }
@@ -74,7 +72,6 @@ public class State extends AbstractState<AnnotatedDocument> {
     public void setHiddenVariables(Map<Integer, HiddenVariable> hiddenVariables) {
         this.hiddenVariables = hiddenVariables;
     }
-
 
     public State(AnnotatedDocument instance) {
         super(instance);
@@ -103,37 +100,33 @@ public class State extends AbstractState<AnnotatedDocument> {
         this.hiddenVariables = h;
         this.slotVariables = s;
     }
-    
-    
-
 
     public void addHiddenVariable(Integer indexOfNode, Integer indexOfDUDE, Candidate c) {
-        
+
         HiddenVariable v = new HiddenVariable(indexOfNode, indexOfDUDE, c);
         this.hiddenVariables.put(indexOfNode, v);
 
     }
 
     public void addSlotVariable(Integer tokenID, Integer parentTokenID, Integer slotNumber) {
-        
+
         SlotVariable s = new SlotVariable(slotNumber, tokenID, parentTokenID);
-        
+
         this.slotVariables.put(tokenID, s);
     }
-
 
     @Override
     public String toString() {
         String state = "Document: " + "\n" + document.toString() + "\n";
 
         state += "\nHiddenVariables:\n";
-        
+
         for (Integer d : hiddenVariables.keySet()) {
             state += hiddenVariables.get(d).toString() + "\n";
         }
-        
+
         state += "\nSlotVariables:\n";
-        
+
         for (Integer d : slotVariables.keySet()) {
             state += slotVariables.get(d).toString() + "\n";
         }
@@ -143,17 +136,18 @@ public class State extends AbstractState<AnnotatedDocument> {
 
         return state;
     }
+
     public String toLessDetailedString() {
         String state = "";
 
         state += "HiddenVariables:\n";
-        
+
         for (Integer d : hiddenVariables.keySet()) {
             state += hiddenVariables.get(d).toString() + "\n";
         }
-        
+
         state += "\nSlotVariables:\n";
-        
+
         for (Integer d : slotVariables.keySet()) {
             state += slotVariables.get(d).toString() + "\n";
         }
@@ -163,7 +157,6 @@ public class State extends AbstractState<AnnotatedDocument> {
 
         return state;
     }
-
 
     public AnnotatedDocument getDocument() {
         return document;
@@ -178,34 +171,33 @@ public class State extends AbstractState<AnnotatedDocument> {
         this.document = document;
     }
 
-    public List<Integer> getUsedSlots(Integer headNodeIndex){
+    public List<Integer> getUsedSlots(Integer headNodeIndex) {
         List<Integer> slots = new ArrayList<>();
-        
-        for(Integer i : slotVariables.keySet()){
-            if(headNodeIndex == slotVariables.get(i).getParentTokenID()){
-            
+
+        for (Integer i : slotVariables.keySet()) {
+            if (headNodeIndex == slotVariables.get(i).getParentTokenID()) {
+
                 slots.add(slotVariables.get(i).getSlotNumber());
             }
         }
-        
+
         return slots;
     }
-    
-    public String getSlot(Integer depNode, Integer headNode){
+
+    public String getSlot(Integer depNode, Integer headNode) {
         String slot = "";
-        
-        if(slotVariables.containsKey(depNode)){
+
+        if (slotVariables.containsKey(depNode)) {
             SlotVariable var = slotVariables.get(depNode);
-            
-            if(var.getParentTokenID() == headNode){
-                slot = var.getSlotNumber()+"";
-                
+
+            if (var.getParentTokenID() == headNode) {
+                slot = var.getSlotNumber() + "";
+
                 return slot;
             }
         }
-        
+
         return slot;
     }
-
 
 }

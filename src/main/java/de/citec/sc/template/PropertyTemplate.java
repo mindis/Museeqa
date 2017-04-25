@@ -62,28 +62,28 @@ public class PropertyTemplate extends AbstractTemplate<AnnotatedDocument, State,
             String headURI = state.getHiddenVariables().get(tokenID).getCandidate().getUri();
             Integer dudeID = state.getHiddenVariables().get(tokenID).getDudeId();
             String headDudeName = "EMPTY";
-            
-            if(dudeID !=-1){
+
+            if (dudeID != -1) {
                 headDudeName = semanticTypes.get(dudeID);
             }
-            
+
             if (!headDudeName.equals("Property")) {
                 continue;
             }
 
-            if (headURI.equals("EMPTY_STRING")){
+            if (headURI.equals("EMPTY_STRING")) {
                 continue;
             }
-            
+
             if (headURI.equals("EMPTY_STRING") && validPOSTags.contains(headPOS)) {
-                featureVector.addToValue("PROPERTY FEATURE:  EXCLUDE THIS WORD: URI: " + headURI + " TOKEN: " + headToken + " POS : "+ headPOS, 1.0);
+                featureVector.addToValue("PROPERTY FEATURE:  EXCLUDE THIS WORD: URI: " + headURI + " TOKEN: " + headToken + " POS : " + headPOS, 1.0);
             }
 
             List<Integer> dependentNodes = state.getDocument().getParse().getDependentEdges(tokenID);
 
             //add lexical feature only for nouns, noun phrases etc.
             if (dependentNodes.isEmpty() && headPOS.startsWith("NN")) {
-                featureVector.addToValue("PROPERTY FEATURE: URI: " + headURI + " TOKEN: " + headToken + " POS : "+ headPOS + " SEM-TYPE: "+headDudeName, 1.0);
+                featureVector.addToValue("PROPERTY FEATURE: URI: " + headURI + " TOKEN: " + headToken + " POS : " + headPOS + " SEM-TYPE: " + headDudeName, 1.0);
             }
 
             if (!dependentNodes.isEmpty()) {
@@ -93,12 +93,12 @@ public class PropertyTemplate extends AbstractTemplate<AnnotatedDocument, State,
                     String depURI = state.getHiddenVariables().get(depNodeID).getCandidate().getUri();
 
                     if (!depURI.equals("EMPTY_STRING")) {
-                        featureVector.addToValue("PROPERTY DEP FEATURE: HEAD_URI: " + headURI + " HEAD_TOKEN: " + headToken + " SEM-TYPE: "+ headDudeName+" CHILD_URI: " + depURI + " CHILD_TOKEN: " + depToken, 1.0);
+                        featureVector.addToValue("PROPERTY DEP FEATURE: HEAD_URI: " + headURI + " HEAD_TOKEN: " + headToken + " SEM-TYPE: " + headDudeName + " CHILD_URI: " + depURI + " CHILD_TOKEN: " + depToken, 1.0);
                     }
                 }
             }
         }
-        
+
         //add dependency feature between tokens
 //        for (Integer tokenID : state.getDocument().getParse().getNodes().keySet()) {
 //            String headToken = state.getDocument().getParse().getToken(tokenID);

@@ -14,7 +14,7 @@ public class StateInitializer implements Initializer<AnnotatedDocument, State> {
 
     public StateInitializer() {
         super();
-        
+
     }
 
     @Override

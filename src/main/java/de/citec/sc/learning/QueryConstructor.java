@@ -45,7 +45,7 @@ public class QueryConstructor {
         validPOSTags = v;
 
         frequentWordsToExclude = f;
-        
+
         wordsWithSpecialSemanticTypes = w;
 
         expressions = new ExpressionFactory();
@@ -88,8 +88,8 @@ public class QueryConstructor {
                 if (specialSemanticTypes.containsKey(state.getHiddenVariables().get(i).getDudeId())) {
                     //check if any slot has this dep node
 //                    if (state.getSlotVariables().containsKey(i)) {
-                        hasReturnVariable = true;
-                        break;
+                    hasReturnVariable = true;
+                    break;
 //                    }
                 }
             }

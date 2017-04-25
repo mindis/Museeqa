@@ -81,17 +81,17 @@ public class Pipeline {
         BEAM_SIZE_QA_TRAINING = ProjectConfiguration.getQATrainingBeamSize();
         BEAM_SIZE_QA_TEST = ProjectConfiguration.getQATestBeamSize();
         BEAM_SIZE_NEL_TEST = ProjectConfiguration.getNELTestBeamSize();
-        
+
         scorer = new DefaultScorer();
-        
+
         nelTemplates = new ArrayList<>();
         nelTemplates.add(new NELLexicalTemplate(validPOSTags, frequentWordsToExclude, semanticTypes));
         nelTemplates.add(new NELEdgeTemplate(validPOSTags, frequentWordsToExclude, semanticTypes));
         nelTemplates.add(new NELNodeTemplate(validPOSTags, frequentWordsToExclude, semanticTypes));
-        
+
         qaTemplates = new ArrayList<>();
         qaTemplates.add(new QAEdgeTemplate(validPOSTags, frequentWordsToExclude, specialSemanticTypes));
-        
+
         QATemplateFactory.initialize(validPOSTags, frequentWordsToExclude, semanticTypes, specialSemanticTypes);
     }
 
@@ -139,14 +139,14 @@ public class Pipeline {
         System.out.println("QA Model: \n" + qaModel.toDetailedString());
 
         NELObjectiveFunction nelObjectiveFunction = new NELObjectiveFunction();
-        
+
         long startTime = System.currentTimeMillis();
         List<SampledMultipleInstance<AnnotatedDocument, String, State>> nelInstances = testNEL(nelModel, testDocuments);
 
         List<SampledMultipleInstance<AnnotatedDocument, String, State>> qaInstances = testQA(qaModel, nelInstances);
 //      
         long endTime = System.currentTimeMillis();
-        
+
         QAObjectiveFunction qaObjectiveFunction = new QAObjectiveFunction();
         qaObjectiveFunction.setUseQueryEvaluator(false);
 
@@ -157,9 +157,9 @@ public class Pipeline {
         //test results for qa task
         System.out.println("QA task : \n\n");
         Performance.logQATest(qaInstances, qaObjectiveFunction);
-        
-        long avgTime = (endTime - startTime)/testDocuments.size();
-        System.out.println(avgTime+" ms per test instance." );
+
+        long avgTime = (endTime - startTime) / testDocuments.size();
+        System.out.println(avgTime + " ms per test instance.");
 
     }
 
@@ -225,7 +225,7 @@ public class Pipeline {
                 List<State> lastStates = chain.get(chain.size() - 1);
                 //sort by objective
                 lastStates = lastStates.stream().sorted((s1, s2) -> Double.compare(s1.getObjectiveScore(), s2.getObjectiveScore())).collect(Collectors.toList());
-                
+
                 State s = (State) lastStates.get(lastStates.size() - 1);
 
                 double maxScore = s.getObjectiveScore();

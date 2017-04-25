@@ -54,7 +54,6 @@ public class AnalyseTrainingDocuments {
 
         HashMap<String, HashMap<String, Integer>> postagMAP = new LinkedHashMap<>();
 
-
         for (AnnotatedDocument d : trainDocuments) {
 
             String before = d.toString();
@@ -69,11 +68,7 @@ public class AnalyseTrainingDocuments {
                 String token = d.getParse().getToken(node);
                 token = token.toLowerCase();
 
-                
-
 //                if (pos.startsWith("NN") || pos.startsWith("JJ") || pos.startsWith("VB")) {
-                
-
                 if (postagMAP.containsKey(pos)) {
                     HashMap<String, Integer> values = postagMAP.get(pos);
                     values.put(token, values.getOrDefault(token, 1) + 1);

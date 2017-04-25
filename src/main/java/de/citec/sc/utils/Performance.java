@@ -257,7 +257,7 @@ public class Performance {
         System.out.println("MACRO F1: " + MACROF1 + "\n\n");
 
         int topKStateNumber = ProjectConfiguration.getQATestBeamSize();
-        
+
         for (int i = 1; i <= topKStateNumber; i++) {
             int z = getCorrectInstanceNumber(testResults, function, i);
 

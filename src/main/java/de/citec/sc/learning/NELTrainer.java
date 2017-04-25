@@ -145,7 +145,6 @@ public class NELTrainer {
 
                 lastStepStates = lastStepStates.stream().sorted((s1, s2) -> -Double.compare(s1.getObjectiveScore(), s2.getObjectiveScore())).collect(Collectors.toList());
 
-                
                 /*
                  * Get the highest scoring state (by model score)
                  */

@@ -73,11 +73,13 @@ public class ProjectConfiguration {
 
         return numberOfEpochs;
     }
+
     public static int getTrainMaxWordCount() {
         int numberOfEpochs = Integer.parseInt(PARAMETERS.get(PARAM_SETTING_TRAIN_MAX_WORD_COUNT));
 
         return numberOfEpochs;
     }
+
     public static int getTestMaxWordCount() {
         int numberOfEpochs = Integer.parseInt(PARAMETERS.get(PARAM_SETTING_TEST_MAX_WORD_COUNT));
 
@@ -95,16 +97,19 @@ public class ProjectConfiguration {
 
         return numberKSamples;
     }
+
     public static int getQATrainingBeamSize() {
         int numberKSamples = Integer.parseInt(PARAMETERS.get(PARAM_SETTING_BEAMSIZE_TRAINING_QA));
 
         return numberKSamples;
     }
+
     public static int getNELTestBeamSize() {
         int numberKSamples = Integer.parseInt(PARAMETERS.get(PARAM_SETTING_BEAMSIZE_TEST_NEL));
 
         return numberKSamples;
     }
+
     public static int getQATestBeamSize() {
         int numberKSamples = Integer.parseInt(PARAMETERS.get(PARAM_SETTING_BEAMSIZE_TEST_QA));
 
@@ -121,11 +126,10 @@ public class ProjectConfiguration {
         }
     }
 
-    
     public static String getAllParameters() {
         String s = "";
-        for(String k : PARAMETERS.keySet()){
-            s += k + "--"+PARAMETERS.get(k)+"\n";
+        for (String k : PARAMETERS.keySet()) {
+            s += k + "--" + PARAMETERS.get(k) + "\n";
         }
         return s;
     }

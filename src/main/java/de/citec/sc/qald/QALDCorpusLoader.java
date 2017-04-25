@@ -204,9 +204,9 @@ public class QALDCorpusLoader {
                         if (query.contains("UNION")) {
                             query = removeUNION(query);
                         }
-                        
+
                         query = query.replace("\n", " ");
-                        
+
                         Question q1 = new Question(questionText, query, onlyDBO, aggregation, answerType, hybrid, id);
                         qaldQuestions.add(q1);
                     }

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package de.citec.sc.qald;
 
 import java.util.Objects;
@@ -12,7 +11,8 @@ import java.util.Objects;
  *
  * @author sherzod
  */
-public class Variable implements Term{
+public class Variable implements Term {
+
     private String variableName;
 
     public String getVariableName() {

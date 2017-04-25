@@ -1,0 +1,18 @@
+dbpedia_2016-04.nt
+infobox_properties_de.ttl.bz2
+infobox_properties_en.ttl.bz2
+infobox_properties_es.ttl.bz2
+labels_de.ttl.bz2
+labels_en.ttl.bz2
+labels_es.ttl.bz2
+mappingbased_literals_de.ttl.bz2
+mappingbased_literals_en.ttl.bz2
+mappingbased_literals_es.ttl.bz2
+persondata_de.ttl.bz2
+persondata_en.ttl.bz2
+redirects_de.ttl.bz2
+redirects_en.ttl.bz2
+redirects_es.ttl.bz2
+
+DBpedia 2016-04
+http://wiki.dbpedia.org/downloads-2016-04

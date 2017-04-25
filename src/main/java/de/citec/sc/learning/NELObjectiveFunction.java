@@ -23,18 +23,18 @@ import learning.ObjectiveFunction;
  */
 public class NELObjectiveFunction extends ObjectiveFunction<State, String> implements Serializable {
 
-
     public double computeValue(State deptState, String goldState) {
 
         return computeScore(deptState, goldState);
     }
+
     public double computeValue(String query, String goldState) {
 
         List<String> uris1 = SPARQLParser.extractURIsFromQuery(query);
         List<String> uris2 = SPARQLParser.extractURIsFromQuery(goldState);
 
         double value = BagOfLinksEvaluator.evaluate(uris1, uris2);
-        
+
         return value;
     }
 

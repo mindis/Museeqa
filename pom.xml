@@ -16,6 +16,18 @@
     <dependencies>
         
         <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-compress</artifactId>
+            <version>1.13</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
+        </dependency>
+        
+        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>BIRE</artifactId>
             <version>0.0.1-SNAPSHOT</version>
@@ -105,7 +117,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>de.citec.sc.index.IndexCreator</mainClass>
+                            <mainClass>de.citec.sc.index.AnchorTextIndex</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

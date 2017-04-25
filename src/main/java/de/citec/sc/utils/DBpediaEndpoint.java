@@ -5,8 +5,6 @@
  */
 package de.citec.sc.utils;
 
-
-
 import de.citec.sc.learning.QueryConstructor;
 import de.citec.sc.variable.State;
 import java.util.ArrayList;
@@ -162,10 +160,9 @@ public class DBpediaEndpoint {
             resource = depURI;
 
             query = "SELECT DISTINCT ?o WHERE { <" + resource + "> ?p ?o. ?o <" + classPropertyPart + "> <" + classResourcePart + ">. }";
-            
+
             query = "SELECT DISTINCT ?o WHERE { <" + resource + "> <" + classPropertyPart + "> <" + classResourcePart + ">. }";
-            
-            
+
         } else if (isClass(depURI) && isResource(headURI)) {
             classPropertyPart = depURI.substring(0, depURI.indexOf("###"));
             classResourcePart = depURI.replace(classPropertyPart + "###", "");
@@ -429,11 +426,12 @@ public class DBpediaEndpoint {
      * @return boolean
      */
     public static boolean isValidState(State state) {
-        
+
         String query = QueryConstructor.getSPARQLQuery(state);
-        
+
         return isValidQuery(query, true);
     }
+
     /**
      * returns true if the SPARQL query returns an answer
      *
@@ -633,7 +631,7 @@ public class DBpediaEndpoint {
                 + "SELECT ?d \n"
                 + "WHERE {\n"
                 + "        <" + property + "> rdfs:range ?d . \n"
-//                + "FILTER (?d != <http://dbpedia.org/ontology/Agent>) \n"
+                //                + "FILTER (?d != <http://dbpedia.org/ontology/Agent>) \n"
                 + "}";
 
         List<String> result = runQuery(query);
@@ -649,6 +647,7 @@ public class DBpediaEndpoint {
         return "UNKNOWN";
 
     }
+
     public static String getDomain(String property) {
 
         String query = "PREFIX dbo: <http://dbpedia.org/ontology/>\n"
@@ -658,7 +657,7 @@ public class DBpediaEndpoint {
                 + "SELECT ?d \n"
                 + "WHERE {\n"
                 + "        <" + property + "> rdfs:domain ?d . \n"
-//                + "FILTER (?d != <http://dbpedia.org/ontology/Agent>) \n"
+                //                + "FILTER (?d != <http://dbpedia.org/ontology/Agent>) \n"
                 + "}";
 
         List<String> result = runQuery(query);

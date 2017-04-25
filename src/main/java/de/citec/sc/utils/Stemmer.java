@@ -612,7 +612,6 @@ public class Stemmer {
      * must be done outside the Stemmer class. Usage: Stemmer file-name
      * file-name ...
      */
-
     public String process(String s) {
         Stemmer stemmer = new Stemmer();
 
@@ -677,5 +676,5 @@ public class Stemmer {
 
         return v1[t.length()];
     }
-    
+
 }

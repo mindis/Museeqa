@@ -77,31 +77,28 @@ public class QALexicalTemplate extends AbstractTemplate<AnnotatedDocument, State
 
             List<Integer> childNodes = state.getDocument().getParse().getDependentEdges(tokenID);
             List<Integer> siblingNodes = state.getDocument().getParse().getSiblings(tokenID);
-            
+
             Set<Integer> dependentNodes = new HashSet<>();
             Set<Integer> siblings = new HashSet<>();
             Set<Integer> headNodes = new HashSet<>();
-            
-            
-            for(Integer childNode : childNodes){
+
+            for (Integer childNode : childNodes) {
                 List<Integer> childOfChildNodes = state.getDocument().getParse().getDependentEdges(childNode);
-                
+
                 dependentNodes.addAll(childOfChildNodes);
                 dependentNodes.add(childNode);
             }
-            for(Integer sibling : siblingNodes){
+            for (Integer sibling : siblingNodes) {
                 List<Integer> childOfSiblingNodes = state.getDocument().getParse().getDependentEdges(sibling);
-                
+
                 siblings.addAll(childOfSiblingNodes);
                 siblings.add(sibling);
             }
 
-            
             Integer headNode = state.getDocument().getParse().getParentNode(tokenID);
             List<Integer> siblingsOfHeadNode = state.getDocument().getParse().getSiblings(headNode);
-            
+
             //get a list of siblings of the head node, and add the head node itself.
-            
             headNodes.addAll(siblingsOfHeadNode);
             headNodes.add(headNode);
 
@@ -118,7 +115,6 @@ public class QALexicalTemplate extends AbstractTemplate<AnnotatedDocument, State
 
                         String relation = state.getDocument().getParse().getDependencyRelation(depNodeID);
 
-                        
                         featureVector.addToValue("QA LEXICAL DEP FEATURE: HEAD_URI: " + " CHILD_TOKEN: " + depToken + " DEP-SEM-TYPE: " + depDudeName + " DEP-REL: " + relation, 1.0);
                     }
                 }
@@ -143,11 +139,11 @@ public class QALexicalTemplate extends AbstractTemplate<AnnotatedDocument, State
             if (!headNodes.isEmpty()) {
 
                 for (Integer headNodeID : headNodes) {
-                    
-                    if(headNodeID == -1){
+
+                    if (headNodeID == -1) {
                         continue;
                     }
-                    
+
                     String depToken = state.getDocument().getParse().getToken(headNodeID);
 
                     Integer depDudeID = state.getHiddenVariables().get(headNodeID).getDudeId();

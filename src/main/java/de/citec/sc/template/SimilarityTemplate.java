@@ -72,7 +72,6 @@ public class SimilarityTemplate extends AbstractTemplate<AnnotatedDocument, Stat
             if (headURI.equals("EMPTY_STRING")) {
                 continue;
             }
-            
 
             List<Integer> dependentNodes = state.getDocument().getParse().getDependentEdges(tokenID, validPOSTags, frequentWordsToExclude);
             List<Integer> siblings = state.getDocument().getParse().getSiblings(tokenID, validPOSTags, frequentWordsToExclude);
@@ -89,7 +88,7 @@ public class SimilarityTemplate extends AbstractTemplate<AnnotatedDocument, Stat
                     }
 
                     if (!depURI.equals("EMPTY_STRING")) {
-                        featureVector.addToValue("LEXICAL DEP FEATURE: HEAD_URI: " + headURI + " HEAD_TOKEN: " + headToken + " SEM-TYPE: " + dudeName + " CHILD_URI: " + depURI + " CHILD_TOKEN: " + depToken + " DEP-SEM-TYPE: "+depDudeName, 1.0);
+                        featureVector.addToValue("LEXICAL DEP FEATURE: HEAD_URI: " + headURI + " HEAD_TOKEN: " + headToken + " SEM-TYPE: " + dudeName + " CHILD_URI: " + depURI + " CHILD_TOKEN: " + depToken + " DEP-SEM-TYPE: " + depDudeName, 1.0);
                     }
                 }
             }
@@ -105,7 +104,7 @@ public class SimilarityTemplate extends AbstractTemplate<AnnotatedDocument, Stat
                     }
 
                     if (!depURI.equals("EMPTY_STRING")) {
-                        featureVector.addToValue("LEXICAL SIBLING FEATURE: HEAD_URI: " + headURI + " HEAD_TOKEN: " + headToken + " SEM-TYPE: " + dudeName + " CHILD_URI: " + depURI + " CHILD_TOKEN: " + depToken+ " SIBLING-SEM-TYPE: "+depDudeName, 1.0);
+                        featureVector.addToValue("LEXICAL SIBLING FEATURE: HEAD_URI: " + headURI + " HEAD_TOKEN: " + headToken + " SEM-TYPE: " + dudeName + " CHILD_URI: " + depURI + " CHILD_TOKEN: " + depToken + " SIBLING-SEM-TYPE: " + depDudeName, 1.0);
                     }
                 }
             }

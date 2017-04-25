@@ -62,9 +62,6 @@ public class NELEdgeTemplate extends AbstractTemplate<AnnotatedDocument, State, 
 
         Map<String, Double> depFeatures = getDependencyFeatures(state);
         Map<String, Double> siblingFeatures = getSiblingFeatures(state);
-        
-        
-        
 
         for (String k : depFeatures.keySet()) {
             featureVector.addToValue(k, depFeatures.get(k));
@@ -73,7 +70,6 @@ public class NELEdgeTemplate extends AbstractTemplate<AnnotatedDocument, State, 
         for (String k : siblingFeatures.keySet()) {
             featureVector.addToValue(k, siblingFeatures.get(k));
         }
-
 
     }
 

@@ -55,11 +55,11 @@ public class SemanticComposition {
     private static void mergeSlots(State state) {
         //loop over all slot arguments and join them
         for (Integer depNode : state.getSlotVariables().keySet()) {
-            
-            if(state.getDocument().getParse().getDependentEdges(depNode, validPOSTags, frequentWordsToExclude).size() > 0){
+
+            if (state.getDocument().getParse().getDependentEdges(depNode, validPOSTags, frequentWordsToExclude).size() > 0) {
                 continue;
             }
-            
+
             SlotVariable var = state.getSlotVariables().get(depNode);
 
             RDFDUDES dependent = dudeTypes.get(depNode);
@@ -68,20 +68,19 @@ public class SemanticComposition {
             String argument = var.getSlotNumber() + "";
 
             String d = "";
-            if(dependent != null){
+            if (dependent != null) {
                 d = dependent.toString();
             }
             String h = "";
-            if(head != null){
+            if (head != null) {
                 h = head.toString();
             }
-            
+
             //do the merging part
             head = merge(head, dependent, argument);
             String after = head.toString();
-            
-//            System.out.println("Before "+d+" \nBefore: "+h+" \nAfter: "+after);
 
+//            System.out.println("Before "+d+" \nBefore: "+h+" \nAfter: "+after);
             //update the head node with the newly merged semantics
             dudeTypes.put(var.getParentTokenID(), head);
 
@@ -107,8 +106,8 @@ public class SemanticComposition {
                 dependent = mergeChildNodes(state, depNodeIndex);
 
                 String argument = state.getSlot(depNodeIndex, headNode);
-                
-                if(argument.equals("")){
+
+                if (argument.equals("")) {
                     argument = "1";
                 }
 

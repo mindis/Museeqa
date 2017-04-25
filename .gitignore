@@ -11,3 +11,12 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 /target/
+all.log
+classes.txt
+dataTypeProperties.txt
+dbpediaData/*.bz2
+indexData/
+luceneIndexes/
+nbactions.xml
+objectProperties.txt
+

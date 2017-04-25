@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package de.citec.sc.qald;
 
 import java.util.Objects;
@@ -12,7 +11,8 @@ import java.util.Objects;
  *
  * @author sherzod
  */
-public class Predicate implements Term{
+public class Predicate implements Term {
+
     private String predicateName;
     boolean isVariable;
 
@@ -32,7 +32,6 @@ public class Predicate implements Term{
         this.predicateName = predicateName;
     }
 
-    
     public Predicate(String predicateName, boolean isVariable) {
         this.predicateName = predicateName;
         this.isVariable = isVariable;
@@ -62,14 +61,14 @@ public class Predicate implements Term{
 
     @Override
     public String toString() {
-        if(isVariable){
-            return "?"+predicateName;
+        if (isVariable) {
+            return "?" + predicateName;
         }
         return predicateName;
     }
-    
+
     @Override
-    public Predicate clone(){
+    public Predicate clone() {
         return new Predicate(predicateName, isVariable);
     }
 
@@ -77,6 +76,5 @@ public class Predicate implements Term{
     public boolean isVariable() {
         return IsVariable();
     }
-    
-    
+
 }

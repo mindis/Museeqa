@@ -8,12 +8,11 @@ package de.citec.sc.variable;
 import de.citec.sc.query.Candidate;
 import java.util.Objects;
 
-
 /**
  *
  * @author sherzod
  */
-public class HiddenVariable{
+public class HiddenVariable {
 
     private Integer tokenId;
     private Integer dudeId;
@@ -79,11 +78,9 @@ public class HiddenVariable{
         this.candidate = candidate;
     }
 
-   
-
     @Override
     public String toString() {
-        return "TokenID: "+tokenId+" DUDE: "+ dudeId + " URI: "+ candidate.getUri() + " DBpedia Score: " + candidate.getDbpediaScore() +" MATOLL Score:  "+ candidate.getMatollScore() + " Prior Score: " + candidate.getPriorScore();
+        return "TokenID: " + tokenId + " DUDE: " + dudeId + " URI: " + candidate.getUri() + " DBpedia Score: " + candidate.getDbpediaScore() + " MATOLL Score:  " + candidate.getMatollScore() + " Prior Score: " + candidate.getPriorScore();
     }
 
     public HiddenVariable clone() {

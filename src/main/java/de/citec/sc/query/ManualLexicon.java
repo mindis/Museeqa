@@ -35,7 +35,7 @@ public class ManualLexicon {
         lexiconResources = new HashMap<>();
 
         if (useManualLexicon) {
-            
+
             loadTrainLexicon();
 
             loadTestLexicon();

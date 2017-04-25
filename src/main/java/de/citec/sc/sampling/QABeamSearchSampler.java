@@ -160,7 +160,7 @@ public class QABeamSearchSampler<InstanceT, StateT extends AbstractState<Instanc
         if (s.getObjectiveScore() == 1.0) {
             Performance.addParsed(s.getDocument().getQuestionString(), s.getDocument().getGoldQueryString());
         } else {
-            String q = s.toString() + "\n\nScore: " + s.getObjectiveScore() + "\n\nQuery:" +QueryConstructor.getSPARQLQuery(s)+"\n"
+            String q = s.toString() + "\n\nScore: " + s.getObjectiveScore() + "\n\nQuery:" + QueryConstructor.getSPARQLQuery(s) + "\n"
                     + "================================================================================================================\n";
 
             Performance.addUnParsed(s.getDocument().getQuestionString(), q);
@@ -230,7 +230,7 @@ public class QABeamSearchSampler<InstanceT, StateT extends AbstractState<Instanc
              * Generate possible successor states.
              */
             List<StateT> nextStates = explorer.getNextStates(currentState);
-            
+
             mapStates.put(c, nextStates);
             allStateWithParent.put(currentState, nextStates);
 
@@ -239,7 +239,7 @@ public class QABeamSearchSampler<InstanceT, StateT extends AbstractState<Instanc
                     nextStates.stream().map(s -> new StatePair<>(currentState, s)).collect(Collectors.toList()));
             c++;
         }
-        
+
         /**
          * Score all states with Objective/Model only if sampling strategy needs
          * that. If not, score only selected candidate and current.

@@ -10,6 +10,7 @@ package de.citec.sc.variable;
  * @author sherzod
  */
 public class SlotVariable {
+
     private int slotNumber;
     private int tokenID;
     private int parentTokenID;
@@ -78,7 +79,7 @@ public class SlotVariable {
     public void setParentTokenID(int parentTokenID) {
         this.parentTokenID = parentTokenID;
     }
-    
+
     public SlotVariable clone() {
         return new SlotVariable(slotNumber, tokenID, parentTokenID);
     }

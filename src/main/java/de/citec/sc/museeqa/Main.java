@@ -10,5 +10,5 @@ package de.citec.sc.museeqa;
  * @author sherzod
  */
 public class Main {
-    
+
 }

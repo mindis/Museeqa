@@ -29,8 +29,8 @@ public class StringSimilarityMeasures implements SimilarityStrategy {
         double d = DiceCoefficientStrategy.score(first, second);
 
         double levenshteinContribution = 0.8, diceCoefficientContribution = 0.2;
-        
-        if(l ==1.0 || d == 1.0){
+
+        if (l == 1.0 || d == 1.0) {
             return 1.0;
         }
 

@@ -20,9 +20,8 @@ import java.util.List;
  *
  * @author sherzod
  */
-public class AnswerEvaluator  {
+public class AnswerEvaluator {
 
-    
     public static double evaluate(String derived, String goldStandard) {
 
         //if the body doesn't have any triples the similarity is zero

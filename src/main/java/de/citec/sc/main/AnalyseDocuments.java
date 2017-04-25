@@ -33,7 +33,7 @@ public class AnalyseDocuments {
         analyseGeobase();
 
         analyseQALD6();
-        
+
         analyseWebQuestions();
 
         analyseGraphQuestions();
@@ -84,7 +84,7 @@ public class AnalyseDocuments {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         try {
 
             JSONParser parser = new JSONParser();
@@ -122,7 +122,7 @@ public class AnalyseDocuments {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         printResults("QALD-6", trainWords, testWords);
     }
 

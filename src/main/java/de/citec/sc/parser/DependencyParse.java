@@ -122,6 +122,75 @@ public class DependencyParse {
         }
     }
 
+    private void mergeDependentNodesWithPatterns() {
+
+        List<String> patterns = new ArrayList<>();
+//        patterns.add("NN IN NNP");//Battle (NN) 		5,of (IN) 		6,Gettysburg (NNP)
+        patterns.add("PROPN IN NNP");//Lawrence (NNP) 		7,of (IN) 		8,Arabia (NNP)
+        patterns.add("NNP CC NNP");//Lawrence (NNP) 		7,of (IN) 		8,Arabia (NNP)
+//        patterns.add("NNS IN NNP");//Houses (NNP) 		7,of (IN) 		8,Parliament (NNP)
+        patterns.add("NN IN NNS");//nobel prize (NN) 		7,of (IN) 		8,physics (NNS)
+        patterns.add("NNP CD");//7,Chile Route (NNP) 		8,68 (CD) 
+        patterns.add("PROPN PROPN");//7,Chile Route (NNP) 		8,68 (CD) 
+
+        List<String> depRelations = new ArrayList<>();
+        depRelations.add("flat");
+        depRelations.add("name");
+
+        List<Integer> allNodes = new ArrayList<>();
+        allNodes.addAll(nodes.keySet());
+
+        //sort the nodes
+        Collections.sort(allNodes);
+
+        for (int i = 0; i < allNodes.size(); i++) {
+
+            //get 1,2 token
+            for (int r = 1; r <= 2; r++) {
+
+                if (i + r < allNodes.size()) {
+
+                    List<Integer> mergedNodes = allNodes.subList(i, i + r + 1);
+                    String postags = "";
+                    String mergedTokens = "";
+                    for (Integer m : mergedNodes) {
+                        postags += POSTAG.get(m) + " ";
+                        mergedTokens += getToken(m) + " ";
+                    }
+                    postags = postags.trim();
+                    mergedTokens = mergedTokens.trim();
+
+                    if (patterns.contains(postags)) {
+
+                        if (mergedTokens.isEmpty()) {
+                            continue;
+                        }
+                        boolean b = Search.matches(mergedTokens.toLowerCase());
+
+                        //if matches then remove nodes
+                        if (b) {
+
+                            for (Integer depNode : mergedNodes) {
+                                if (depNode == allNodes.get(i)) {
+                                    continue;
+                                }
+
+                                edgeStrings.remove(depNode);
+                                relations.remove(depNode);
+                                nodes.remove(depNode);
+                                POSTAG.remove(depNode);
+                            }
+
+                            POSTAG.put(allNodes.get(i), "NNP");
+                            nodes.put(allNodes.get(i), mergedTokens);
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
     private void mergeAmodEdges() {
         //do another merging on amod - Give me all Australian nonprofit organizations. --> merges nonprofit organizations
         int counter = 0;
@@ -993,12 +1062,13 @@ public class DependencyParse {
 
         return mergedPOSTAGs;
     }
+
     /**
      * @param tokenPosition1 start position
      * @param tokenPosition2 end position
      * @return string which contains all postags merged.
      */
-    public Set<String> getIntervalPOSTagsMerged(Integer tokenPosition1,Integer tokenPosition2) {
+    public Set<String> getIntervalPOSTagsMerged(Integer tokenPosition1, Integer tokenPosition2) {
         Set<String> mergedPOSTAGs = new HashSet<>();
 //
         List<Integer> allTokenPositions = new ArrayList<>(nodes.keySet());
@@ -1013,25 +1083,24 @@ public class DependencyParse {
 
         List<Integer> subList = allTokenPositions.subList(startPosition, endPosition + 1);
 
-        String postag1= "", postag2="";
+        String postag1 = "", postag2 = "";
         for (Integer s1 : subList) {
             postag1 += getPOSTag(s1) + " ";
-            
+
             //add the token itself if the token position is not the given by arguments
-            if(!s1.equals(tokenPosition1) && !s1.equals(tokenPosition2)){
+            if (!s1.equals(tokenPosition1) && !s1.equals(tokenPosition2)) {
                 postag2 += getToken(s1) + " ";
-            }
-            else{
+            } else {
                 postag2 += getPOSTag(s1) + " ";
             }
         }
-        
+
         mergedPOSTAGs.add(postag1.trim());
         mergedPOSTAGs.add(postag2.trim());
 
         return mergedPOSTAGs;
     }
-    
+
     /**
      * returns dependency relation for the given dependent node if given
      * dependent node is the root of the parse tree then returns
@@ -1041,14 +1110,14 @@ public class DependencyParse {
      * @return String dependency relation
      */
     public String getSiblingDependencyRelation(Integer node1, Integer node2) {
-        if(getParentNode(node1).equals(getParentNode(node2))){
+        if (getParentNode(node1).equals(getParentNode(node2))) {
             String s1 = getDependencyRelation(node1);
             String s2 = getDependencyRelation(node2);
             String headPOS = getPOSTag(getParentNode(node1));
-            
-            return s1 + "-"+headPOS+"-"+s2;
+
+            return s1 + "-" + headPOS + "-" + s2;
         }
-        
+
         return "ThisNodeIsRoot";
     }
 

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package de.citec.sc.qald;
 
 import java.util.Objects;
@@ -12,7 +11,8 @@ import java.util.Objects;
  *
  * @author sherzod
  */
-public class UnaryFunction implements Term{
+public class UnaryFunction implements Term {
+
     private String functionName;
     private String argumentName;
 
@@ -68,7 +68,7 @@ public class UnaryFunction implements Term{
 
     @Override
     public String toString() {
-        return functionName+"(" + argumentName + ")";
+        return functionName + "(" + argumentName + ")";
     }
 
     @Override
@@ -80,7 +80,5 @@ public class UnaryFunction implements Term{
     public boolean isVariable() {
         return false;
     }
-    
-    
-            
+
 }

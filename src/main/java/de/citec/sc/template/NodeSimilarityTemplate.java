@@ -33,7 +33,6 @@ public class NodeSimilarityTemplate extends AbstractTemplate<AnnotatedDocument, 
         this.stringSim = new StringSimilarityMeasures();
     }
 
-
     private Set<String> getRestrictionClassFeatures(String node, String pos, HiddenVariable u, int binNumber) {
         Set<String> featureNames = new HashSet<>();
 

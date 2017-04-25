@@ -49,11 +49,11 @@ public class FileFactory {
 
         return content;
     }
-    
+
     public static Set<String> readFile(String path) {
-        
+
         return readFile(new File(path));
-        
+
 //        
 //        Set<String> content = new HashSet<>();
 //        try {
@@ -84,15 +84,40 @@ public class FileFactory {
             File file = new File(fileName);
 
             // if file doesnt exists, then create it
-            
             if (!file.exists()) {
                 file.createNewFile();
             }
-            FileWriter fw = new FileWriter(file,append);
+            FileWriter fw = new FileWriter(file, append);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
             pw.print(content);
-            
+
+            pw.close();
+            bw.close();
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void writeListToFile(String fileName, Set<String> content, boolean append) {
+        try {
+            File file = new File(fileName);
+
+            // if file doesnt exists, then create it
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fw = new FileWriter(file, append);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
+            String c = "";
+
+            for (String s : content) {
+                c += s + "\n";
+            }
+            pw.print(c);
+
             pw.close();
             bw.close();
             fw.close();

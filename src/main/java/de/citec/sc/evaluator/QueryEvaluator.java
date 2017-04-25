@@ -21,10 +21,9 @@ import java.util.List;
  * @author sherzod
  */
 public class QueryEvaluator {
-    
+
     public static double evaluate(String derived, String goldStandard) {
 
-        
         List<Triple> constructedTriples = SPARQLParser.extractTriplesFromQuery(derived);
 
         if (constructedTriples.isEmpty()) {
@@ -183,9 +182,7 @@ public class QueryEvaluator {
     }
 
     private static double scoreTripleToTriple(Triple t, Triple g, HashMap<Term, Term> map) {
-        double sim = 0, p =0, s =0, o=0;
-        
-        
+        double sim = 0, p = 0, s = 0, o = 0;
 
 //        //check if any part of the query has URI and it matches
 //        double p = comparePredicate(t.getPredicate(), g.getPredicate());
@@ -193,15 +190,14 @@ public class QueryEvaluator {
 //        double o = compareConstant(t.getObject(), g.getObject());
 //
 //        sim = p + s + o;
-
         //some parts have matched, then do the normal matching with variables and mappings, constants, predicates
 //        if (sim > 0) {
-            sim = 0;
-            p = comparePredicate(t.getPredicate(), g.getPredicate(), map);
-            s = compareTerm(t.getSubject(), g.getSubject(), map);
-            o = compareTerm(t.getObject(), g.getObject(), map);
+        sim = 0;
+        p = comparePredicate(t.getPredicate(), g.getPredicate(), map);
+        s = compareTerm(t.getSubject(), g.getSubject(), map);
+        o = compareTerm(t.getObject(), g.getObject(), map);
 
-            sim = p + s + o;
+        sim = p + s + o;
 //        }
 
         return sim;

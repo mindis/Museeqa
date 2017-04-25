@@ -161,11 +161,11 @@ public class MyBeamSearchSampler<InstanceT, StateT extends AbstractState<Instanc
             Performance.addParsed(s.getDocument().getQuestionString(), s.getDocument().getGoldQueryString());
         } else {
             String uris = "";
-            
-            for(Integer nodeID : s.getHiddenVariables().keySet()){
-                uris += "Node: "+s.getDocument().getParse().getToken(nodeID)+ "   URI : "+s.getHiddenVariables().get(nodeID).getCandidate().getUri()+"\n";
+
+            for (Integer nodeID : s.getHiddenVariables().keySet()) {
+                uris += "Node: " + s.getDocument().getParse().getToken(nodeID) + "   URI : " + s.getHiddenVariables().get(nodeID).getCandidate().getUri() + "\n";
             }
-            String q = s.toString() + "\n\nScore: " + s.getObjectiveScore() + "\n\nAssignments: " +uris+ "\n"
+            String q = s.toString() + "\n\nScore: " + s.getObjectiveScore() + "\n\nAssignments: " + uris + "\n"
                     + "================================================================================================================\n";
 
             Performance.addUnParsed(s.getDocument().getQuestionString(), q);
@@ -235,7 +235,7 @@ public class MyBeamSearchSampler<InstanceT, StateT extends AbstractState<Instanc
              * Generate possible successor states.
              */
             List<StateT> nextStates = explorer.getNextStates(currentState);
-            
+
             mapStates.put(c, nextStates);
             allStateWithParent.put(currentState, nextStates);
 
@@ -244,7 +244,7 @@ public class MyBeamSearchSampler<InstanceT, StateT extends AbstractState<Instanc
                     nextStates.stream().map(s -> new StatePair<>(currentState, s)).collect(Collectors.toList()));
             c++;
         }
-        
+
         /**
          * Score all states with Objective/Model only if sampling strategy needs
          * that. If not, score only selected candidate and current.

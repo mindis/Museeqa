@@ -41,11 +41,11 @@ public class QAObjectiveFunction extends ObjectiveFunction<State, String> implem
         if (constructedQuery.trim().isEmpty()) {
             return 0;
         }
-        
-        if(!DBpediaEndpoint.isValidQuery(constructedQuery, true)){
+
+        if (!DBpediaEndpoint.isValidQuery(constructedQuery, true)) {
             return 0;
         }
-        
+
         if (SPARQLParser.extractTriplesFromQuery(constructedQuery).isEmpty()) {
             return 0;
         }
@@ -54,15 +54,14 @@ public class QAObjectiveFunction extends ObjectiveFunction<State, String> implem
         if (useQueryEvaluator) {
             score2 = QueryEvaluator.evaluate(constructedQuery, goldState);
         }
-        
-        if(score2 == 1.0){
+
+        if (score2 == 1.0) {
             return score2;
         }
         double score1 = AnswerEvaluator.evaluate(constructedQuery, goldState);
-        
 
         double score = Math.max(score1, score2);
-        
+
         return score;
     }
 
@@ -74,11 +73,11 @@ public class QAObjectiveFunction extends ObjectiveFunction<State, String> implem
         if (constructedQuery.trim().isEmpty()) {
             return 0;
         }
-        
-        if(!DBpediaEndpoint.isValidQuery(constructedQuery, true)){
+
+        if (!DBpediaEndpoint.isValidQuery(constructedQuery, true)) {
             return 0;
         }
-        
+
         if (SPARQLParser.extractTriplesFromQuery(constructedQuery).isEmpty()) {
             return 0;
         }

@@ -74,7 +74,7 @@ public class Main {
         ProjectConfiguration.loadConfigurations(args);
 
         log.info(ProjectConfiguration.getAllParameters());
-        
+
         System.out.println(ProjectConfiguration.getAllParameters());
 
         //load index, initialize postag lists etc.        

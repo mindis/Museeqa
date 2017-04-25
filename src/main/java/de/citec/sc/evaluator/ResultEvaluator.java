@@ -28,8 +28,6 @@ public class ResultEvaluator {
 
     private static final Logger log = LogManager.getFormatterLogger();
 
-    
-
     public static Map<String, Double> add(Map<String, Double> r1, Map<String, Double> r2) {
         Map<String, Double> result = new LinkedHashMap<>();
         Set<String> keys = Sets.union(r1.keySet(), r2.keySet());
@@ -50,17 +48,15 @@ public class ResultEvaluator {
 
             State state = (State) instance.getState();
             double similarity = function.computeValue(state, state.getDocument().getGoldQueryString());
-            
-            String p = "State : \n" + state.toString();
-            p+="\nGold Query : \n" + state.getDocument().getGoldQueryString();
-            p+="\nScore: " + similarity;
-            p+="\n========================================================================\n";
-            
-            
-//            log.info(p);
 
+            String p = "State : \n" + state.toString();
+            p += "\nGold Query : \n" + state.getDocument().getGoldQueryString();
+            p += "\nScore: " + similarity;
+            p += "\n========================================================================\n";
+
+//            log.info(p);
 //            if(similarity == 1.0)
-                score += similarity;
+            score += similarity;
         }
 
         score = score / (double) testResults.size();

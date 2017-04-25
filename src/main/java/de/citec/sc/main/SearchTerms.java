@@ -11,7 +11,6 @@ import de.citec.sc.query.Search;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-
 /**
  *
  * @author sherzod

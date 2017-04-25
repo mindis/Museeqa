@@ -18,7 +18,6 @@ import java.util.Map;
  * @author sherzod
  */
 public class SortUtils {
-   
 
     public static HashMap<String, Integer> sortByValue(HashMap<String, Integer> unsortMap) {
         if (unsortMap == null) {
@@ -45,7 +44,7 @@ public class SortUtils {
 
         return sortedMap;
     }
-    
+
     public static HashMap<String, Double> sortByDoubleValue(HashMap<String, Double> unsortMap) {
         if (unsortMap == null) {
             return new HashMap<>();

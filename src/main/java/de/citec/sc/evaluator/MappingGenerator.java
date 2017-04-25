@@ -149,7 +149,7 @@ public class MappingGenerator {
                 }
 
                 if (t.getPredicate().IsVariable()) {
-                    
+
                     Variable v = new Variable(t.getPredicate().getPredicateName());
                     if (!variables.contains(v)) {
                         variables.add(v);

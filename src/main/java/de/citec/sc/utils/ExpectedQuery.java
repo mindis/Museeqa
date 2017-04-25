@@ -14,17 +14,18 @@ import java.util.List;
  * @author sherzod
  */
 public class ExpectedQuery {
+
     private static List<String> postagsForASK;
     private static List<String> beginTokensForASK;
-    
-    private static void load(){
-        
+
+    private static void load() {
+
         postagsForASK = new ArrayList<>();
         postagsForASK.add("VBP");
         postagsForASK.add("VBZ");
         postagsForASK.add("VBD");
         postagsForASK.add("VB");
-        
+
         beginTokensForASK = new ArrayList<>();
         beginTokensForASK.add("did");
         beginTokensForASK.add("do");
@@ -33,22 +34,22 @@ public class ExpectedQuery {
         beginTokensForASK.add("were");
         beginTokensForASK.add("does");
         beginTokensForASK.add("is");
-        
+
     }
-    
+
     //checks if given state is of type ASK query
-    public static boolean isASK(State state){
-        if(postagsForASK == null || beginTokensForASK ==null){
+    public static boolean isASK(State state) {
+        if (postagsForASK == null || beginTokensForASK == null) {
             load();
         }
-        
+
         String firstToken = state.getDocument().getParse().getToken(1).toLowerCase();
         String firstPOS = state.getDocument().getParse().getPOSTag(1);
-        
-        if(postagsForASK.contains(firstPOS) && beginTokensForASK.contains(firstToken)){
+
+        if (postagsForASK.contains(firstPOS) && beginTokensForASK.contains(firstToken)) {
             return true;
         }
-        
+
         return false;
     }
 }

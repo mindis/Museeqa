@@ -10,5 +10,5 @@ package de.citec.sc.utils;
  * @author sherzod
  */
 public class Formatter {
-    
+
 }

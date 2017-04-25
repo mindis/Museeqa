@@ -103,13 +103,11 @@ public class Triple {
         if (IsReturnVariable()) {
             //return var *
             //don't add ? to the *
-            if(subject.toString().equals("*")){
-                s+=subject.toString();
+            if (subject.toString().equals("*")) {
+                s += subject.toString();
+            } else {
+                s += "?" + subject.toString() + " ";
             }
-            else{
-                s += "?"+subject.toString() + " ";
-            }
-            
 
         } else {
             if (isFilter) {
@@ -142,9 +140,9 @@ public class Triple {
                 }
 
                 s += getTerm(object) + " ";
-                
-                if(isOptional){
-                    s = "OPTIONAL { "+s+" }";
+
+                if (isOptional) {
+                    s = "OPTIONAL { " + s + " }";
                 }
 
                 s += ".";
@@ -158,56 +156,50 @@ public class Triple {
         String s = "";
 
         if (t instanceof Constant) {
-            
-            if(isLiteral(t.toString())){
+
+            if (isLiteral(t.toString())) {
                 s = t.toString();
-            }
-            
-            else if(isNumeric(t.toString())){
-                s=t.toString();
-            }
-            else if(isSpecialCaseConstant(t.toString())){
-                s= t.toString();
-            }
-            else{
+            } else if (isNumeric(t.toString())) {
+                s = t.toString();
+            } else if (isSpecialCaseConstant(t.toString())) {
+                s = t.toString();
+            } else {
                 s = "<" + t.toString() + ">";
             }
 
-        } 
-        else if (t instanceof UnaryFunction) {
+        } else if (t instanceof UnaryFunction) {
             UnaryFunction f = (UnaryFunction) t;
-            s = f.getFunctionName()+"(?"+f.getArgumentName()+")";
-        }
-        else {
+            s = f.getFunctionName() + "(?" + f.getArgumentName() + ")";
+        } else {
             s += "?" + t.toString();
         }
 
         return s;
     }
-    
+
     private boolean isLiteral(String str) {
         //'Chess'@en
-        if(str.contains("'@")){
+        if (str.contains("'@")) {
             return true;
         }
-        
+
         return false;
     }
 
     private boolean isNumeric(String str) {
         //8.0E7
-        if(str.matches("-?\\d+(\\.\\d+)?\\w\\d+")){
+        if (str.matches("-?\\d+(\\.\\d+)?\\w\\d+")) {
             return true;
         }
         //-10.202, 8
-        if(str.matches("-?\\d+(\\.\\d+)?")){
+        if (str.matches("-?\\d+(\\.\\d+)?")) {
             return true;
         }
-        
+
         return false;
     }
-    
-    private boolean isSpecialCaseConstant(String str){
+
+    private boolean isSpecialCaseConstant(String str) {
         // "1980^^xsd:year"
         if (str.startsWith("\"")) {
             return true;
@@ -222,19 +214,18 @@ public class Triple {
     public void setIsOptional(boolean isOptional) {
         this.isOptional = isOptional;
     }
-    
-    public Triple clone(){
+
+    public Triple clone() {
         Triple t = new Triple();
         t.setIsFilter(isFilter);
         t.setIsOptional(isOptional);
         t.setIsReturnVariable(isReturnVariable);
-        
+
         t.setPredicate(predicate.clone());
         t.setObject(object.clone());
         t.setSubject(subject.clone());
-        
+
         return t;
     }
-    
-    
+
 }

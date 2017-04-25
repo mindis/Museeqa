@@ -23,7 +23,7 @@ public class Test {
     private static Gson gson = new GsonBuilder().create();
 
     public static void main(String[] args) throws Exception {
-        
+
         sendPost();
     }
 
@@ -32,11 +32,11 @@ public class Test {
         String address = "http://localhost:8080/qa";
 
         URL url = new URL(address);
-        
+
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("POST");
 
-        String urlParameters = "query="+URLEncoder.encode("Who created Wikipedia?", "UTF-8");
+        String urlParameters = "query=" + URLEncoder.encode("Who created Wikipedia?", "UTF-8");
 
         // Send post request
         con.setDoOutput(true);
@@ -53,16 +53,15 @@ public class Test {
         System.out.println(m);
 
     }
+
     private static void sendGet() throws Exception {
 
         String address = "http://localhost:8080/qa?query=Input";
 
         URL url = new URL(address);
-        
+
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
-
-        
 
         // Send post request
         con.setDoOutput(true);
