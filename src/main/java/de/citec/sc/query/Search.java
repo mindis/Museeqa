@@ -95,7 +95,7 @@ public class Search {
 
     public static void load() {
         if (retriever == null) {
-            retriever = new CandidateRetrieverOnLucene(false, "luceneIndexes/resourceIndex", "luceneIndexes/classIndex", "luceneIndexes/predicateIndex", "luceneIndexes/matollIndex");
+            retriever = new CandidateRetrieverOnLucene(false, "luceneIndex");
         }
 
         if (wordNet == null) {

@@ -32,15 +32,16 @@ import org.json.simple.parser.JSONParser;
 public class AnchorTextIndex {
 
     public static void main(String[] args) throws FileNotFoundException {
-
+        
         if (args == null || args.length == 0) {
             args = new String[1];
-            args[0] = "indexFiles";
-
+            args[0] = "Wikipedia";
         }
 
         File outerFolder = new File(args[0]);
         File[] listOfLanguageFiles = outerFolder.listFiles();
+        
+        System.out.println("Detected "+listOfLanguageFiles.length+" language dirs.");
 
         for (File langFile : listOfLanguageFiles) {
 
@@ -74,16 +75,8 @@ public class AnchorTextIndex {
                                         indexMap.put(surfaceForm, partialIndexMap.get(surfaceForm));
                                     }
                                 }
-
-                                if (indexMap.size() >= 1000) {
-                                    break;
-                                }
                             }
                         }
-                    }
-
-                    if (indexMap.size() >= 1000) {
-                        break;
                     }
                 }
                 
@@ -150,8 +143,7 @@ public class AnchorTextIndex {
 
                     String uri = (String) surfaceFormObject.get("uri");
                     String surfaceForm = (String) surfaceFormObject.get("surface_form");
-                    surfaceForm = surfaceForm.toLowerCase().trim();
-                    uri = uri.trim();
+                    
 
                     try {
                         uri = StringEscapeUtils.unescapeJava(uri);
@@ -159,6 +151,9 @@ public class AnchorTextIndex {
 
                         surfaceForm = StringEscapeUtils.unescapeJava(surfaceForm);
                         surfaceForm = URLDecoder.decode(surfaceForm, "UTF-8");
+                        
+                        surfaceForm = surfaceForm.toLowerCase().trim();
+                        uri = uri.trim();
 
                         String key = surfaceForm + "\t" + uri;
 

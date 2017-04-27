@@ -50,13 +50,13 @@ public class DBpediaIndex {
     private static Set<String> propertySet;
 
     public static void main(String[] args) {
-        
+
         interlanguageLinksMap = getInterlanguageLinks("dbpediaData/interlanguage_links_en.ttl.bz2");
         propertySet = FileFactory.readFile("dbpediaData/dbpediaProperties.txt");
 
 //        DBpediaIndex.indexTriples(Language.EN);
         DBpediaIndex.indexTriples(Language.DE);
-//        DBpediaIndex.indexTriples(Language.ES);
+        DBpediaIndex.indexTriples(Language.ES);
 
     }
 
@@ -71,7 +71,6 @@ public class DBpediaIndex {
 
         indexMap = new HashMap<>();
         redirectsMap = getRedirects(directory + "/redirects_" + lang.name().toLowerCase() + ".ttl.bz2", lang);
-        
 
         //get files
         File folder = new File(directory);
@@ -90,9 +89,6 @@ public class DBpediaIndex {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
-                    break;
-
                 }
             }
         }
@@ -107,8 +103,18 @@ public class DBpediaIndex {
             indexMap.put(label + "\t" + uri, indexMap.getOrDefault(label + "\t" + uri, 1) + 1);
         }
 
+        String outputDirectory = "indexData";
+
+        File dir = new File(outputDirectory);
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
+
         //save the file
-        writeIndex(indexMap, "indexData/" + lang.name().toLowerCase() + "_resource_dbpediaFile.txt");
+        writeIndex(indexMap, outputDirectory+ "/" + lang.name().toLowerCase() + "_resource_dbpediaFile.txt");
+        
+        indexMap.clear();
+        redirectsMap.clear();
     }
 
     private static void indexData(String filePath, Language lang) throws CompressorException, FileNotFoundException, IOException {
@@ -161,9 +167,9 @@ public class DBpediaIndex {
                     if (redirectsMap.containsKey(uri)) {
                         uri = redirectsMap.get(uri);
                     }
-                    
+
                     //get the english version uri
-                    if(interlanguageLinksMap.containsKey(uri)){
+                    if (interlanguageLinksMap.containsKey(uri)) {
                         uri = interlanguageLinksMap.get(uri);
                     }
 
@@ -172,10 +178,6 @@ public class DBpediaIndex {
                 } catch (Exception e) {
                 }
 
-            }
-
-            if (indexMap.size() >= 100) {
-                break;
             }
         }
     }

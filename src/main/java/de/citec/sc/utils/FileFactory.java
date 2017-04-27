@@ -35,9 +35,6 @@ public class FileFactory {
             String strLine;
 
             while ((strLine = br.readLine()) != null) {
-                if (content == null) {
-                    content = new ArraySet<>();
-                }
                 content.add(strLine);
             }
             fstream.close();

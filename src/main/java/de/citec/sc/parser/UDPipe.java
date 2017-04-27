@@ -132,23 +132,23 @@ public class UDPipe {
     }
 
     public static void main(String[] args) throws UnsupportedEncodingException {
-        System.out.println("Initialization process has started ....");
-
-        CandidateRetriever retriever = new CandidateRetrieverOnLucene(true, "luceneIndexes/resourceIndex", "luceneIndexes/classIndex", "luceneIndexes/predicateIndex", "luceneIndexes/matollIndex");
-
-        WordNetAnalyzer wordNet = new WordNetAnalyzer("src/main/resources/WordNet-3.0/dict");
-
-        Search.load(retriever, wordNet);
-        Search.useMatoll(ProjectConfiguration.useMatoll());
-
-        ManualLexicon.useManualLexicon(ProjectConfiguration.useManualLexicon());
+//        System.out.println("Initialization process has started ....");
+//
+//        CandidateRetriever retriever = new CandidateRetrieverOnLucene(true, "luceneIndexes/resourceIndex", "luceneIndexes/classIndex", "luceneIndexes/predicateIndex", "luceneIndexes/matollIndex");
+//
+//        WordNetAnalyzer wordNet = new WordNetAnalyzer("src/main/resources/WordNet-3.0/dict");
+//
+//        Search.load(retriever, wordNet);
+//        Search.useMatoll(ProjectConfiguration.useMatoll());
+//
+//        ManualLexicon.useManualLexicon(ProjectConfiguration.useManualLexicon());
 
         DependencyParse parse1 = UDPipe.parse("Who was vice president of Barack Obama?", CandidateRetriever.Language.EN);
 
         System.out.println(parse1);
-        System.out.println("After \n\n");
-        parse1.mergeEdges();
-        System.out.println(parse1);
+//        System.out.println("After \n\n");
+//        parse1.mergeEdges();
+//        System.out.println(parse1);
 
         DependencyParse parse2 = UDPipe.parse("Wer war der Vizepräsident unter Barack Obama?", CandidateRetriever.Language.DE);
 

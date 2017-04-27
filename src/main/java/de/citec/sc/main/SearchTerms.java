@@ -6,6 +6,8 @@
 package de.citec.sc.main;
 
 import de.citec.sc.query.Candidate;
+import de.citec.sc.query.CandidateRetriever;
+import de.citec.sc.query.CandidateRetrieverOnLucene;
 import de.citec.sc.query.ManualLexicon;
 import de.citec.sc.query.Search;
 import java.util.LinkedHashSet;
@@ -18,6 +20,10 @@ import java.util.Set;
 public class SearchTerms {
 
     public static void main(String[] args) {
+        
+        CandidateRetriever r = new CandidateRetrieverOnLucene(true, "luceneIndex");
+        System.out.println(r.getAllResources("obama", 10, CandidateRetriever.Language.EN));
+        
 
         Search.useMatoll(true);
 

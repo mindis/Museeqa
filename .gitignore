@@ -20,3 +20,6 @@ luceneIndexes/
 nbactions.xml
 objectProperties.txt
 
+Wikipedia/
+luceneIndex/
+rawFiles/
