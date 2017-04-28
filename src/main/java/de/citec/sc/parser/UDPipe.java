@@ -235,8 +235,8 @@ public class UDPipe {
         boolean isHybrid = false;
 
         List<Language> languages = new ArrayList<>();
-        languages.add(Language.EN);
-        languages.add(Language.DE);
+//        languages.add(Language.EN);
+//        languages.add(Language.DE);
         languages.add(Language.ES);
 
         String content = "";
