@@ -1,35 +1,91 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<dataset id="qald-5_train">
+{
+"dataset": {
+"id": "qald-6-train-multilingual"
+},
+        "questions": [
 
-
-    <question aggregation="false" answertype="resource" hybrid="false" id="1" onlydbo="true">
-        <string lang="en"><![CDATA[Which professional surfers were born in Australia?]]></string>
-        <string lang="de"><![CDATA[Welchen Fluss überspannt die Brooklyn Bridge?]]></string>
-        <string lang="es"><![CDATA[¿Por qué río cruza la Brooklyn Bridge?]]></string>
-        <string lang="it"><![CDATA[Quale fiume attraversa il ponte di Brooklyn?]]></string>
-        <string lang="fr"><![CDATA[Quelle cours d'eau est traversé par le pont de Brooklyn?]]></string>
-        <string lang="nl"><![CDATA[Welke rivier overspant de Brooklyn Bridge?]]></string>
-        <string lang="ro"><![CDATA[Ce râu traversează podul din Brooklyn?]]></string>
-        <keywords lang="en"><![CDATA[river, cross, Brooklyn Bridge]]></keywords>
-        <keywords lang="de"><![CDATA[Fluss, überspannen, Brooklyn Bridge]]></keywords>
-        <keywords lang="es"><![CDATA[río, cruza, Brooklyn Bridge]]></keywords>
-        <keywords lang="it"><![CDATA[fiume, attraversare, ponte di Brooklyn]]></keywords>
-        <keywords lang="fr"><![CDATA[cours d'eau, pont de Brooklyn]]></keywords>
-        <keywords lang="nl"><![CDATA[rivier, Brooklyn Bridge, overspant]]></keywords>
-        <keywords lang="ro"><![CDATA[râu, traversează, podul din Brooklyn]]></keywords>
-        <query><![CDATA[
-SELECT DISTINCT ?uri WHERE {     ?uri <http://dbpedia.org/ontology/occupation> <http://dbpedia.org/resource/Surfing> .   ?uri <http://dbpedia.org/ontology/birthPlace> <http://dbpedia.org/resource/Australia> .      } 
-]]></query>
-        <answers>
-        </answers>
-    </question>
-
-
-
-
-
-
-
-
-
-</dataset>
+{
+        "id": "15",
+                "answertype": "resource",
+                "aggregation": "false",
+                "onlydbo": "true",
+                "hybrid": "false",
+                "question": [
+                {
+                "language": "en",
+                        "string": "Who created Goofy?",
+                        "keywords": "created, Goofy"
+                },
+                {
+                "language": "fa",
+                        "string": "چه کسی گوفی را ساخت؟",
+                        "keywords": "گوفی، ساخت"
+                },
+                {
+                "language": "de",
+                        "string": "Wer hat Goofy erfunden?",
+                        "keywords": "erfinden, Goofy"
+                },
+                {
+                "language": "es",
+                        "string": "¿Quién es el creador de Goofy?",
+                        "keywords": "creador, Goofy"
+                },
+                {
+                "language": "it",
+                        "string": "Chi è il creatore di Pippo?",
+                        "keywords": "creatore, Pippo"
+                },
+                {
+                "language": "fr",
+                        "string": "Qui est le créateur de Goofy?",
+                        "keywords": "Goofy, créateur"
+                },
+                {
+                "language": "nl",
+                        "string": "Wie bedacht Goofy?",
+                        "keywords": "bedenker, Goofy"
+                },
+                {
+                "language": "ro",
+                        "string": "Cine l-a creat pe Goofy?",
+                        "keywords": "creat, Goofy"
+                }
+                ],
+                "query": {
+                "sparql": "SELECT DISTINCT ?uri WHERE {  <http://dbpedia.org/resource/Goofy> <http://dbpedia.org/ontology/creator> ?uri . } "
+                },
+                "answers": [
+                {
+                "head": {
+                "vars": [
+                        "uri"
+                ]
+                },
+                        "results": {
+                        "bindings": [
+                        {
+                        "uri": {
+                        "type": "uri",
+                                "value": "http://dbpedia.org/resource/Walt_Disney"
+                        }
+                        },
+                        {
+                        "uri": {
+                        "type": "uri",
+                                "value": "http://dbpedia.org/resource/Del_Connell"
+                        }
+                        },
+                        {
+                        "uri": {
+                        "type": "uri",
+                                "value": "http://dbpedia.org/resource/Paul_Murry"
+                        }
+                        }
+                        ]
+                        }
+                }
+                ]
+        }
+]
+        }

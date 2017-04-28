@@ -42,26 +42,26 @@ public class SearchTerms {
         Set<Candidate> result = new LinkedHashSet<>();
 
         long start = System.currentTimeMillis();
-        result.addAll(Search.getResources(word, topK, lemmatize, mergePartialMatches, useWordNet));
+        result.addAll(Search.getResources(word, topK, lemmatize, mergePartialMatches, useWordNet, CandidateRetriever.Language.EN));
         System.out.println("Resources: \n");
         result.forEach(System.out::println);
 
         result = new LinkedHashSet<>();
 
         System.out.println("======================================\nProperties:\n DBpedia + MATOLL");
-        result.addAll(Search.getPredicates(word, topK, lemmatize, mergePartialMatches, useWordNet));
+        result.addAll(Search.getPredicates(word, topK, lemmatize, mergePartialMatches, useWordNet, CandidateRetriever.Language.EN));
         result.forEach(System.out::println);
         result.clear();
 
         result = new LinkedHashSet<>();
 
-        result.addAll(Search.getClasses(word, topK, lemmatize, mergePartialMatches, useWordNet));
+        result.addAll(Search.getClasses(word, topK, lemmatize, mergePartialMatches, useWordNet, CandidateRetriever.Language.EN));
         System.out.println("======================================\nClasses:\n");
         result.forEach(System.out::println);
 
         result = new LinkedHashSet<>();
 
-        result.addAll(Search.getRestrictionClasses(word, topK, lemmatize, mergePartialMatches, useWordNet));
+        result.addAll(Search.getRestrictionClasses(word, topK, lemmatize, mergePartialMatches, useWordNet, CandidateRetriever.Language.EN));
         System.out.println("======================================\nRestriction Classes:\n");
         result.forEach(System.out::println);
 

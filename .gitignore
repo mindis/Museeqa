@@ -23,3 +23,5 @@ objectProperties.txt
 Wikipedia/
 luceneIndex/
 rawFiles/
+models
+trainResult

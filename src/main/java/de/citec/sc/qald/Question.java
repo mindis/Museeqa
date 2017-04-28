@@ -4,8 +4,10 @@
  */
 package de.citec.sc.qald;
 
+import de.citec.sc.query.CandidateRetriever.Language;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -14,7 +16,7 @@ import java.util.Objects;
  */
 public class Question {
 
-    private String questionText;
+    private Map<Language, String> questionText;
     private String queryText;
     private List<String> answers;
     private String keywords;
@@ -65,24 +67,24 @@ public class Question {
         this.id = id;
     }
 
-    public Question(String questionText, String queryText) {
+    public Question(Map<Language, String> questionText, String queryText) {
         this.questionText = questionText;
         this.queryText = queryText;
     }
+//
+//    public Question(String questionText, String queryText, String id) {
+//        this.questionText = questionText;
+//        this.queryText = queryText;
+//        this.id = id;
+//    }
+//
+//    public Question(String questionText, String queryText, ArrayList<String> answers) {
+//        this.questionText = questionText;
+//        this.queryText = queryText;
+//        this.answers = answers;
+//    }
 
-    public Question(String questionText, String queryText, String id) {
-        this.questionText = questionText;
-        this.queryText = queryText;
-        this.id = id;
-    }
-
-    public Question(String questionText, String queryText, ArrayList<String> answers) {
-        this.questionText = questionText;
-        this.queryText = queryText;
-        this.answers = answers;
-    }
-
-    public Question(String questionText, String queryText, String onlyDBO, String aggregation, String answerType, String hybrid, String id) {
+    public Question(Map<Language, String> questionText, String queryText, String onlyDBO, String aggregation, String answerType, String hybrid, String id) {
         this.questionText = questionText;
         this.queryText = queryText;
         this.id = id;
@@ -146,7 +148,7 @@ public class Question {
         return true;
     }
 
-    public String getQuestionText() {
+    public Map<Language, String> getQuestionText() {
         return questionText;
     }
 
@@ -166,7 +168,7 @@ public class Question {
         this.queryText = queryText;
     }
 
-    public void setQuestionText(String questionText) {
+    public void setQuestionText(Map<Language, String> questionText) {
         this.questionText = questionText;
     }
 

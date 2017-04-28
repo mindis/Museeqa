@@ -5,7 +5,9 @@
  */
 package de.citec.sc.query;
 
+import de.citec.sc.main.Main;
 import de.citec.sc.parser.StanfordParser;
+import de.citec.sc.query.CandidateRetriever.Language;
 import de.citec.sc.utils.FileFactory;
 import de.citec.sc.wordNet.WordNetAnalyzer;
 import java.util.ArrayList;
@@ -113,7 +115,7 @@ public class Search {
         loadFrequency();
     }
 
-    public static boolean matches(String mergedTokens) {
+    public static boolean matches(String mergedTokens, Language lang) {
 
         //if the merged tokens contain any upper case character, then all tokens must start with uppercase
         //else return false
@@ -130,24 +132,24 @@ public class Search {
             }
         }
 
-        Set<Candidate> r = getResources(mergedTokens, 1, false, false, false);
+        Set<Candidate> r = getResources(mergedTokens, 1, false, false, false, lang);
 
         if (!r.isEmpty()) {
             return true;
         }
 
-        Set<Candidate> p = getPredicates(mergedTokens, 1, true, false, false);
+        Set<Candidate> p = getPredicates(mergedTokens, 1, true, false, false, lang);
 
         if (!p.isEmpty()) {
             return true;
         }
 
-        Set<Candidate> c = getClasses(mergedTokens, 1, true, false, true);
+        Set<Candidate> c = getClasses(mergedTokens, 1, true, false, true, lang);
         if (!c.isEmpty()) {
             return true;
         }
 
-        Set<Candidate> rc = getRestrictionClasses(mergedTokens, 1, true, false, false);
+        Set<Candidate> rc = getRestrictionClasses(mergedTokens, 1, true, false, false, lang);
         if (!rc.isEmpty()) {
             return true;
         }
@@ -155,7 +157,7 @@ public class Search {
         return false;
     }
 
-    public static Set<Candidate> getResources(String searchTerm, int topK, boolean lemmatize, boolean partialMatch, boolean useWordNet) {
+    public static Set<Candidate> getResources(String searchTerm, int topK, boolean lemmatize, boolean partialMatch, boolean useWordNet, Language lang) {
         Set<Candidate> instances = new LinkedHashSet<>();
 
         if (cacheResources == null) {
@@ -174,7 +176,7 @@ public class Search {
 
         for (String queryTerm : queryTerms) {
 
-            List<Instance> matches = retriever.getAllResources(queryTerm, topK, CandidateRetriever.Language.EN);
+            List<Instance> matches = retriever.getAllResources(queryTerm, topK, lang);
 
             for (Instance i : matches) {
                 if (!result.contains(i)) {
@@ -191,7 +193,7 @@ public class Search {
         return instances;
     }
 
-    public static Set<Candidate> getPredicates(String searchTerm, int topK, boolean lemmatize, boolean partialMatch, boolean useWordNet) {
+    public static Set<Candidate> getPredicates(String searchTerm, int topK, boolean lemmatize, boolean partialMatch, boolean useWordNet, Language lang) {
 
         Set<Candidate> instances = new LinkedHashSet<>();
 
@@ -213,7 +215,7 @@ public class Search {
         //get from dbpedia index
         for (String queryTerm : queryTerms) {
 
-            List<Instance> matches = retriever.getPredicatesInDBpedia(queryTerm, topK, partialMatch, CandidateRetriever.Language.EN);
+            List<Instance> matches = retriever.getPredicatesInDBpedia(queryTerm, topK, partialMatch, lang);
 
             for (Instance i : matches) {
                 if (!resultDBpedia.contains(i)) {
@@ -262,7 +264,7 @@ public class Search {
         return instances;
     }
 
-    public static Set<Candidate> getClasses(String searchTerm, int topK, boolean lemmatize, boolean partialMatch, boolean useWordNet) {
+    public static Set<Candidate> getClasses(String searchTerm, int topK, boolean lemmatize, boolean partialMatch, boolean useWordNet, Language lang) {
         Set<Candidate> instances = new LinkedHashSet<>();
 
         if (cacheClasses == null) {
@@ -281,7 +283,7 @@ public class Search {
 
         for (String queryTerm : queryTerms) {
 
-            List<Instance> matches = retriever.getAllClasses(queryTerm, topK, partialMatch, CandidateRetriever.Language.EN);
+            List<Instance> matches = retriever.getAllClasses(queryTerm, topK, partialMatch, lang);
 
             for (Instance i : matches) {
 
@@ -347,7 +349,7 @@ public class Search {
         return normalizedCandidates;
     }
 
-    public static Set<Candidate> getRestrictionClasses(String searchTerm, int topK, boolean lemmatize, boolean partialMatch, boolean useWordNet) {
+    public static Set<Candidate> getRestrictionClasses(String searchTerm, int topK, boolean lemmatize, boolean partialMatch, boolean useWordNet, Language lang) {
         Set<Candidate> instances = new LinkedHashSet<>();
 
         //if it's not set to true return empty list
@@ -371,7 +373,7 @@ public class Search {
 
         for (String queryTerm : queryTerms) {
 
-            List<Instance> matches = retriever.getRestrictionClasses(queryTerm, topK, CandidateRetriever.Language.EN);
+            List<Instance> matches = retriever.getRestrictionClasses(queryTerm, topK, lang);
 
             for (Instance i : matches) {
                 if (!result.contains(i)) {
@@ -401,12 +403,17 @@ public class Search {
 
         //lemmatize 
         if (lemmatize) {
-            String lemmatized = StanfordParser.lemmatize(searchTerm, StanfordParser.Language.EN);
+            try {
+                String lemmatized = StanfordParser.lemmatize(searchTerm, Main.lang);
 
-            if (!queryTerms.contains(lemmatized)) {
-                queryTerms.add(lemmatized);
-                queryTerms.add(lemmatized + "~");
+                if (!queryTerms.contains(lemmatized)) {
+                    queryTerms.add(lemmatized);
+                    queryTerms.add(lemmatized + "~");
+                }
+            } catch (Exception e) {
+
             }
+
         }
         if (useWordNet) {
             //wordnet derivational words

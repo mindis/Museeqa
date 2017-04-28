@@ -7,12 +7,16 @@ package de.citec.sc.qald;
 
 import de.citec.sc.corpus.QALDCorpus;
 import de.citec.sc.corpus.AnnotatedDocument;
+import de.citec.sc.main.Main;
 import de.citec.sc.parser.DependencyParse;
 import de.citec.sc.parser.StanfordParser;
+import de.citec.sc.parser.UDPipe;
+import de.citec.sc.query.CandidateRetriever.Language;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -75,7 +79,7 @@ public class QALDCorpusLoader {
                 break;
             case "qaldSubset":
                 filePath = qaldSubset;
-                questions = QALD.getQuestions(filePath);
+                questions = readJSONFile(filePath);
                 break;
             case "qald6Train":
                 filePath = qald6FileTrain;
@@ -100,9 +104,11 @@ public class QALDCorpusLoader {
         List<AnnotatedDocument> documents = new ArrayList<>();
 
         for (Question q : questions) {
-            DependencyParse parse = StanfordParser.parse(q.getQuestionText(), StanfordParser.Language.EN);
-
-            parse.removeLoops();
+            DependencyParse parse = UDPipe.parse(q.getQuestionText().get(Main.lang), Main.lang);
+            
+            if(parse != null){
+                parse.removeLoops();
+            }
 
             AnnotatedDocument document = new AnnotatedDocument(parse, q);
 
@@ -185,7 +191,7 @@ public class QALDCorpusLoader {
                 HashMap queryTextObj = (HashMap) o1.get("query");
                 String query = (String) queryTextObj.get("sparql");
 
-                String questionText = "";
+                Map<Language, String> questionText = new HashMap<>();
 
                 JSONArray questionTexts = (JSONArray) o1.get("question");
                 for (Object qObject : questionTexts) {
@@ -193,8 +199,15 @@ public class QALDCorpusLoader {
                     JSONObject englishQuestionText = (JSONObject) qObject;
 
                     if (englishQuestionText.get("language").equals("en")) {
-                        questionText = (String) englishQuestionText.get("string");
-                        break;
+                        questionText.put(Language.EN, englishQuestionText.get("string").toString());
+                        
+                    }
+                    if (englishQuestionText.get("language").equals("de")) {
+                        questionText.put(Language.DE, englishQuestionText.get("string").toString());
+                        
+                    }
+                    if (englishQuestionText.get("language").equals("es")) {
+                        questionText.put(Language.ES, englishQuestionText.get("string").toString());   
                     }
                 }
 

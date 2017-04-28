@@ -4,11 +4,13 @@ import de.citec.sc.corpus.AnnotatedDocument;
 import de.citec.sc.corpus.QALDCorpus;
 import de.citec.sc.dudes.rdf.ExpressionFactory;
 import de.citec.sc.dudes.rdf.RDFDUDES;
+import de.citec.sc.index.DBpediaIndex;
 import de.citec.sc.learning.QueryConstructor;
 import static de.citec.sc.main.Pipeline.nelTemplates;
 import static de.citec.sc.main.Pipeline.scorer;
 import de.citec.sc.qald.QALDCorpusLoader;
 import de.citec.sc.query.CandidateRetriever;
+import de.citec.sc.query.CandidateRetriever.Language;
 import de.citec.sc.query.CandidateRetrieverOnLucene;
 import de.citec.sc.query.CandidateRetrieverOnMemory;
 import de.citec.sc.query.ManualLexicon;
@@ -36,6 +38,8 @@ public class Main {
 
     private static final Logger log = LogManager.getFormatterLogger();
 
+    public static Language lang = Language.EN;
+
     public static void main(String[] args) {
 
         if (args.length > 0) {
@@ -44,7 +48,7 @@ public class Main {
 
             args = new String[26];
             args[0] = "-d1";//query dataset
-            args[1] = "qald6Train";//qald6Train  qald6Test   qaldSubset
+            args[1] = "qaldSubset";//qald6Train  qald6Test   qaldSubset
             args[2] = "-d2";  //test dataset
             args[3] = "qald6Test";//qald6Train  qald6Test   qaldSubset
             args[4] = "-m1";//manual lexicon
@@ -137,7 +141,7 @@ public class Main {
         CandidateRetriever retriever = null;
 
         if (ProjectConfiguration.getIndex().equals("lucene")) {
-            retriever = new CandidateRetrieverOnLucene(true, "luceneIndex");
+            retriever = new CandidateRetrieverOnLucene(false, "luceneIndex");
         } else {
             retriever = new CandidateRetrieverOnMemory("rawIndexFiles");
         }
@@ -146,6 +150,10 @@ public class Main {
 
         Search.load(retriever, wordNet);
         Search.useMatoll(ProjectConfiguration.useMatoll());
+
+        System.out.println("Testing index: " + retriever.getAllResources("john f. kennedy", 10, CandidateRetriever.Language.EN));
+        System.out.println("Testing index: " + retriever.getAllResources("goofy", 10, CandidateRetriever.Language.DE));
+        System.out.println("Testing index: " + retriever.getAllPredicates("erfunden", 10, CandidateRetriever.Language.DE));
 
         ManualLexicon.useManualLexicon(ProjectConfiguration.useManualLexicon());
 
@@ -161,17 +169,10 @@ public class Main {
         specialSemanticTypes.put(semanticTypes.size() + 1, "What");//it should be higher than semantic type size
 
         Set<String> validPOSTags = new HashSet<>();
-        validPOSTags.add("NN");
-        validPOSTags.add("NNP");
-        validPOSTags.add("NNS");
-        validPOSTags.add("NNPS");
-        validPOSTags.add("VBZ");
-        validPOSTags.add("VBN");
-        validPOSTags.add("VBD");
-        validPOSTags.add("VBG");
-        validPOSTags.add("VBP");
-        validPOSTags.add("VB");
-        validPOSTags.add("JJ");
+        validPOSTags.add("PROPN");
+        validPOSTags.add("VERB");
+        validPOSTags.add("NOUN");
+        validPOSTags.add("ADJ");
 
         Set<String> frequentWordsToExclude = new HashSet<>();
         //all of this words have a valid POSTAG , so they shouldn't be assigned any URI to these tokens
@@ -226,10 +227,13 @@ public class Main {
 
             if (DBpediaEndpoint.isValidQuery(d1.getGoldQueryString(), false)) {
 
-                d1.getParse().mergeEdges();
-                if (d1.getParse().getNodes().size() <= maxWordCount) {
-                    documents.add(d1);
+                if (d1.getParse() != null) {
+                    d1.getParse().mergeEdges();
+                    if (d1.getParse().getNodes().size() <= maxWordCount) {
+                        documents.add(d1);
+                    }
                 }
+
             } else {
                 System.out.println("Invalid query: " + d1.getQuestionString() + " Query: " + d1.getGoldQueryString().replace("\n", " "));
             }

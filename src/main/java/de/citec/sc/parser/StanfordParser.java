@@ -5,6 +5,8 @@
  */
 package de.citec.sc.parser;
 
+import de.citec.sc.main.Main;
+import de.citec.sc.query.CandidateRetriever.Language;
 import edu.stanford.nlp.ie.AbstractSequenceClassifier;
 import edu.stanford.nlp.ie.crf.CRFClassifier;
 import edu.stanford.nlp.ling.CoreAnnotations;
@@ -57,30 +59,32 @@ public class StanfordParser {
     private static StanfordCoreNLP dePipeline;
     private static StanfordCoreNLP esPipeline;
 
-    public enum Language {
-
-        EN, DE, ES
-    };
-
     private static void loadModels() {
-        System.out.println("Loading Stanford models for EN");
 
-        Properties enProps = StringUtils.argsToProperties(
-                new String[]{"-props", "src/main/resources/dep-parse-properties/english.props"});
+        switch (Main.lang) {
+            case EN:
+                System.out.println("Loading Stanford models for EN");
 
-        enPipeline = new StanfordCoreNLP(enProps);
+                Properties enProps = StringUtils.argsToProperties(
+                        new String[]{"-props", "src/main/resources/dep-parse-properties/english.props"});
 
-//        System.out.println("Loading Stanford models for DE");
-//
-//        Properties deProps = StringUtils.argsToProperties(
-//                new String[]{"-props", "src/main/resources/dep-parse-properties/german.props"});
-//        dePipeline = new StanfordCoreNLP(deProps);
-//
-//        System.out.println("Loading Stanford models for ES");
-//
-//        Properties esProps = StringUtils.argsToProperties(
-//                new String[]{"-props", "src/main/resources/dep-parse-properties/spanish.props"});
-//        esPipeline = new StanfordCoreNLP(esProps);
+                enPipeline = new StanfordCoreNLP(enProps);
+                break;
+            case DE:
+                System.out.println("Loading Stanford models for DE");
+
+                Properties deProps = StringUtils.argsToProperties(
+                        new String[]{"-props", "src/main/resources/dep-parse-properties/german.props"});
+                dePipeline = new StanfordCoreNLP(deProps);
+                break;
+            case ES:
+                System.out.println("Loading Stanford models for ES");
+
+                Properties esProps = StringUtils.argsToProperties(
+                        new String[]{"-props", "src/main/resources/dep-parse-properties/spanish.props"});
+                esPipeline = new StanfordCoreNLP(esProps);
+                break;
+        }
 
 //        String parserModel = "edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz";
 //        lp = LexicalizedParser.loadModel(parserModel);
@@ -207,7 +211,7 @@ public class StanfordParser {
      */
     public static String lemmatize(String t, Language lang) {
 
-        if (enPipeline == null) {
+        if (enPipeline == null && dePipeline == null && esPipeline == null) {
             loadModels();
         }
 

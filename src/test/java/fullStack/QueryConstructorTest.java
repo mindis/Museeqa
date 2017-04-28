@@ -14,6 +14,7 @@ import de.citec.sc.qald.QALDCorpusLoader;
 import de.citec.sc.qald.Question;
 import de.citec.sc.query.Candidate;
 import de.citec.sc.query.CandidateRetriever;
+import de.citec.sc.query.CandidateRetriever.Language;
 import de.citec.sc.query.CandidateRetrieverOnLucene;
 import de.citec.sc.query.ManualLexicon;
 import de.citec.sc.query.Search;
@@ -22,6 +23,7 @@ import de.citec.sc.utils.ProjectConfiguration;
 import de.citec.sc.variable.State;
 import de.citec.sc.wordNet.WordNetAnalyzer;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -108,7 +110,10 @@ public class QueryConstructorTest {
 
         parseTree.setHeadNode(2);
 
-        Question qaldInstance = new Question("Who created Family_Guy", "SELECT DISTINCT ?uri WHERE { <http://dbpedia.org/resource/Family_Guy> <http://dbpedia.org/ontology/creator> ?uri . }  ");
+        Map<Language, String> qMap = new HashMap<Language, String>();
+        qMap.put(Language.EN, "Who created Family_Guy");
+        
+        Question qaldInstance = new Question(qMap, "SELECT DISTINCT ?uri WHERE { <http://dbpedia.org/resource/Family_Guy> <http://dbpedia.org/ontology/creator> ?uri . }  ");
         qaldInstance.setId("1");
 
         AnnotatedDocument doc = new AnnotatedDocument(parseTree, qaldInstance);
@@ -214,7 +219,10 @@ public class QueryConstructorTest {
 
         parseTree.setHeadNode(3);
 
-        Question qaldInstance = new Question("How tall is Michael Jordan?", "SELECT DISTINCT ?num WHERE {  <http://dbpedia.org/resource/Michael_Jordan> <http://dbpedia.org/ontology/height> ?num . } ");
+        Map<Language, String> qMap = new HashMap<Language, String>();
+        qMap.put(Language.EN, "How tall is Michael Jordan?");
+        
+        Question qaldInstance = new Question(qMap, "SELECT DISTINCT ?num WHERE {  <http://dbpedia.org/resource/Michael_Jordan> <http://dbpedia.org/ontology/height> ?num . } ");
         qaldInstance.setId("1");
 
         AnnotatedDocument doc = new AnnotatedDocument(parseTree, qaldInstance);

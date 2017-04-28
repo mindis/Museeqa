@@ -17,10 +17,15 @@ import java.util.Set;
  */
 public class ManualLexicon {
 
-    private static HashMap<String, Set<String>> lexiconProperties;
-    private static HashMap<String, Set<String>> lexiconClasses;
-    private static HashMap<String, Set<String>> lexiconRestrictionClasses;
-    private static HashMap<String, Set<String>> lexiconResources;
+    private static HashMap<String, Set<String>> lexiconPropertiesEN;
+    private static HashMap<String, Set<String>> lexiconClassesEN;
+    private static HashMap<String, Set<String>> lexiconRestrictionClassesEN;
+    private static HashMap<String, Set<String>> lexiconResourcesEN;
+    
+    private static HashMap<String, Set<String>> lexiconPropertiesDE;
+    private static HashMap<String, Set<String>> lexiconClassesDE;
+    private static HashMap<String, Set<String>> lexiconRestrictionClassesDE;
+    private static HashMap<String, Set<String>> lexiconResourcesDE;
 
     public static boolean useManualLexicon = false;
 
@@ -29,233 +34,244 @@ public class ManualLexicon {
     }
 
     public static void load() {
-        lexiconProperties = new HashMap<>();
-        lexiconClasses = new HashMap<>();
-        lexiconRestrictionClasses = new HashMap<>();
-        lexiconResources = new HashMap<>();
+        lexiconPropertiesEN = new HashMap<>();
+        lexiconClassesEN = new HashMap<>();
+        lexiconRestrictionClassesEN = new HashMap<>();
+        lexiconResourcesEN = new HashMap<>();
+        
+        lexiconPropertiesDE = new HashMap<>();
+        lexiconClassesDE = new HashMap<>();
+        lexiconRestrictionClassesDE = new HashMap<>();
+        lexiconResourcesDE = new HashMap<>();
 
         if (useManualLexicon) {
 
-            loadTrainLexicon();
+            loadTrainLexiconEN();
 
-            loadTestLexicon();
+            loadTestLexiconEN();
+            
+            loadTrainLexiconDE();
         }
 
     }
+    
+    private static void loadTrainLexiconDE(){
+        addLexicon("erfunden", "http://dbpedia.org/ontology/creator", lexiconPropertiesDE);
+    }
 
-    private static void loadTrainLexicon() {
+    private static void loadTrainLexiconEN() {
 
         //QALD-6 Train
         //resources
-        addLexicon("john lennon", "http://dbpedia.org/resource/Death_of_John_Lennon", lexiconResources);
-        addLexicon("gmt", "http://dbpedia.org/resource/GMT_Games", lexiconResources);
-        addLexicon("lighthouse in colombo", "http://dbpedia.org/resource/Colombo_Lighthouse", lexiconResources);
-        addLexicon("mn", "'MN'@en", lexiconResources);
-        addLexicon("baldwin", "'Baldwin'@en", lexiconResources);
-        addLexicon("rodzilla", "'Rodzilla'@en", lexiconResources);
-        addLexicon("iycm", "'IYCM'@en", lexiconResources);
-        addLexicon("president of the united states", "'President of the United States'", lexiconResources);
-        addLexicon("ireland", "\"Ireland\"@en", lexiconResources);
-        addLexicon("japanese musical instruments", "http://dbpedia.org/class/yago/JapaneseMusicalInstruments", lexiconResources);
-        addLexicon("eating disorders", "http://dbpedia.org/class/yago/EatingDisorders", lexiconResources);
-        addLexicon("vatican television", "http://dbpedia.org/resource/Vatican_Television_Center", lexiconResources);
-        addLexicon("U.S. president Lincoln", "http://dbpedia.org/resource/Abraham_Lincoln", lexiconResources);
-        addLexicon("battle chess", "'Battle Chess'@en", lexiconResources);
-//        addLexicon("juan carlos i", "http://dbpedia.org/resource/Juan_Carlos_I_of_Spain", lexiconResources);
+        addLexicon("john lennon", "http://dbpedia.org/resource/Death_of_John_Lennon", lexiconResourcesEN);
+        addLexicon("gmt", "http://dbpedia.org/resource/GMT_Games", lexiconResourcesEN);
+        addLexicon("lighthouse in colombo", "http://dbpedia.org/resource/Colombo_Lighthouse", lexiconResourcesEN);
+        addLexicon("mn", "'MN'@en", lexiconResourcesEN);
+        addLexicon("baldwin", "'Baldwin'@en", lexiconResourcesEN);
+        addLexicon("rodzilla", "'Rodzilla'@en", lexiconResourcesEN);
+        addLexicon("iycm", "'IYCM'@en", lexiconResourcesEN);
+        addLexicon("president of the united states", "'President of the United States'", lexiconResourcesEN);
+        addLexicon("ireland", "\"Ireland\"@en", lexiconResourcesEN);
+        addLexicon("japanese musical instruments", "http://dbpedia.org/class/yago/JapaneseMusicalInstruments", lexiconResourcesEN);
+        addLexicon("eating disorders", "http://dbpedia.org/class/yago/EatingDisorders", lexiconResourcesEN);
+        addLexicon("vatican television", "http://dbpedia.org/resource/Vatican_Television_Center", lexiconResourcesEN);
+        addLexicon("U.S. president Lincoln", "http://dbpedia.org/resource/Abraham_Lincoln", lexiconResourcesEN);
+        addLexicon("battle chess", "'Battle Chess'@en", lexiconResourcesEN);
+//        addLexicon("juan carlos i", "http://dbpedia.org/resource/Juan_Carlos_I_of_Spain", lexiconResourcesEN);
 
         //properties
-        addLexicon("play", "http://dbpedia.org/ontology/league", lexiconProperties);
-        addLexicon("start", "http://dbpedia.org/ontology/routeStart", lexiconProperties);
-        addLexicon("country", "http://dbpedia.org/ontology/foundationPlace", lexiconProperties);
-        addLexicon("star", "http://dbpedia.org/ontology/starring", lexiconProperties);
-        addLexicon("play", "http://dbpedia.org/ontology/starring", lexiconProperties);
-        addLexicon("player", "http://dbpedia.org/ontology/team", lexiconProperties);
-        addLexicon("produced", "http://dbpedia.org/ontology/assembly", lexiconProperties);
-        addLexicon("produced", "http://dbpedia.org/ontology/assembly", lexiconProperties);
-        addLexicon("influence", "http://dbpedia.org/ontology/influenced", lexiconProperties);
-        addLexicon("completed", "http://dbpedia.org/ontology/completionDate", lexiconProperties);
-        addLexicon("official color", "http://dbpedia.org/ontology/officialSchoolColour", lexiconProperties);
+        addLexicon("play", "http://dbpedia.org/ontology/league", lexiconPropertiesEN);
+        addLexicon("start", "http://dbpedia.org/ontology/routeStart", lexiconPropertiesEN);
+        addLexicon("country", "http://dbpedia.org/ontology/foundationPlace", lexiconPropertiesEN);
+        addLexicon("star", "http://dbpedia.org/ontology/starring", lexiconPropertiesEN);
+        addLexicon("play", "http://dbpedia.org/ontology/starring", lexiconPropertiesEN);
+        addLexicon("player", "http://dbpedia.org/ontology/team", lexiconPropertiesEN);
+        addLexicon("produced", "http://dbpedia.org/ontology/assembly", lexiconPropertiesEN);
+        addLexicon("produced", "http://dbpedia.org/ontology/assembly", lexiconPropertiesEN);
+        addLexicon("influence", "http://dbpedia.org/ontology/influenced", lexiconPropertiesEN);
+        addLexicon("completed", "http://dbpedia.org/ontology/completionDate", lexiconPropertiesEN);
+        addLexicon("official color", "http://dbpedia.org/ontology/officialSchoolColour", lexiconPropertiesEN);
 
         //prepositions
-        addLexicon("with", "http://dbpedia.org/ontology/starring", lexiconProperties);
-        addLexicon("in", "http://dbpedia.org/ontology/location", lexiconProperties);
-        addLexicon("in", "http://dbpedia.org/ontology/locatedInArea", lexiconProperties);
-        addLexicon("in", "http://dbpedia.org/ontology/league", lexiconProperties);
-        addLexicon("in", "http://dbpedia.org/ontology/country", lexiconProperties);
-        addLexicon("in", "http://dbpedia.org/ontology/isPartOf", lexiconProperties);
-        addLexicon("from", "http://dbpedia.org/ontology/birthPlace", lexiconProperties);
-        addLexicon("a", "http://dbpedia.org/ontology/profession", lexiconProperties);
-        addLexicon("by", "http://dbpedia.org/ontology/author", lexiconProperties);
-        addLexicon("from", "http://dbpedia.org/ontology/artist", lexiconProperties);
+        addLexicon("with", "http://dbpedia.org/ontology/starring", lexiconPropertiesEN);
+        addLexicon("in", "http://dbpedia.org/ontology/location", lexiconPropertiesEN);
+        addLexicon("in", "http://dbpedia.org/ontology/locatedInArea", lexiconPropertiesEN);
+        addLexicon("in", "http://dbpedia.org/ontology/league", lexiconPropertiesEN);
+        addLexicon("in", "http://dbpedia.org/ontology/country", lexiconPropertiesEN);
+        addLexicon("in", "http://dbpedia.org/ontology/isPartOf", lexiconPropertiesEN);
+        addLexicon("from", "http://dbpedia.org/ontology/birthPlace", lexiconPropertiesEN);
+        addLexicon("a", "http://dbpedia.org/ontology/profession", lexiconPropertiesEN);
+        addLexicon("by", "http://dbpedia.org/ontology/author", lexiconPropertiesEN);
+        addLexicon("from", "http://dbpedia.org/ontology/artist", lexiconPropertiesEN);
 
-        addLexicon("pages", "http://dbpedia.org/ontology/numberOfPages", lexiconProperties);
-        addLexicon("artistic movement", "http://dbpedia.org/ontology/movement", lexiconProperties);
-        addLexicon("tall", "http://dbpedia.org/ontology/height", lexiconProperties);
-        addLexicon("high", "http://dbpedia.org/ontology/height", lexiconProperties);
-        addLexicon("high", "http://dbpedia.org/ontology/elevation", lexiconProperties);
-        addLexicon("type", "http://dbpedia.org/ontology/class", lexiconProperties);
-        addLexicon("employees", "http://dbpedia.org/ontology/numberOfEmployees", lexiconProperties);
-        addLexicon("total population", "http://dbpedia.org/ontology/populationTotal", lexiconProperties);
-        addLexicon("military conflicts", "http://dbpedia.org/ontology/battle", lexiconProperties);
-        addLexicon("belong", "http://dbpedia.org/ontology/country", lexiconProperties);
-        addLexicon("grow", "http://dbpedia.org/ontology/growingGrape", lexiconProperties);
-        addLexicon("official color", "http://dbpedia.org/ontology/officialSchoolColour", lexiconProperties);
-        addLexicon("timezone", "http://dbpedia.org/ontology/timeZone", lexiconProperties);
-        addLexicon("timezone", "http://dbpedia.org/ontology/timezone", lexiconProperties);
-        addLexicon("stand", "http://dbpedia.org/property/name", lexiconProperties);
-        addLexicon("stand", "http://dbpedia.org/ontology/abbreviation", lexiconProperties);
-        addLexicon("involved", "http://dbpedia.org/ontology/battle", lexiconProperties);
-        addLexicon("killed", "http://dbpedia.org/property/conviction", lexiconProperties);
-//        addLexicon("games", "http://dbpedia.org/ontology/publisher", lexiconProperties);
-        addLexicon("region", "http://dbpedia.org/ontology/wineRegion", lexiconProperties);
-        addLexicon("stores", "http://dbpedia.org/ontology/numberOfLocations", lexiconProperties);
-        addLexicon("inhabitants", "http://dbpedia.org/ontology/populationTotal", lexiconProperties);
-        addLexicon("mayor", "http://dbpedia.org/ontology/leader", lexiconProperties);
-        addLexicon("professional", "http://dbpedia.org/ontology/occupation", lexiconProperties);
-        addLexicon("connected", "http://dbpedia.org/property/country", lexiconProperties);
-        addLexicon("killed", "http://dbpedia.org/property/conviction", lexiconProperties);
-        addLexicon("flow through", "http://dbpedia.org/ontology/city", lexiconProperties);
+        addLexicon("pages", "http://dbpedia.org/ontology/numberOfPages", lexiconPropertiesEN);
+        addLexicon("artistic movement", "http://dbpedia.org/ontology/movement", lexiconPropertiesEN);
+        addLexicon("tall", "http://dbpedia.org/ontology/height", lexiconPropertiesEN);
+        addLexicon("high", "http://dbpedia.org/ontology/height", lexiconPropertiesEN);
+        addLexicon("high", "http://dbpedia.org/ontology/elevation", lexiconPropertiesEN);
+        addLexicon("type", "http://dbpedia.org/ontology/class", lexiconPropertiesEN);
+        addLexicon("employees", "http://dbpedia.org/ontology/numberOfEmployees", lexiconPropertiesEN);
+        addLexicon("total population", "http://dbpedia.org/ontology/populationTotal", lexiconPropertiesEN);
+        addLexicon("military conflicts", "http://dbpedia.org/ontology/battle", lexiconPropertiesEN);
+        addLexicon("belong", "http://dbpedia.org/ontology/country", lexiconPropertiesEN);
+        addLexicon("grow", "http://dbpedia.org/ontology/growingGrape", lexiconPropertiesEN);
+        addLexicon("official color", "http://dbpedia.org/ontology/officialSchoolColour", lexiconPropertiesEN);
+        addLexicon("timezone", "http://dbpedia.org/ontology/timeZone", lexiconPropertiesEN);
+        addLexicon("timezone", "http://dbpedia.org/ontology/timezone", lexiconPropertiesEN);
+        addLexicon("stand", "http://dbpedia.org/property/name", lexiconPropertiesEN);
+        addLexicon("stand", "http://dbpedia.org/ontology/abbreviation", lexiconPropertiesEN);
+        addLexicon("involved", "http://dbpedia.org/ontology/battle", lexiconPropertiesEN);
+        addLexicon("killed", "http://dbpedia.org/property/conviction", lexiconPropertiesEN);
+//        addLexicon("games", "http://dbpedia.org/ontology/publisher", lexiconPropertiesEN);
+        addLexicon("region", "http://dbpedia.org/ontology/wineRegion", lexiconPropertiesEN);
+        addLexicon("stores", "http://dbpedia.org/ontology/numberOfLocations", lexiconPropertiesEN);
+        addLexicon("inhabitants", "http://dbpedia.org/ontology/populationTotal", lexiconPropertiesEN);
+        addLexicon("mayor", "http://dbpedia.org/ontology/leader", lexiconPropertiesEN);
+        addLexicon("professional", "http://dbpedia.org/ontology/occupation", lexiconPropertiesEN);
+        addLexicon("connected", "http://dbpedia.org/property/country", lexiconPropertiesEN);
+        addLexicon("killed", "http://dbpedia.org/property/conviction", lexiconPropertiesEN);
+        addLexicon("flow through", "http://dbpedia.org/ontology/city", lexiconPropertiesEN);
 
-        addLexicon("painted", "http://dbpedia.org/ontology/author", lexiconProperties);
-        addLexicon("painter", "http://dbpedia.org/ontology/author", lexiconProperties);
-        addLexicon("country", "http://dbpedia.org/ontology/nationality", lexiconProperties);
-        addLexicon("actors", "http://dbpedia.org/ontology/starring", lexiconProperties);
-        addLexicon("birthdays", "http://dbpedia.org/ontology/birthDate", lexiconProperties);
-        addLexicon("flow through", "http://dbpedia.org/ontology/city", lexiconProperties);
+        addLexicon("painted", "http://dbpedia.org/ontology/author", lexiconPropertiesEN);
+        addLexicon("painter", "http://dbpedia.org/ontology/author", lexiconPropertiesEN);
+        addLexicon("country", "http://dbpedia.org/ontology/nationality", lexiconPropertiesEN);
+        addLexicon("actors", "http://dbpedia.org/ontology/starring", lexiconPropertiesEN);
+        addLexicon("birthdays", "http://dbpedia.org/ontology/birthDate", lexiconPropertiesEN);
+        addLexicon("flow through", "http://dbpedia.org/ontology/city", lexiconPropertiesEN);
 
-        addLexicon("dwelt", "http://dbpedia.org/property/abode", lexiconProperties);
-        addLexicon("time zone", "http://dbpedia.org/property/timezone", lexiconProperties);
-        addLexicon("called", "http://dbpedia.org/property/shipNamesake", lexiconProperties);
-        addLexicon("called", "http://dbpedia.org/property/nickname", lexiconProperties);
-        addLexicon("called", "http://xmlns.com/foaf/0.1/surname", lexiconProperties);
-        addLexicon("called", "http://www.w3.org/2000/01/rdf-schema#label", lexiconProperties);
+        addLexicon("dwelt", "http://dbpedia.org/property/abode", lexiconPropertiesEN);
+        addLexicon("time zone", "http://dbpedia.org/property/timezone", lexiconPropertiesEN);
+        addLexicon("called", "http://dbpedia.org/property/shipNamesake", lexiconPropertiesEN);
+        addLexicon("called", "http://dbpedia.org/property/nickname", lexiconPropertiesEN);
+        addLexicon("called", "http://xmlns.com/foaf/0.1/surname", lexiconPropertiesEN);
+        addLexicon("called", "http://www.w3.org/2000/01/rdf-schema#label", lexiconPropertiesEN);
 
-        addLexicon("built", "http://dbpedia.org/property/beginningDate", lexiconProperties);
-        addLexicon("border", "http://dbpedia.org/property/borderingstates", lexiconProperties);
-        addLexicon("type", "http://dbpedia.org/property/design", lexiconProperties);
-        addLexicon("abbreviation", "http://dbpedia.org/property/postalabbreviation", lexiconProperties);
-        addLexicon("population density", "http://dbpedia.org/property/densityrank", lexiconProperties);
-        addLexicon("first name", "http://xmlns.com/foaf/0.1/givenName", lexiconProperties);
-        addLexicon("websites", "http://dbpedia.org/property/homepage", lexiconProperties);
-        addLexicon("birth name", "http://dbpedia.org/property/birthName", lexiconProperties);
-        addLexicon("governed", "http://dbpedia.org/ontology/leaderParty", lexiconProperties);
-        addLexicon("span", "http://dbpedia.org/ontology/mainspan", lexiconProperties);
-        addLexicon("run through", "http://dbpedia.org/property/country", lexiconProperties);
-        addLexicon("moon", "http://dbpedia.org/property/satelliteOf", lexiconProperties);
-        addLexicon("heavy", "http://dbpedia.org/ontology/mass", lexiconProperties);
-        addLexicon("shot", "http://dbpedia.org/property/dateOfDeath", lexiconProperties);
-        addLexicon("part", "http://dbpedia.org/property/alliance", lexiconProperties);
-        addLexicon("members", "http://dbpedia.org/property/alliance", lexiconProperties);
-        addLexicon("flew", "http://dbpedia.org/property/planet", lexiconProperties);
-        addLexicon("cost", "http://dbpedia.org/ontology/budget", lexiconProperties);
-        addLexicon("serve", "http://dbpedia.org/ontology/targetAirport", lexiconProperties);
-        addLexicon("graduated", "http://dbpedia.org/ontology/almaMater", lexiconProperties);
-        addLexicon("largest metropolitan area", "http://dbpedia.org/property/largestmetro", lexiconProperties);
-        addLexicon("types", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", lexiconProperties);
-        addLexicon("deep", "http://dbpedia.org/ontology/depth", lexiconProperties);
-        addLexicon("astronauts", "http://dbpedia.org/ontology/mission", lexiconProperties);
-        addLexicon("missions", "http://dbpedia.org/property/programme", lexiconProperties);
-        addLexicon("cross", "http://dbpedia.org/ontology/crosses", lexiconProperties);
-        addLexicon("students", "http://dbpedia.org/ontology/numberOfStudents", lexiconProperties);
-        addLexicon("serves", "http://dbpedia.org/ontology/targetAirport", lexiconProperties);
-        addLexicon("influenced", "http://dbpedia.org/ontology/influencedBy", lexiconProperties);
-        addLexicon("die", "http://dbpedia.org/ontology/deathCause", lexiconProperties);
-        addLexicon("launched", "http://dbpedia.org/ontology/launchSite", lexiconProperties);
-        addLexicon("flow", "http://dbpedia.org/ontology/city", lexiconProperties);
-        addLexicon("climb", "http://dbpedia.org/ontology/firstAscentPerson", lexiconProperties);
+        addLexicon("built", "http://dbpedia.org/property/beginningDate", lexiconPropertiesEN);
+        addLexicon("border", "http://dbpedia.org/property/borderingstates", lexiconPropertiesEN);
+        addLexicon("type", "http://dbpedia.org/property/design", lexiconPropertiesEN);
+        addLexicon("abbreviation", "http://dbpedia.org/property/postalabbreviation", lexiconPropertiesEN);
+        addLexicon("population density", "http://dbpedia.org/property/densityrank", lexiconPropertiesEN);
+        addLexicon("first name", "http://xmlns.com/foaf/0.1/givenName", lexiconPropertiesEN);
+        addLexicon("websites", "http://dbpedia.org/property/homepage", lexiconPropertiesEN);
+        addLexicon("birth name", "http://dbpedia.org/property/birthName", lexiconPropertiesEN);
+        addLexicon("governed", "http://dbpedia.org/ontology/leaderParty", lexiconPropertiesEN);
+        addLexicon("span", "http://dbpedia.org/ontology/mainspan", lexiconPropertiesEN);
+        addLexicon("run through", "http://dbpedia.org/property/country", lexiconPropertiesEN);
+        addLexicon("moon", "http://dbpedia.org/property/satelliteOf", lexiconPropertiesEN);
+        addLexicon("heavy", "http://dbpedia.org/ontology/mass", lexiconPropertiesEN);
+        addLexicon("shot", "http://dbpedia.org/property/dateOfDeath", lexiconPropertiesEN);
+        addLexicon("part", "http://dbpedia.org/property/alliance", lexiconPropertiesEN);
+        addLexicon("members", "http://dbpedia.org/property/alliance", lexiconPropertiesEN);
+        addLexicon("flew", "http://dbpedia.org/property/planet", lexiconPropertiesEN);
+        addLexicon("cost", "http://dbpedia.org/ontology/budget", lexiconPropertiesEN);
+        addLexicon("serve", "http://dbpedia.org/ontology/targetAirport", lexiconPropertiesEN);
+        addLexicon("graduated", "http://dbpedia.org/ontology/almaMater", lexiconPropertiesEN);
+        addLexicon("largest metropolitan area", "http://dbpedia.org/property/largestmetro", lexiconPropertiesEN);
+        addLexicon("types", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", lexiconPropertiesEN);
+        addLexicon("deep", "http://dbpedia.org/ontology/depth", lexiconPropertiesEN);
+        addLexicon("astronauts", "http://dbpedia.org/ontology/mission", lexiconPropertiesEN);
+        addLexicon("missions", "http://dbpedia.org/property/programme", lexiconPropertiesEN);
+        addLexicon("cross", "http://dbpedia.org/ontology/crosses", lexiconPropertiesEN);
+        addLexicon("students", "http://dbpedia.org/ontology/numberOfStudents", lexiconPropertiesEN);
+        addLexicon("serves", "http://dbpedia.org/ontology/targetAirport", lexiconPropertiesEN);
+        addLexicon("influenced", "http://dbpedia.org/ontology/influencedBy", lexiconPropertiesEN);
+        addLexicon("die", "http://dbpedia.org/ontology/deathCause", lexiconPropertiesEN);
+        addLexicon("launched", "http://dbpedia.org/ontology/launchSite", lexiconPropertiesEN);
+        addLexicon("flow", "http://dbpedia.org/ontology/city", lexiconPropertiesEN);
+        addLexicon("climb", "http://dbpedia.org/ontology/firstAscentPerson", lexiconPropertiesEN);
 
         //restriction classes
-        addLexicon("democrat", "http://dbpedia.org/ontology/party###http://dbpedia.org/resource/Democratic_Party_(United_States)", lexiconRestrictionClasses);
-        addLexicon("swedish", "http://dbpedia.org/ontology/birthPlace###http://dbpedia.org/resource/Sweden", lexiconRestrictionClasses);
-        addLexicon("swedish", "http://dbpedia.org/ontology/country###http://dbpedia.org/resource/Sweden", lexiconRestrictionClasses);
-        addLexicon("dutch", "http://dbpedia.org/ontology/country###http://dbpedia.org/resource/Netherlands", lexiconRestrictionClasses);
-        addLexicon("oceanographers", "http://dbpedia.org/ontology/field###http://dbpedia.org/resource/Oceanography", lexiconRestrictionClasses);
-        addLexicon("english gothic", "http://dbpedia.org/ontology/architecturalStyle###http://dbpedia.org/resource/English_Gothic_architecture", lexiconRestrictionClasses);
-        addLexicon("nonprofit organizations", "http://dbpedia.org/ontology/type###http://dbpedia.org/resource/Nonprofit_organization", lexiconRestrictionClasses);
-        addLexicon("danish", "http://dbpedia.org/ontology/country###http://dbpedia.org/resource/Denmark", lexiconRestrictionClasses);
-        addLexicon("canadian", "http://dbpedia.org/ontology/country###http://dbpedia.org/resource/Canada", lexiconRestrictionClasses);
-        addLexicon("greek", "http://dbpedia.org/ontology/country###http://dbpedia.org/resource/Greece", lexiconRestrictionClasses);
-        addLexicon("english", "http://dbpedia.org/ontology/birthPlace###http://dbpedia.org/resource/England", lexiconRestrictionClasses);
-        addLexicon("grunge", "http://dbpedia.org/ontology/genre###http://dbpedia.org/resource/Grunge", lexiconRestrictionClasses);
-        addLexicon("methodist", "http://dbpedia.org/ontology/religion###http://dbpedia.org/resource/Methodism", lexiconRestrictionClasses);
-        addLexicon("australian", "http://dbpedia.org/ontology/hometown###http://dbpedia.org/resource/Australia", lexiconRestrictionClasses);
-        addLexicon("australian", "http://dbpedia.org/ontology/locationCountry###http://dbpedia.org/resource/Australia", lexiconRestrictionClasses);
-        addLexicon("spanish", "http://dbpedia.org/ontology/country###http://dbpedia.org/resource/Spain", lexiconRestrictionClasses);
+        addLexicon("democrat", "http://dbpedia.org/ontology/party###http://dbpedia.org/resource/Democratic_Party_(United_States)", lexiconRestrictionClassesEN);
+        addLexicon("swedish", "http://dbpedia.org/ontology/birthPlace###http://dbpedia.org/resource/Sweden", lexiconRestrictionClassesEN);
+        addLexicon("swedish", "http://dbpedia.org/ontology/country###http://dbpedia.org/resource/Sweden", lexiconRestrictionClassesEN);
+        addLexicon("dutch", "http://dbpedia.org/ontology/country###http://dbpedia.org/resource/Netherlands", lexiconRestrictionClassesEN);
+        addLexicon("oceanographers", "http://dbpedia.org/ontology/field###http://dbpedia.org/resource/Oceanography", lexiconRestrictionClassesEN);
+        addLexicon("english gothic", "http://dbpedia.org/ontology/architecturalStyle###http://dbpedia.org/resource/English_Gothic_architecture", lexiconRestrictionClassesEN);
+        addLexicon("nonprofit organizations", "http://dbpedia.org/ontology/type###http://dbpedia.org/resource/Nonprofit_organization", lexiconRestrictionClassesEN);
+        addLexicon("danish", "http://dbpedia.org/ontology/country###http://dbpedia.org/resource/Denmark", lexiconRestrictionClassesEN);
+        addLexicon("canadian", "http://dbpedia.org/ontology/country###http://dbpedia.org/resource/Canada", lexiconRestrictionClassesEN);
+        addLexicon("greek", "http://dbpedia.org/ontology/country###http://dbpedia.org/resource/Greece", lexiconRestrictionClassesEN);
+        addLexicon("english", "http://dbpedia.org/ontology/birthPlace###http://dbpedia.org/resource/England", lexiconRestrictionClassesEN);
+        addLexicon("grunge", "http://dbpedia.org/ontology/genre###http://dbpedia.org/resource/Grunge", lexiconRestrictionClassesEN);
+        addLexicon("methodist", "http://dbpedia.org/ontology/religion###http://dbpedia.org/resource/Methodism", lexiconRestrictionClassesEN);
+        addLexicon("australian", "http://dbpedia.org/ontology/hometown###http://dbpedia.org/resource/Australia", lexiconRestrictionClassesEN);
+        addLexicon("australian", "http://dbpedia.org/ontology/locationCountry###http://dbpedia.org/resource/Australia", lexiconRestrictionClassesEN);
+        addLexicon("spanish", "http://dbpedia.org/ontology/country###http://dbpedia.org/resource/Spain", lexiconRestrictionClassesEN);
 
-        addLexicon("metalcore", "http://dbpedia.org/ontology/genre###http://dbpedia.org/resource/Metalcore", lexiconRestrictionClasses);
-        addLexicon("german", "http://dbpedia.org/ontology/country###http://dbpedia.org/resource/Germany", lexiconRestrictionClasses);
-        addLexicon("german", "http://dbpedia.org/ontology/birthPlace###http://dbpedia.org/resource/Germany", lexiconRestrictionClasses);
-        addLexicon("jew", "http://dbpedia.org/property/ethnicity###'Jewish'@en", lexiconRestrictionClasses);
-        addLexicon("politicians", "http://dbpedia.org/ontology/profession###http://dbpedia.org/resource/Politician", lexiconRestrictionClasses);
-        addLexicon("chemist", "http://dbpedia.org/ontology/profession###http://dbpedia.org/resource/Chemist", lexiconRestrictionClasses);
-        addLexicon("beer", "http://dbpedia.org/property/type###http://dbpedia.org/resource/Beer", lexiconRestrictionClasses);
-        addLexicon("president of pakistan", "http://dbpedia.org/property/title###http://dbpedia.org/resource/President_of_Pakistan", lexiconRestrictionClasses);
-        addLexicon("uk city", "http://dbpedia.org/ontology/country###http://dbpedia.org/resource/United_Kingdom", lexiconRestrictionClasses);
-        addLexicon("pro-european", "http://dbpedia.org/ontology/ideology###http://dbpedia.org/resource/Pro-Europeanism", lexiconRestrictionClasses);
-        addLexicon("non-profit organizations", "http://dbpedia.org/ontology/type###http://dbpedia.org/resource/Nonprofit_organization", lexiconRestrictionClasses);
-        addLexicon("swiss", "http://dbpedia.org/ontology/locationCountry###http://dbpedia.org/resource/Switzerland", lexiconRestrictionClasses);
+        addLexicon("metalcore", "http://dbpedia.org/ontology/genre###http://dbpedia.org/resource/Metalcore", lexiconRestrictionClassesEN);
+        addLexicon("german", "http://dbpedia.org/ontology/country###http://dbpedia.org/resource/Germany", lexiconRestrictionClassesEN);
+        addLexicon("german", "http://dbpedia.org/ontology/birthPlace###http://dbpedia.org/resource/Germany", lexiconRestrictionClassesEN);
+        addLexicon("jew", "http://dbpedia.org/property/ethnicity###'Jewish'@en", lexiconRestrictionClassesEN);
+        addLexicon("politicians", "http://dbpedia.org/ontology/profession###http://dbpedia.org/resource/Politician", lexiconRestrictionClassesEN);
+        addLexicon("chemist", "http://dbpedia.org/ontology/profession###http://dbpedia.org/resource/Chemist", lexiconRestrictionClassesEN);
+        addLexicon("beer", "http://dbpedia.org/property/type###http://dbpedia.org/resource/Beer", lexiconRestrictionClassesEN);
+        addLexicon("president of pakistan", "http://dbpedia.org/property/title###http://dbpedia.org/resource/President_of_Pakistan", lexiconRestrictionClassesEN);
+        addLexicon("uk city", "http://dbpedia.org/ontology/country###http://dbpedia.org/resource/United_Kingdom", lexiconRestrictionClassesEN);
+        addLexicon("pro-european", "http://dbpedia.org/ontology/ideology###http://dbpedia.org/resource/Pro-Europeanism", lexiconRestrictionClassesEN);
+        addLexicon("non-profit organizations", "http://dbpedia.org/ontology/type###http://dbpedia.org/resource/Nonprofit_organization", lexiconRestrictionClassesEN);
+        addLexicon("swiss", "http://dbpedia.org/ontology/locationCountry###http://dbpedia.org/resource/Switzerland", lexiconRestrictionClassesEN);
 
         //classes
-        addLexicon("people", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://xmlns.com/foaf/0.1/foaf:Person", lexiconClasses);
-        addLexicon("u.s. state", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/class/yago/StatesOfTheUnitedStates", lexiconClasses);
-        addLexicon("greek goddesses", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/class/yago/GreekGoddesses", lexiconClasses);
-        addLexicon("american inventions", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/class/yago/AmericanInventions", lexiconClasses);
-        addLexicon("films", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Film", lexiconClasses);
-        addLexicon("organizations", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Company", lexiconClasses);
-        addLexicon("capitals in europe", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/class/yago/CapitalsInEurope", lexiconClasses);
-        addLexicon("states of germany", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/class/yago/StatesOfGermany", lexiconClasses);
-        addLexicon("james bond movies", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/class/yago/JamesBondFilms", lexiconClasses);
-        addLexicon("city", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/class/yago/City108524735", lexiconClasses);
-        addLexicon("countries in africa", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/class/yago/AfricanCountries", lexiconClasses);
-        addLexicon("organizations", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Company", lexiconClasses);
-        addLexicon("tv shows", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/TelevisionShow", lexiconClasses);
-        addLexicon("parties", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/PoliticalParty", lexiconClasses);
+        addLexicon("people", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://xmlns.com/foaf/0.1/foaf:Person", lexiconClassesEN);
+        addLexicon("u.s. state", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/class/yago/StatesOfTheUnitedStates", lexiconClassesEN);
+        addLexicon("greek goddesses", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/class/yago/GreekGoddesses", lexiconClassesEN);
+        addLexicon("american inventions", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/class/yago/AmericanInventions", lexiconClassesEN);
+        addLexicon("films", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Film", lexiconClassesEN);
+        addLexicon("organizations", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Company", lexiconClassesEN);
+        addLexicon("capitals in europe", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/class/yago/CapitalsInEurope", lexiconClassesEN);
+        addLexicon("states of germany", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/class/yago/StatesOfGermany", lexiconClassesEN);
+        addLexicon("james bond movies", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/class/yago/JamesBondFilms", lexiconClassesEN);
+        addLexicon("city", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/class/yago/City108524735", lexiconClassesEN);
+        addLexicon("countries in africa", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/class/yago/AfricanCountries", lexiconClassesEN);
+        addLexicon("organizations", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Company", lexiconClassesEN);
+        addLexicon("tv shows", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/TelevisionShow", lexiconClassesEN);
+        addLexicon("parties", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/PoliticalParty", lexiconClassesEN);
 
         //QALD-6 Test Lexicon
-        addLexicon("companies", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Company", lexiconClasses);
+        addLexicon("companies", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Company", lexiconClassesEN);
 
     }
 
-    private static void loadTestLexicon() {
+    private static void loadTestLexiconEN() {
         //QALD-6 Test Lexicon
 
         //classes
-        addLexicon("companies", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Company", lexiconClasses);
+        addLexicon("companies", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Company", lexiconClassesEN);
 
         //properties
-        addLexicon("discovered", "http://dbpedia.org/ontology/discoverer", lexiconProperties);
-        addLexicon("expresses", "http://dbpedia.org/ontology/connotation", lexiconProperties);
-        addLexicon("die", "http://dbpedia.org/property/deathCause", lexiconProperties);
-        addLexicon("commence", "http://dbpedia.org/ontology/date", lexiconProperties);
-        addLexicon("famous", "http://dbpedia.org/ontology/knownFor", lexiconProperties);
-        addLexicon("live", "http://dbpedia.org/ontology/populationTotal", lexiconProperties);
-        addLexicon("inspired", "http://dbpedia.org/ontology/influenced", lexiconProperties);
-        addLexicon("form of government", "http://dbpedia.org/ontology/governmentType", lexiconProperties);
-        addLexicon("government", "http://dbpedia.org/ontology/governmentType", lexiconProperties);
-        addLexicon("in", "http://dbpedia.org/ontology/ingredient", lexiconProperties);
-        addLexicon("full name", "http://dbpedia.org/ontology/alias", lexiconProperties);
-        addLexicon("kind of music", "http://dbpedia.org/ontology/genre", lexiconProperties);
-        addLexicon("doctoral supervisor", "http://dbpedia.org/ontology/doctoralAdvisor", lexiconProperties);
-        addLexicon("on", "http://dbpedia.org/property/crewMembers", lexiconProperties);
-        addLexicon("calories", "http://dbpedia.org/ontology/approximateCalories", lexiconProperties);
-        addLexicon("kind", "http://dbpedia.org/ontology/genre", lexiconProperties);
-        addLexicon("in", "http://dbpedia.org/ontology/ingredient", lexiconProperties);
-        addLexicon("end", "http://dbpedia.org/ontology/activeYearsEndDate", lexiconProperties);
-        addLexicon("pay", "http://dbpedia.org/ontology/currency", lexiconProperties);
-        addLexicon("home stadium", "http://dbpedia.org/ontology/ground", lexiconProperties);
-        addLexicon("seats", "http://dbpedia.org/ontology/seatingCapacity", lexiconProperties);
+        addLexicon("discovered", "http://dbpedia.org/ontology/discoverer", lexiconPropertiesEN);
+        addLexicon("expresses", "http://dbpedia.org/ontology/connotation", lexiconPropertiesEN);
+        addLexicon("die", "http://dbpedia.org/property/deathCause", lexiconPropertiesEN);
+        addLexicon("commence", "http://dbpedia.org/ontology/date", lexiconPropertiesEN);
+        addLexicon("famous", "http://dbpedia.org/ontology/knownFor", lexiconPropertiesEN);
+        addLexicon("live", "http://dbpedia.org/ontology/populationTotal", lexiconPropertiesEN);
+        addLexicon("inspired", "http://dbpedia.org/ontology/influenced", lexiconPropertiesEN);
+        addLexicon("form of government", "http://dbpedia.org/ontology/governmentType", lexiconPropertiesEN);
+        addLexicon("government", "http://dbpedia.org/ontology/governmentType", lexiconPropertiesEN);
+        addLexicon("in", "http://dbpedia.org/ontology/ingredient", lexiconPropertiesEN);
+        addLexicon("full name", "http://dbpedia.org/ontology/alias", lexiconPropertiesEN);
+        addLexicon("kind of music", "http://dbpedia.org/ontology/genre", lexiconPropertiesEN);
+        addLexicon("doctoral supervisor", "http://dbpedia.org/ontology/doctoralAdvisor", lexiconPropertiesEN);
+        addLexicon("on", "http://dbpedia.org/property/crewMembers", lexiconPropertiesEN);
+        addLexicon("calories", "http://dbpedia.org/ontology/approximateCalories", lexiconPropertiesEN);
+        addLexicon("kind", "http://dbpedia.org/ontology/genre", lexiconPropertiesEN);
+        addLexicon("in", "http://dbpedia.org/ontology/ingredient", lexiconPropertiesEN);
+        addLexicon("end", "http://dbpedia.org/ontology/activeYearsEndDate", lexiconPropertiesEN);
+        addLexicon("pay", "http://dbpedia.org/ontology/currency", lexiconPropertiesEN);
+        addLexicon("home stadium", "http://dbpedia.org/ontology/ground", lexiconPropertiesEN);
+        addLexicon("seats", "http://dbpedia.org/ontology/seatingCapacity", lexiconPropertiesEN);
 
         //resources
-        addLexicon("kaurismäki", "http://dbpedia.org/resource/Aki_Kaurismäki", lexiconResources);
-        addLexicon("Grand Prix at Cannes", "http://dbpedia.org/resource/Grand_Prix_(Cannes_Film_Festival)", lexiconResources);
-        addLexicon("chocolate chip cookie", "http://dbpedia.org/resource/Chocolate_chip_cookie", lexiconResources);
-        addLexicon("Sonny and Cher", "http://dbpedia.org/resource/Cher", lexiconResources);
+        addLexicon("kaurismäki", "http://dbpedia.org/resource/Aki_Kaurismäki", lexiconResourcesEN);
+        addLexicon("Grand Prix at Cannes", "http://dbpedia.org/resource/Grand_Prix_(Cannes_Film_Festival)", lexiconResourcesEN);
+        addLexicon("chocolate chip cookie", "http://dbpedia.org/resource/Chocolate_chip_cookie", lexiconResourcesEN);
+        addLexicon("Sonny and Cher", "http://dbpedia.org/resource/Cher", lexiconResourcesEN);
 
         //restriction classes
-        addLexicon("czech", "http://dbpedia.org/ontology/country###http://dbpedia.org/resource/Czech_Republic", lexiconRestrictionClasses);
-        addLexicon("computer scientist", "http://dbpedia.org/ontology/field###http://dbpedia.org/resource/Computer_science", lexiconRestrictionClasses);
-        addLexicon("canadian", "http://dbpedia.org/ontology/birthPlace###http://dbpedia.org/resource/Canada", lexiconRestrictionClasses);
-        addLexicon("canadians", "http://dbpedia.org/ontology/birthPlace###http://dbpedia.org/resource/Canada", lexiconRestrictionClasses);
+        addLexicon("czech", "http://dbpedia.org/ontology/country###http://dbpedia.org/resource/Czech_Republic", lexiconRestrictionClassesEN);
+        addLexicon("computer scientist", "http://dbpedia.org/ontology/field###http://dbpedia.org/resource/Computer_science", lexiconRestrictionClassesEN);
+        addLexicon("canadian", "http://dbpedia.org/ontology/birthPlace###http://dbpedia.org/resource/Canada", lexiconRestrictionClassesEN);
+        addLexicon("canadians", "http://dbpedia.org/ontology/birthPlace###http://dbpedia.org/resource/Canada", lexiconRestrictionClassesEN);
     }
 
     private static void addLexicon(String key, String value, HashMap<String, Set<String>> map) {
@@ -277,14 +293,14 @@ public class ManualLexicon {
     public static Set<String> getProperties(String term) {
 
         term = term.toLowerCase();
-        if (lexiconProperties == null) {
+        if (lexiconPropertiesEN == null) {
             load();
         }
 
         Set<String> result = new HashSet<>();
 
-        if (lexiconProperties.containsKey(term)) {
-            result.addAll(lexiconProperties.get(term));
+        if (lexiconPropertiesEN.containsKey(term)) {
+            result.addAll(lexiconPropertiesEN.get(term));
         }
 
         return result;
@@ -294,14 +310,14 @@ public class ManualLexicon {
 
         term = term.toLowerCase();
 
-        if (lexiconRestrictionClasses == null) {
+        if (lexiconRestrictionClassesEN == null) {
             load();
         }
 
         Set<String> result = new HashSet<>();
 
-        if (lexiconRestrictionClasses.containsKey(term)) {
-            result.addAll(lexiconRestrictionClasses.get(term));
+        if (lexiconRestrictionClassesEN.containsKey(term)) {
+            result.addAll(lexiconRestrictionClassesEN.get(term));
         }
 
         return result;
@@ -311,14 +327,14 @@ public class ManualLexicon {
 
         term = term.toLowerCase();
 
-        if (lexiconClasses == null) {
+        if (lexiconClassesEN == null) {
             load();
         }
 
         Set<String> result = new HashSet<>();
 
-        if (lexiconClasses.containsKey(term)) {
-            result.addAll(lexiconClasses.get(term));
+        if (lexiconClassesEN.containsKey(term)) {
+            result.addAll(lexiconClassesEN.get(term));
         }
 
         return result;
@@ -328,14 +344,14 @@ public class ManualLexicon {
 
         term = term.toLowerCase();
 
-        if (lexiconResources == null) {
+        if (lexiconResourcesEN == null) {
             load();
         }
 
         Set<String> result = new HashSet<>();
 
-        if (lexiconResources.containsKey(term)) {
-            result.addAll(lexiconResources.get(term));
+        if (lexiconResourcesEN.containsKey(term)) {
+            result.addAll(lexiconResourcesEN.get(term));
         }
 
         return result;

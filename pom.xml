@@ -20,12 +20,6 @@
             <artifactId>commons-compress</artifactId>
             <version>1.13</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.4</version>
-        </dependency>
         
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -39,7 +33,7 @@
             <version>3.7.0</version>
         </dependency>
 
-<!--        <dependency>
+        <dependency>
             <groupId>edu.stanford.nlp</groupId>
             <artifactId>stanford-corenlp</artifactId>
             <version>3.7.0</version>
@@ -57,8 +51,8 @@
             <groupId>edu.stanford.nlp</groupId>
             <artifactId>stanford-corenlp</artifactId>
             <version>3.7.0</version>
-            <classifier>models-spanish</classifier>-->
-        <!--</dependency>-->
+            <classifier>models-spanish</classifier>
+        </dependency>
 
         <dependency>
             <groupId>edu.stanford.nlp</groupId>
@@ -107,6 +101,21 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>LITD</artifactId>
             <version>${project.version}</version>
+        </dependency>
+         <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-core</artifactId>
+            <version>6.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-queryparser</artifactId>
+            <version>6.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-analyzers-common</artifactId>
+            <version>6.5.0</version>
         </dependency>
     </dependencies>
     <build>

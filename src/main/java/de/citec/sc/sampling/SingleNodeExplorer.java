@@ -5,6 +5,7 @@
  */
 package de.citec.sc.sampling;
 
+import de.citec.sc.main.Main;
 import de.citec.sc.query.Candidate;
 import de.citec.sc.query.Instance;
 import de.citec.sc.query.ManualLexicon;
@@ -121,7 +122,7 @@ public class SingleNodeExplorer implements Explorer<State> {
                 mergePartialMatches = false;
 
                 if (!Stopwords.isStopWord(queryTerm)) {
-                    Set<Candidate> propertyURIs = Search.getPredicates(queryTerm, topK, useLemmatizer, mergePartialMatches, useWordNet);
+                    Set<Candidate> propertyURIs = Search.getPredicates(queryTerm, topK, useLemmatizer, mergePartialMatches, useWordNet, Main.lang);
                     uris.addAll(propertyURIs);
                 }
 
@@ -139,7 +140,7 @@ public class SingleNodeExplorer implements Explorer<State> {
                 mergePartialMatches = false;
                 useWordNet = false;
                 if (!Stopwords.isStopWord(queryTerm)) {
-                    Set<Candidate> classURIs = Search.getClasses(queryTerm, topK, useLemmatizer, mergePartialMatches, useWordNet);
+                    Set<Candidate> classURIs = Search.getClasses(queryTerm, topK, useLemmatizer, mergePartialMatches, useWordNet, Main.lang);
 
                     uris.addAll(classURIs);
                 }
@@ -158,7 +159,7 @@ public class SingleNodeExplorer implements Explorer<State> {
                 mergePartialMatches = false;
 
                 if (!Stopwords.isStopWord(queryTerm)) {
-                    Set<Candidate> restrictionClassURIs = Search.getRestrictionClasses(queryTerm, topK, useLemmatizer, mergePartialMatches, useWordNet);
+                    Set<Candidate> restrictionClassURIs = Search.getRestrictionClasses(queryTerm, topK, useLemmatizer, mergePartialMatches, useWordNet, Main.lang);
                     uris.addAll(restrictionClassURIs);
                 }
 
@@ -178,7 +179,7 @@ public class SingleNodeExplorer implements Explorer<State> {
 
                 //extract resources
                 if (!Stopwords.isStopWord(queryTerm)) {
-                    Set<Candidate> resourceURIs = Search.getResources(queryTerm, topK, useLemmatizer, mergePartialMatches, useWordNet);
+                    Set<Candidate> resourceURIs = Search.getResources(queryTerm, topK, useLemmatizer, mergePartialMatches, useWordNet, Main.lang);
 
                     //set some empty propertyy
                     for (Candidate c : resourceURIs) {
@@ -202,7 +203,7 @@ public class SingleNodeExplorer implements Explorer<State> {
                 mergePartialMatches = false;
                 useWordNet = false;
                 if (!Stopwords.isStopWord(queryTerm)) {
-                    Set<Candidate> resourceURIs = Search.getResources(queryTerm, topK, useLemmatizer, mergePartialMatches, useWordNet);
+                    Set<Candidate> resourceURIs = Search.getResources(queryTerm, topK, useLemmatizer, mergePartialMatches, useWordNet, Main.lang);
                     uris.addAll(resourceURIs);
                 }
 
