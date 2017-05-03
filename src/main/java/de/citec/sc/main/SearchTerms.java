@@ -37,7 +37,7 @@ public class SearchTerms {
         boolean useWordNet = false;
         boolean mergePartialMatches = false;
 
-        System.out.println(ManualLexicon.getClasses(word));
+        System.out.println(ManualLexicon.getClasses(word, CandidateRetriever.Language.EN));
 
         Set<Candidate> result = new LinkedHashSet<>();
 
