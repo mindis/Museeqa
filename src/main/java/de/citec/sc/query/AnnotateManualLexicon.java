@@ -65,7 +65,14 @@ public class AnnotateManualLexicon {
 
             boolean stop = false;
 
+            AnnotatedDocument lastDoc = null;
+            boolean reset = false;
+
             for (AnnotatedDocument d : corpus.getDocuments()) {
+
+                if (!reset) {
+                    lastDoc = d;
+                }
 
                 if (coveredIds.contains(d.getQaldInstance().getId())) {
                     continue;
@@ -75,7 +82,7 @@ public class AnnotateManualLexicon {
 //                    System.out.println(d.getQuestionString());
 
                 } else {
-                    String questionString = d.getQuestionString() + "\n"+d.getQaldInstance().getQuestionText().get(Language.EN);
+                    String questionString = d.getQuestionString() + "\n" + d.getQaldInstance().getQuestionText().get(Language.EN);
                     String parseTree = d.getParse().toString();
                     String query = d.getGoldQueryString();
 
@@ -161,7 +168,7 @@ public class AnnotateManualLexicon {
                                         tokenMap.remove(u);
                                     }
                                 }
-                                token =  token.replace("?", "");
+                                token = token.replace("?", "");
 
                                 content += d.getQaldInstance().getId() + "\t" + token + "\t" + uri + "\t" + l.name() + "\n";
                             } catch (Exception e) {
@@ -169,25 +176,74 @@ public class AnnotateManualLexicon {
                             }
 
                         } else {
+
                             isValid = false;
+
+                            if (input.equals("reset")) {
+                                isValid = true;
+
+                                tokenMap.clear();
+                                uriMap.clear();
+
+                                System.out.println(questionString + "\n");
+                                System.out.println(query + "\n\n");
+                                System.out.println(parseTree + "\n");
+
+                                c = 0;
+                                for (Triple t : triples) {
+
+                                    if (!t.getSubject().isVariable()) {
+                                        uriMap.put("u" + c, t.getSubject().toString());
+                                        c++;
+                                    }
+                                    if (!t.getObject().isVariable() && !t.getObject().toString().equals("RETURN_VARIABLE")) {
+                                        uriMap.put("u" + c, t.getObject().toString());
+                                        c++;
+                                    }
+                                    if (!t.getPredicate().isVariable() && !t.getPredicate().getPredicateName().equals("type")) {
+                                        uriMap.put("u" + c, t.getPredicate().toString());
+                                        c++;
+                                    }
+                                }
+                                for (Triple t : triples) {
+
+                                    if (!t.getObject().isVariable() && !t.getPredicate().isVariable() && !t.getPredicate().getPredicateName().equals("type")) {
+                                        uriMap.put("u" + c, t.getPredicate() + "##" + t.getObject());
+                                        c++;
+                                    }
+                                }
+
+                                for (Integer k : d.getParse().getNodes().keySet()) {
+                                    tokenMap.put("t" + k, d.getParse().getNodes().get(k));
+                                }
+                                
+                                String temp = "";
+                                for (String s : content.split("\n")) {
+                                    if (!s.split("\t")[0].equals(d.getQaldInstance().getId())) {
+                                        temp += s + "\n";
+                                    }
+                                }
+
+                                content = temp;
+                            }
 
                             if (input.equals("stop")) {
                                 stop = true;
                             }
                             if (input.equals("discard")) {
                                 String temp = "";
-                                for(String s : content.split("\n")){
-                                    if(!s.split("\t")[0].equals(d.getQaldInstance().getId())){
-                                        temp +=s+"\n";
+                                for (String s : content.split("\n")) {
+                                    if (!s.split("\t")[0].equals(d.getQaldInstance().getId())) {
+                                        temp += s + "\n";
                                     }
                                 }
-                                
+
                                 content = temp;
                                 stop = true;
                             }
                         }
-                        
-                        if(uriMap.isEmpty()){
+
+                        if (uriMap.isEmpty()) {
                             isValid = false;
                         }
                     }
