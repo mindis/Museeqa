@@ -42235,7 +42235,7 @@
                 }
                 ],
                 "query": {
-                "sparql": "SELECT DISTINCT ?uri WHERE {  ?uri <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Airport> . { ?uri <http://dbpedia.org/ontology/location> <http://dbpedia.org/resource/California> . } UNION { ?uri <http://dbpedia.org/ontology/city> <http://dbpedia.org/resource/California> . } UNION { ?uri <http://dbpedia.org/ontology/city> ?city .  ?city <http://dbpedia.org/ontology/isPartOf> <http://dbpedia.org/resource/California> . } UNION { ?uri <http://dbpedia.org/ontology/operator> <http://dbpedia.org/resource/California> . } } "
+                "sparql": "SELECT DISTINCT ?uri WHERE {  ?uri <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Airport> .  ?uri <http://dbpedia.org/ontology/location> <http://dbpedia.org/resource/California> . } "
                 },
                 "answers": [
                 {

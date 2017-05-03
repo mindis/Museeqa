@@ -376,3 +376,112 @@
 315	Ivy - League - Universität	http://dbpedia.org/resource/Ivy_League	DE
 315	Wissenschaftler	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Scientist	DE
 315	Abschluss	http://dbpedia.org/ontology/affiliation	DE
+85	Julia Roberts	http://dbpedia.org/resource/Julia_Roberts	DE
+85	Richard Gere	http://dbpedia.org/resource/Richard_Gere	DE
+85	spielen	http://dbpedia.org/ontology/starring	DE
+85	Filmen	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Film	DE
+79	Flughäfen	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Airport	DE
+79	Kalifornien	http://dbpedia.org/resource/California	DE
+240	Elvis Presley	http://dbpedia.org/resource/Elvis_Presley	DE
+240	Enkel	http://dbpedia.org/ontology/child, http://dbpedia.org/ontology/child	DE
+316	Oregon	http://dbpedia.org/resource/Oregon_wine	DE
+316	wachsen	http://dbpedia.org/ontology/growingGrape	DE
+317	Benicio del Toro	http://dbpedia.org/resource/Benicio_del_Toro	DE
+317	produziert	http://dbpedia.org/ontology/producer	DE
+317	spanischen	http://dbpedia.org/ontology/country##http://dbpedia.org/resource/Spain	DE
+317	spielt	http://dbpedia.org/ontology/starring	DE
+318	Manager	http://dbpedia.org/ontology/manager	DE
+318	Real Madrid	http://dbpedia.org/resource/Real_Madrid_C.F.	DE
+319	Währung	http://dbpedia.org/ontology/currency	DE
+319	China	http://dbpedia.org/resource/China	DE
+320	Guy Ritchie	http://dbpedia.org/resource/Guy_Ritchie	DE
+320	Mickey Rourke	http://dbpedia.org/resource/Mickey_Rourke	DE
+320	Filmen	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Film	DE
+320	Regie	http://dbpedia.org/ontology/director	DE
+320	mitspielt	http://dbpedia.org/ontology/starring	DE
+324	Tochtergesellschaft	http://dbpedia.org/ontology/subsidiary	DE
+324	TUI Travel	http://dbpedia.org/resource/TUI_Travel	DE
+324	fliegt	http://dbpedia.org/ontology/targetAirport	DE
+324	Glasgow	http://dbpedia.org/resource/Glasgow_Airport	DE
+324	Dublin	http://dbpedia.org/resource/Dublin_Airport	DE
+329	Schweizer	http://dbpedia.org/ontology/locationCountry##http://dbpedia.org/resource/Switzerland	DE
+329	Nonprofit - Organisationen	http://dbpedia.org/ontology/type##http://dbpedia.org/resource/Nonprofit_organization	DE
+330	liegt	http://dbpedia.org/ontology/country	DE
+330	Mekka	http://dbpedia.org/resource/Mecca	DE
+331	Nettogewinn	http://dbpedia.org/ontology/netIncome	DE
+331	Apple	http://dbpedia.org/resource/Apple_Inc.	DE
+332	Abkürzung	http://dbpedia.org/property/name	DE
+332	FIFA	http://dbpedia.org/resource/FIFA	DE
+335	Baikalsee	http://dbpedia.org/resource/Lake_Baikal	DE
+335	Bärensee	http://dbpedia.org/resource/Great_Bear_Lake	DE
+336	Nachspeisen	http://dbpedia.org/ontology/type##http://dbpedia.org/resource/Dessert	DE
+336	enthalten	http://dbpedia.org/ontology/ingredient	DE
+336	Fisch	http://dbpedia.org/resource/Fish	DE
+336	Ländern	http://dbpedia.org/ontology/origin	DE
+339	pro - europäisch	http://dbpedia.org/ontology/ideology##http://dbpedia.org/resource/Pro-Europeanism	DE
+339	griechischen	http://dbpedia.org/ontology/country##http://dbpedia.org/resource/Greece	DE
+339	Parteien	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/PoliticalParty	DE
+343	Leuchtturm in Colombo	http://dbpedia.org/resource/Colombo_Lighthouse	DE
+343	hoch	http://dbpedia.org/ontology/height	DE
+347	Königin Viktoria	http://dbpedia.org/resource/Queen_Victoria	DE
+347	Eltern	http://dbpedia.org/ontology/parent	DE
+5	Elektronikunternehmen	http://dbpedia.org/ontology/industry##http://dbpedia.org/resource/Electronics, http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Company	DE
+5	gegründet	http://dbpedia.org/ontology/foundationPlace	DE
+5	Peking	http://dbpedia.org/resource/Beijing	DE
+9	Entwickler	http://dbpedia.org/ontology/developer	DE
+9	DBpedia	http://dbpedia.org/resource/DBpedia	DE
+17	Big Bang Theory	http://dbpedia.org/resource/The_Big_Bang_Theory	DE
+17	spielen	http://dbpedia.org/ontology/starring	DE
+21	Präsident	http://dbpedia.org/ontology/leaderTitle##"President"@en	DE
+21	Eritrea	http://dbpedia.org/resource/Eritrea	DE
+24	leben	http://dbpedia.org/ontology/populationTotal	DE
+24	Polen	http://dbpedia.org/resource/Poland	DE
+28	Boris Becker	http://dbpedia.org/resource/Boris_Becker	DE
+28	aktive Karriere beendet	http://dbpedia.org/ontology/activeYearsEndDate	DE
+30	Land	http://dbpedia.org/ontology/foundationPlace	DE
+30	Sitecore	http://dbpedia.org/resource/Sitecore	DE
+32	Slack	http://dbpedia.org/resource/Slack_(software)	DE
+32	entwickelt	http://dbpedia.org/ontology/product	DE
+37	Plätze	http://dbpedia.org/ontology/seatingCapacity	DE
+37	FC Porto	http://dbpedia.org/resource/FC_Porto	DE
+37	Heimstadium	http://dbpedia.org/ontology/ground	DE
+40	Hauptquartier der Vereinten Nationen	http://dbpedia.org/resource/Headquarters_of_the_United_Nations	DE
+40	Stadt	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/City	DE
+46	Ceres	http://dbpedia.org/resource/Ceres_(dwarf_planet)	DE
+46	entdeckte	http://dbpedia.org/ontology/discoverer	DE
+47	Prinzessin Diana	http://dbpedia.org/resource/Diana,_Princess_of_Wales	DE
+47	gestorben	http://dbpedia.org/ontology/deathDate	DE
+49	BBC Wildlife Specials	http://dbpedia.org/resource/BBC_Wildlife_Specials	DE
+49	moderiert	http://dbpedia.org/ontology/presenter	DE
+52	Elvis Presley	http://dbpedia.org/resource/Elvis_Presley	DE
+52	Kinder	http://dbpedia.org/ontology/child	DE
+56	Niederlande	http://dbpedia.org/resource/Netherlands	DE
+56	König	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Royalty, http://dbpedia.org/ontology/leader	DE
+58	tschechischen	http://dbpedia.org/ontology/country##http://dbpedia.org/resource/Czech_Republic	DE
+58	Filme	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Film	DE
+59	Flüsse	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/River	DE
+59	fließen	http://dbpedia.org/ontology/riverMouth	DE
+59	Nordsee	http://dbpedia.org/resource/North_Sea	DE
+69	Baguette	http://dbpedia.org/resource/Baguette	DE
+69	Kalorien	http://dbpedia.org/ontology/approximateCalories	DE
+71	Firmen	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Company	DE
+71	Hovercrafts	http://dbpedia.org/resource/Hovercraft	DE
+71	stellen	http://dbpedia.org/ontology/product	DE
+74	Kakaobohnen	http://dbpedia.org/resource/Cocoa_bean	DE
+74	bezahlen	http://dbpedia.org/ontology/currency	DE
+75	Michael Jackson	http://dbpedia.org/resource/Michael_Jackson	DE
+75	gestorben	http://dbpedia.org/property/deathCause	DE
+81	Lance Bass	http://dbpedia.org/resource/Lance_Bass	DE
+81	geheiratet	http://dbpedia.org/ontology/spouse	DE
+88	Sohn	http://dbpedia.org/ontology/parent	DE
+88	Sonny	http://dbpedia.org/resource/Sonny_Bono	DE
+88	Cher	http://dbpedia.org/resource/Cher	DE
+91	Musik	http://dbpedia.org/ontology/genre	DE
+91	Lou Reed	http://dbpedia.org/resource/Lou_Reed	DE
+92	Sylvester Stallone	http://dbpedia.org/resource/Sylvester_Stallone	DE
+92	Stadt	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/City	DE
+92	wohnt	http://dbpedia.org/ontology/residence	DE
+96	gesprochen	http://dbpedia.org/ontology/language	DE
+96	Pakistan	http://dbpedia.org/resource/Pakistan	DE
+99	bekannt	http://dbpedia.org/ontology/knownFor	DE
+99	Elon Musk	http://dbpedia.org/resource/Elon_Musk	DE
