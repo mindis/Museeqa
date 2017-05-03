@@ -5,6 +5,7 @@
  */
 package de.citec.sc.query;
 
+import de.citec.sc.query.CandidateRetriever.Language;
 import edu.stanford.nlp.util.ArraySet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -21,13 +22,15 @@ public class ManualLexicon {
     private static HashMap<String, Set<String>> lexiconClassesEN;
     private static HashMap<String, Set<String>> lexiconRestrictionClassesEN;
     private static HashMap<String, Set<String>> lexiconResourcesEN;
-    
+
     private static HashMap<String, Set<String>> lexiconPropertiesDE;
     private static HashMap<String, Set<String>> lexiconClassesDE;
     private static HashMap<String, Set<String>> lexiconRestrictionClassesDE;
     private static HashMap<String, Set<String>> lexiconResourcesDE;
 
     public static boolean useManualLexicon = false;
+    
+    private static boolean loaded = false;
 
     public static void useManualLexicon(boolean b) {
         useManualLexicon = b;
@@ -38,7 +41,7 @@ public class ManualLexicon {
         lexiconClassesEN = new HashMap<>();
         lexiconRestrictionClassesEN = new HashMap<>();
         lexiconResourcesEN = new HashMap<>();
-        
+
         lexiconPropertiesDE = new HashMap<>();
         lexiconClassesDE = new HashMap<>();
         lexiconRestrictionClassesDE = new HashMap<>();
@@ -49,13 +52,15 @@ public class ManualLexicon {
             loadTrainLexiconEN();
 
             loadTestLexiconEN();
-            
+
             loadTrainLexiconDE();
         }
+        
+        loaded = true;
 
     }
-    
-    private static void loadTrainLexiconDE(){
+
+    private static void loadTrainLexiconDE() {
         addLexicon("erfunden", "http://dbpedia.org/ontology/creator", lexiconPropertiesDE);
     }
 
@@ -290,68 +295,107 @@ public class ManualLexicon {
         }
     }
 
-    public static Set<String> getProperties(String term) {
+    public static Set<String> getProperties(String term, Language lang) {
 
         term = term.toLowerCase();
-        if (lexiconPropertiesEN == null) {
-            load();
-        }
-
         Set<String> result = new HashSet<>();
 
-        if (lexiconPropertiesEN.containsKey(term)) {
-            result.addAll(lexiconPropertiesEN.get(term));
-        }
+        switch (lang) {
+            case EN:
+                if (lexiconPropertiesEN == null) {
+                    load();
+                }
 
+                if (lexiconPropertiesEN.containsKey(term)) {
+                    result.addAll(lexiconPropertiesEN.get(term));
+                }
+            case DE:
+                if (!loaded) {
+                    load();
+                }
+
+                if (lexiconPropertiesDE.containsKey(term)) {
+                    result.addAll(lexiconPropertiesDE.get(term));
+                }
+        }
         return result;
     }
 
-    public static Set<String> getRestrictionClasses(String term) {
+    public static Set<String> getRestrictionClasses(String term, Language lang) {
 
         term = term.toLowerCase();
-
-        if (lexiconRestrictionClassesEN == null) {
-            load();
-        }
-
         Set<String> result = new HashSet<>();
 
-        if (lexiconRestrictionClassesEN.containsKey(term)) {
-            result.addAll(lexiconRestrictionClassesEN.get(term));
-        }
+        switch (lang) {
+            case EN:
+                if (lexiconRestrictionClassesEN == null) {
+                    load();
+                }
 
+                if (lexiconRestrictionClassesEN.containsKey(term)) {
+                    result.addAll(lexiconRestrictionClassesEN.get(term));
+                }
+            case DE:
+                if (lexiconRestrictionClassesDE == null) {
+                    load();
+                }
+
+                if (lexiconRestrictionClassesDE.containsKey(term)) {
+                    result.addAll(lexiconRestrictionClassesDE.get(term));
+                }
+        }
         return result;
     }
 
-    public static Set<String> getClasses(String term) {
+    public static Set<String> getClasses(String term, Language lang) {
 
         term = term.toLowerCase();
-
-        if (lexiconClassesEN == null) {
-            load();
-        }
-
         Set<String> result = new HashSet<>();
 
-        if (lexiconClassesEN.containsKey(term)) {
-            result.addAll(lexiconClassesEN.get(term));
-        }
+        switch (lang) {
+            case EN:
+                if (lexiconClassesEN == null) {
+                    load();
+                }
 
+                if (lexiconClassesEN.containsKey(term)) {
+                    result.addAll(lexiconClassesEN.get(term));
+                }
+            case DE:
+                if (lexiconClassesDE == null) {
+                    load();
+                }
+
+                if (lexiconClassesDE.containsKey(term)) {
+                    result.addAll(lexiconClassesDE.get(term));
+                }
+        }
+        
         return result;
     }
 
-    public static Set<String> getResources(String term) {
+    public static Set<String> getResources(String term, Language lang) {
 
         term = term.toLowerCase();
-
-        if (lexiconResourcesEN == null) {
-            load();
-        }
-
         Set<String> result = new HashSet<>();
 
-        if (lexiconResourcesEN.containsKey(term)) {
-            result.addAll(lexiconResourcesEN.get(term));
+        switch (lang) {
+            case EN:
+                if (lexiconResourcesEN == null) {
+                    load();
+                }
+
+                if (lexiconResourcesEN.containsKey(term)) {
+                    result.addAll(lexiconResourcesEN.get(term));
+                }
+            case DE:
+                if (lexiconResourcesDE == null) {
+                    load();
+                }
+
+                if (lexiconResourcesDE.containsKey(term)) {
+                    result.addAll(lexiconResourcesDE.get(term));
+                }
         }
 
         return result;

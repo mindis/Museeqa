@@ -1,0 +1,4 @@
+1	cosmonautas	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Astronaut, http://dbpedia.org/ontology/nationality##http://dbpedia.org/resource/Russia	ES
+10	Ganges	http://dbpedia.org/resource/Ganges	ES
+10	país	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Country	ES
+10	nace	http://dbpedia.org/property/sourceCountry	ES

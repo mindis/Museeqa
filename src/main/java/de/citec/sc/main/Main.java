@@ -38,7 +38,7 @@ public class Main {
 
     private static final Logger log = LogManager.getFormatterLogger();
 
-    public static Language lang = Language.EN;
+    public static Language lang = Language.DE;
 
     public static void main(String[] args) {
 
@@ -151,11 +151,14 @@ public class Main {
         Search.load(retriever, wordNet);
         Search.useMatoll(ProjectConfiguration.useMatoll());
 
+        ManualLexicon.useManualLexicon(ProjectConfiguration.useManualLexicon());
+        
         System.out.println("Testing index: " + retriever.getAllResources("john f. kennedy", 10, CandidateRetriever.Language.EN));
         System.out.println("Testing index: " + retriever.getAllResources("goofy", 10, CandidateRetriever.Language.DE));
         System.out.println("Testing index: " + retriever.getAllPredicates("erfunden", 10, CandidateRetriever.Language.DE));
+        System.out.println("Testing manual: "+ ManualLexicon.getProperties("erfunden", lang));
 
-        ManualLexicon.useManualLexicon(ProjectConfiguration.useManualLexicon());
+        
 
         //semantic types to sample from
         Map<Integer, String> semanticTypes = new LinkedHashMap<>();

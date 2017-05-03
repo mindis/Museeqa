@@ -128,7 +128,7 @@ public class SingleNodeExplorer implements Explorer<State> {
 
                 //retrieve manual lexicon even if it's in stop word list
                 if (ManualLexicon.useManualLexicon) {
-                    Set<String> definedLexica = ManualLexicon.getProperties(queryTerm);
+                    Set<String> definedLexica = ManualLexicon.getProperties(queryTerm, Main.lang);
                     for (String d : definedLexica) {
                         uris.add(new Candidate(new Instance(d, 10000), 0, 1.0, 1.0));
                     }
@@ -147,7 +147,7 @@ public class SingleNodeExplorer implements Explorer<State> {
 
                 //retrieve manual lexicon even if it's in stop word list
                 if (ManualLexicon.useManualLexicon) {
-                    Set<String> definedLexica = ManualLexicon.getClasses(queryTerm);
+                    Set<String> definedLexica = ManualLexicon.getClasses(queryTerm, Main.lang);
                     for (String d : definedLexica) {
                         uris.add(new Candidate(new Instance(d, 10000), 0, 1.0, 1.0));
                     }
@@ -165,7 +165,7 @@ public class SingleNodeExplorer implements Explorer<State> {
 
                 //check manual lexicon for Restriction Classes
                 if (ManualLexicon.useManualLexicon) {
-                    Set<String> definedLexica = ManualLexicon.getRestrictionClasses(queryTerm);
+                    Set<String> definedLexica = ManualLexicon.getRestrictionClasses(queryTerm, Main.lang);
                     for (String d : definedLexica) {
                         uris.add(new Candidate(new Instance(d, 10000), 0, 1.0, 1.0));
                     }
@@ -191,7 +191,7 @@ public class SingleNodeExplorer implements Explorer<State> {
 
                 //check manual lexicon for Resources => to make underspecified class
                 if (ManualLexicon.useManualLexicon) {
-                    Set<String> definedLexica = ManualLexicon.getResources(queryTerm);
+                    Set<String> definedLexica = ManualLexicon.getResources(queryTerm, Main.lang);
                     for (String d : definedLexica) {
                         uris.add(new Candidate(new Instance("<someProperty>###" + d, 10000), 0, 1.0, 1.0));
                     }
@@ -209,7 +209,7 @@ public class SingleNodeExplorer implements Explorer<State> {
 
                 //check manual lexicon
                 if (ManualLexicon.useManualLexicon) {
-                    Set<String> definedLexica = ManualLexicon.getResources(queryTerm);
+                    Set<String> definedLexica = ManualLexicon.getResources(queryTerm, Main.lang);
                     for (String d : definedLexica) {
                         uris.add(new Candidate(new Instance(d, 10000), 0, 1.0, 1.0));
                     }
