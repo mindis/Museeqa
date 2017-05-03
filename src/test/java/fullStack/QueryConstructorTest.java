@@ -40,6 +40,7 @@ import org.junit.Test;
 public class QueryConstructorTest {
 
 //    public static void main(String[] args){
+    @Ignore
     @Test
     public void test1() {
 
@@ -147,6 +148,7 @@ public class QueryConstructorTest {
 
     }
 
+    @Ignore
     @Test
     public void test2() {
 
