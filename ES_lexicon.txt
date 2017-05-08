@@ -2,3 +2,326 @@
 10	Ganges	http://dbpedia.org/resource/Ganges	ES
 10	país	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Country	ES
 10	nace	http://dbpedia.org/property/sourceCountry	ES
+102	John F. Kennedy	http://dbpedia.org/resource/John_F._Kennedy	ES
+102	vicepresidente	http://dbpedia.org/ontology/vicePresident	ES
+103	alcalde	http://dbpedia.org/ontology/leaderName	ES
+103	Tel Aviv	http://dbpedia.org/resource/Tel_Aviv	ES
+104	estudiantes	http://dbpedia.org/ontology/numberOfStudents	ES
+104	Universidad Libre de Amsterdam	http://dbpedia.org/resource/VU_University_Amsterdam	ES
+106	skateboarders	http://dbpedia.org/resource/Skateboarding	ES
+106	profesionales	http://dbpedia.org/ontology/occupation	ES
+106	Suecia	http://dbpedia.org/resource/Sweden	ES
+109	líderes de un grupo	http://dbpedia.org/ontology/occupation##http://dbpedia.org/resource/Bandleader	ES
+109	tocan	http://dbpedia.org/ontology/instrument	ES
+109	trompeta	http://dbpedia.org/resource/Trumpet	ES
+200	Orangina	http://dbpedia.org/resource/Orangina	ES
+200	produce	http://dbpedia.org/ontology/product	ES
+114	miembros	http://dbpedia.org/ontology/bandMember	ES
+114	Prodigy	http://dbpedia.org/resource/The_Prodigy	ES
+119	nacido	http://dbpedia.org/ontology/birthPlace	ES
+119	muerto	http://dbpedia.org/ontology/deathPlace	ES
+119	Berlin	http://dbpedia.org/resource/Berlin	ES
+119	Viena	http://dbpedia.org/resource/Vienna	ES
+12	proinsulina	http://dbpedia.org/resource/Proinsulin	ES
+12	proteina	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Protein	ES
+120	altura	http://dbpedia.org/ontology/height	ES
+120	Michael Jordan	http://dbpedia.org/resource/Michael_Jordan	ES
+121	capital	http://dbpedia.org/ontology/capital	ES
+121	Canadá	http://dbpedia.org/resource/Canada	ES
+128	películas	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Film	ES
+128	dirigido	http://dbpedia.org/ontology/director	ES
+128	Francis Ford Coppola	http://dbpedia.org/resource/Francis_Ford_Coppola	ES
+129	actores	http://dbpedia.org/ontology/starring	ES
+129	dirigidas	http://dbpedia.org/ontology/director	ES
+129	William Shatner	http://dbpedia.org/resource/William_Shatner	ES
+13	anfibio	http://dbpedia.org/resource/Amphibian	ES
+13	tipo	http://dbpedia.org/ontology/class	ES
+13	ranas verdes	http://dbpedia.org/resource/Hylidae	ES
+130	nombre de soltera	http://dbpedia.org/ontology/birthName	ES
+130	Angela Merkel	http://dbpedia.org/resource/Angela_Merkel	ES
+133	organizaciones benéficas	http://dbpedia.org/ontology/type##http://dbpedia.org/resource/Nonprofit_organization	ES
+133	Australia	http://dbpedia.org/ontology/locationCountry##http://dbpedia.org/resource/Australia	ES
+133	Australia	http://dbpedia.org/resource/Australia	ES
+134	militares participó	http://dbpedia.org/ontology/battle	ES
+134	Lawrence de Arabia	http://dbpedia.org/resource/T._E._Lawrence	ES
+135	desarrolló	http://dbpedia.org/ontology/developer	ES
+135	Minecraft	http://dbpedia.org/resource/Minecraft	ES
+138	habitantes	http://dbpedia.org/ontology/populationTotal	ES
+138	Maribor	http://dbpedia.org/resource/Maribor	ES
+139	empresas	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Company	ES
+139	Munich	http://dbpedia.org/resource/Munich	ES
+14	Amazon Eve	http://dbpedia.org/resource/Amazon_Eve	ES
+14	alta	http://dbpedia.org/ontology/height	ES
+140	juegos	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Game	ES
+140	GMT	http://dbpedia.org/resource/GMT_Games	ES
+140	GMT	http://dbpedia.org/ontology/publisher##http://dbpedia.org/resource/GMT_Games	ES
+141	fundó	http://dbpedia.org/ontology/foundedBy	ES
+141	Intel	http://dbpedia.org/resource/Intel	ES
+144	pasa	http://dbpedia.org/ontology/city	ES
+144	Weser	http://dbpedia.org/resource/Weser	ES
+145	Rhin	http://dbpedia.org/resource/Rhine	ES
+145	países	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Country	ES
+146	Australia	http://dbpedia.org/resource/Australia	ES
+146	nacieron	http://dbpedia.org/ontology/birthPlace	ES
+146	surfistas	http://dbpedia.org/resource/Surfing	ES
+146	profesionales	http://dbpedia.org/ontology/occupation	ES
+15	creador	http://dbpedia.org/ontology/creator	ES
+15	Goofy	http://dbpedia.org/resource/Goofy	ES
+151	islas	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Island	ES
+151	pertenezcan	http://dbpedia.org/ontology/country	ES
+151	Japón	http://dbpedia.org/resource/Japan	ES
+157	Apolo 14	http://dbpedia.org/resource/Apollo_14	ES
+157	astronautas	http://dbpedia.org/ontology/mission	ES
+162	Sócrates	http://dbpedia.org/resource/Socrates	ES
+162	Aristóteles	http://dbpedia.org/resource/Aristotle	ES
+162	influencia	http://dbpedia.org/ontology/influenced	ES
+163	películas	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Film	ES
+163	danesas	http://dbpedia.org/ontology/country##http://dbpedia.org/resource/Denmark	ES
+164	plataformas de lanzamiento	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/LaunchPad	ES
+164	NASA	http://dbpedia.org/resource/NASA	ES
+164	operadas	http://dbpedia.org/ontology/operator	ES
+165	tocaba	http://dbpedia.org/ontology/instrument	ES
+165	Cat Stevens	http://dbpedia.org/resource/Cat_Stevens	ES
+167	Juan Carlos I	http://dbpedia.org/resource/Juan_Carlos_I_of_Spain	ES
+167	padres	http://dbpedia.org/ontology/parent	ES
+167	esposa	http://dbpedia.org/ontology/spouse	ES
+168	empleados	http://dbpedia.org/ontology/numberOfEmployees	ES
+168	Google	http://dbpedia.org/resource/Google	ES
+169	premio nobel de física	http://dbpedia.org/resource/Nobel_Prize_in_Physics	ES
+169	Tesla	http://dbpedia.org/resource/Nikola_Tesla	ES
+169	Obtuvo	http://dbpedia.org/ontology/award	ES
+170	Rita Wilson	http://dbpedia.org/resource/Rita_Wilson	ES
+170	Tom Hanks	http://dbpedia.org/resource/Tom_Hanks	ES
+170	esposa	http://dbpedia.org/ontology/spouse	ES
+174	Michael Jackson	http://dbpedia.org/resource/Michael_Jackson	ES
+174	murió	http://dbpedia.org/ontology/deathDate	ES
+175	jugadores de ajedrez	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/ChessPlayer	ES
+175	murieron	http://dbpedia.org/ontology/deathPlace	ES
+175	nacimiento	http://dbpedia.org/ontology/birthPlace	ES
+176	hijos	http://dbpedia.org/ontology/child	ES
+176	Margaret Thatcher	http://dbpedia.org/resource/Margaret_Thatcher	ES
+178	química	http://dbpedia.org/ontology/profession##http://dbpedia.org/resource/Chemist	ES
+178	Margaret Thatcher	http://dbpedia.org/resource/Margaret_Thatcher	ES
+18	Grito de Munch	http://dbpedia.org/resource/The_Scream	ES
+18	expuesto	http://dbpedia.org/ontology/museum	ES
+181	Viking Press	http://dbpedia.org/resource/Viking_Press	ES
+181	libros	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Book	ES
+181	Kerouac	http://dbpedia.org/resource/Jack_Kerouac	ES
+181	publicados	http://dbpedia.org/ontology/publisher	ES
+183	alto	http://dbpedia.org/ontology/elevation	ES
+183	Monte Everest	http://dbpedia.org/resource/Mount_Everest	ES
+184	Batman	http://dbpedia.org/resource/Batman	ES
+184	creó	http://dbpedia.org/ontology/creator	ES
+185	Australia	http://dbpedia.org/resource/Australia	ES
+185	capital	http://dbpedia.org/ontology/capital	ES
+185	gente vive	http://dbpedia.org/ontology/populationTotal	ES
+186	cuidad más grande	http://dbpedia.org/ontology/largestCity	ES
+186	Australia	http://dbpedia.org/resource/Australia	ES
+187	Harold y Maude	http://dbpedia.org/resource/Harold_and_Maude	ES
+187	compuso	http://dbpedia.org/ontology/musicComposer	ES
+189	ciudad	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Settlement	ES
+189	enterrada	http://dbpedia.org/ontology/restingPlace	ES
+189	reina de los países bajos Juliana	http://dbpedia.org/resource/Juliana_of_the_Netherlands	ES
+198	país	http://dbpedia.org/ontology/nationality	ES
+198	creador	http://dbpedia.org/ontology/creator	ES
+198	Nijntje	http://dbpedia.org/resource/Miffy	ES
+2	cumpleaños	http://dbpedia.org/ontology/birthDate	ES
+2	Charmed	http://dbpedia.org/resource/Charmed	ES
+2	actores	http://dbpedia.org/ontology/starring	ES
+20	empleados	http://dbpedia.org/ontology/numberOfEmployees	ES
+20	IBM	http://dbpedia.org/resource/IBM	ES
+22	lago Limerick	http://dbpedia.org/resource/Limerick_Lake	ES
+22	país	http://dbpedia.org/ontology/country	ES
+23	John Cleese	http://dbpedia.org/resource/John_Cleese	ES
+23	series televisivas	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/TelevisionShow	ES
+23	ideó	http://dbpedia.org/ontology/creator	ES
+25	películas	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Film	ES
+25	dirigidas	http://dbpedia.org/ontology/director	ES
+25	Garry Mashall	http://dbpedia.org/resource/Garry_Marshall	ES
+25	actuó	http://dbpedia.org/ontology/starring	ES
+25	Julia Roberts	http://dbpedia.org/resource/Julia_Roberts	ES
+27	Jackson	http://dbpedia.org/resource/Andrew_Jackson	ES
+27	involucrado	http://dbpedia.org/ontology/battle	ES
+29	Douglas Hofstadter	http://dbpedia.org/resource/Douglas_Hofstadter	ES
+29	ganado	http://dbpedia.org/ontology/award	ES
+3	Robert Kennedy	http://dbpedia.org/resource/Robert_F._Kennedy	ES
+3	casada	http://dbpedia.org/ontology/spouse	ES
+3	hija	http://dbpedia.org/ontology/child	ES
+31	república checa	http://dbpedia.org/resource/Czech_Republic	ES
+31	moneda	http://dbpedia.org/ontology/currency	ES
+33	prefijo	http://dbpedia.org/ontology/areaCode	ES
+33	Berlin	http://dbpedia.org/resource/Berlin	ES
+35	dueño	http://dbpedia.org/ontology/owner	ES
+35	Rolls-Royce	http://dbpedia.org/resource/Rolls-Royce_Motors	ES
+36	países	http://dbpedia.org/ontology/country	ES
+36	Yenisei	http://dbpedia.org/resource/Yenisei_River	ES
+38	alemana	http://dbpedia.org/ontology/birthPlace##http://dbpedia.org/resource/Germany	ES
+39	batalla de Gettysburg	http://dbpedia.org/resource/Battle_of_Gettysburg	ES
+4	cruza	http://dbpedia.org/ontology/crosses	ES
+4	Brooklyn Bridge	http://dbpedia.org/resource/Brooklyn_Bridge	ES
+42	idioma oficial	http://dbpedia.org/ontology/officialLanguage	ES
+42	Surinam	http://dbpedia.org/resource/Suriname	ES
+43	alcalde	http://dbpedia.org/ontology/leaderName	ES
+43	Tel Aviv	http://dbpedia.org/resource/Tel_Aviv	ES
+44	diseñó	http://dbpedia.org/ontology/architect	ES
+44	Brooklyn Bridge	http://dbpedia.org/resource/Brooklyn_Bridge	ES
+48	editor	http://dbpedia.org/ontology/editor	ES
+48	Forbes	http://dbpedia.org/resource/Forbes	ES
+50	murió	http://dbpedia.org/ontology/deathCause	ES
+50	Bruce Carver	http://dbpedia.org/resource/Bruce_Carver	ES
+53	cancilleres	http://dbpedia.org/ontology/office##"Chancellor of Germany"	ES
+55	World of Warcraft	http://dbpedia.org/resource/World_of_Warcraft	ES
+55	desarrolló	http://dbpedia.org/ontology/developer	ES
+57	Los Sporanos	http://dbpedia.org/resource/The_Sopranos	ES
+57	serie	http://dbpedia.org/ontology/series	ES
+57	época	http://dbpedia.org/ontology/seasonNumber	ES
+57	prímera	"1"^^http://www.w3.org/2001/XMLSchema#integer	ES
+6	ciudad	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/City	ES
+6	John F. Kennedy	http://dbpedia.org/resource/John_F._Kennedy	ES
+6	murió	http://dbpedia.org/ontology/deathPlace	ES
+60	videojuego	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/VideoGame	ES
+60	llame	http://www.w3.org/2000/01/rdf-schema#label	ES
+60	Battle Chess	"Battle Chess"@en	ES
+62	creó	http://dbpedia.org/ontology/author	ES
+62	Wikipedia	http://dbpedia.org/resource/Wikipedia	ES
+63	Last Action Hero	http://dbpedia.org/resource/Last_Action_Hero	ES
+63	actuado	http://dbpedia.org/ontology/starring	ES
+64	desarrollados	http://dbpedia.org/ontology/developer	ES
+64	empresas	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Company	ES
+64	California	http://dbpedia.org/resource/California	ES
+64	fundadas	http://dbpedia.org/ontology/foundationPlace	ES
+64	software	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Software	ES
+66	Actúa	http://dbpedia.org/ontology/starring	ES
+66	Christian Bale	http://dbpedia.org/resource/Christian_Bale	ES
+66	Velvet Goldmine	http://dbpedia.org/resource/Velvet_Goldmine	ES
+68	actores	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Actor	ES
+68	nacieron	http://dbpedia.org/ontology/birthPlace	ES
+68	Alemania	http://dbpedia.org/resource/Germany	ES
+72	hablan	http://dbpedia.org/ontology/spokenIn	ES
+72	Estonia	http://dbpedia.org/resource/Estonia	ES
+73	Aldi	http://dbpedia.org/resource/Aldi	ES
+73	tiendas	http://dbpedia.org/ontology/numberOfLocations	ES
+75	16th	"16th"	ES
+75	presidente de los Estados	"President of the United States"	ES
+78	libros	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Book	ES
+78	escritos	http://dbpedia.org/ontology/author	ES
+78	Danielle Steel	http://dbpedia.org/resource/Danielle_Steel	ES
+79	aeropuertos	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Airport	ES
+79	California	http://dbpedia.org/ontology/location##http://dbpedia.org/resource/California	ES
+80	canadienses	http://dbpedia.org/ontology/country##http://dbpedia.org/resource/Canada	ES
+80	empresas	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/RecordLabel	ES
+80	Grunge	http://dbpedia.org/ontology/genre##http://dbpedia.org/resource/Grunge	ES
+82	GIMP	http://dbpedia.org/resource/GIMP	ES
+82	lenguaje de programación	http://dbpedia.org/ontology/programmingLanguage	ES
+83	películas	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Film	ES
+83	Natalie Portman	http://dbpedia.org/resource/Natalie_Portman	ES
+83	actua	http://dbpedia.org/ontology/starring	ES
+83	producido	http://dbpedia.org/ontology/producer	ES
+84	películas	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Film	ES
+84	Tom Cruise	http://dbpedia.org/resource/Tom_Cruise	ES
+85	películas	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Film	ES
+85	Julia Roberts	http://dbpedia.org/resource/Julia_Roberts	ES
+85	Richard Gere	http://dbpedia.org/resource/Richard_Gere	ES
+85	actúan	http://dbpedia.org/ontology/starring	ES
+87	Los pilares de la Tierra	http://dbpedia.org/resource/The_Pillars_of_the_Earth	ES
+87	escribió	http://dbpedia.org/ontology/author	ES
+89	Premier League	http://dbpedia.org/resource/Premier_League	ES
+89	clubs	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/SoccerClub	ES
+90	fundó	http://dbpedia.org/ontology/foundingYear	ES
+90	Jack Wolfskin	http://dbpedia.org/resource/Jack_Wolfskin	ES
+93	Nació	http://dbpedia.org/ontology/birthPlace	ES
+93	Natalie Portman	http://dbpedia.org/resource/Natalie_Portman	ES
+93	los estados unidos de américa	http://dbpedia.org/resource/United_States	ES
+231	habitantes	http://dbpedia.org/ontology/populationTotal	ES
+231	Canadá	http://dbpedia.org/resource/Canada	ES
+231	ciudad más grande	http://dbpedia.org/ontology/largestCity	ES
+242	color oficial	http://dbpedia.org/ontology/officialSchoolColour	ES
+242	Universidad de Oxford	http://dbpedia.org/resource/University_of_Oxford	ES
+235	pinto	http://dbpedia.org/ontology/author	ES
+235	Los Tres Bailarines	http://dbpedia.org/resource/The_Three_Dancers	ES
+235	estilo artístico	http://dbpedia.org/ontology/movement	ES
+211	animales	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Animal	ES
+211	extintos	http://dbpedia.org/ontology/conservationStatus##"EX"	ES
+223	muerte	http://dbpedia.org/ontology/deathPlace	ES
+223	página web	http://dbpedia.org/property/website	ES
+223	Abraham Lincol	http://dbpedia.org/resource/Abraham_Lincoln	ES
+244	hondo	http://dbpedia.org/ontology/depth	ES
+244	Chiemsee	http://dbpedia.org/resource/Chiemsee	ES
+240	Elvis Presley	http://dbpedia.org/resource/Elvis_Presley	ES
+240	nietos	http://dbpedia.org/ontology/child, http://dbpedia.org/ontology/child	ES
+221	nació	http://dbpedia.org/ontology/birthPlace	ES
+221	Bach	http://dbpedia.org/resource/Johann_Sebastian_Bach	ES
+232	paga	http://dbpedia.org/ontology/currency	ES
+232	Franco CFA	http://dbpedia.org/resource/West_African_CFA_franc	ES
+207	Desemboca	http://dbpedia.org/ontology/inflow	ES
+207	Isar	http://dbpedia.org/resource/Isar	ES
+207	lago	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Lake	ES
+241	escritores	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Writer	ES
+241	recibido	http://dbpedia.org/ontology/award	ES
+241	premio nobel de literatura	http://dbpedia.org/resource/Nobel_Prize_in_Literature	ES
+201	taikonautas	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Astronaut, http://dbpedia.org/ontology/nationality##http://dbpedia.org/resource/China	ES
+212	Guerra y Paz	http://dbpedia.org/resource/War_and_Peace	ES
+212	páginas	http://dbpedia.org/ontology/numberOfPages	ES
+208	ríos	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/River	ES
+208	desembocan	http://dbpedia.org/ontology/inflow	ES
+208	lago	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Lake	ES
+208	alemán	http://dbpedia.org/ontology/country##http://dbpedia.org/resource/Germany	ES
+246	cohetes	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Rocket	ES
+246	Baionur	http://dbpedia.org/resource/Baikonur_Cosmodrome	ES
+246	lanzados	http://dbpedia.org/ontology/launchSite	ES
+236	Juan Pablo II	http://dbpedia.org/resource/Pope_John_Paul_II	ES
+236	sucesor	http://dbpedia.org/property/successor	ES
+205	partidos políticos	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/PoliticalParty	ES
+205	holandeses	http://dbpedia.org/ontology/country##http://dbpedia.org/resource/Netherlands	ES
+243	oceanógrafos	http://dbpedia.org/ontology/field##http://dbpedia.org/resource/Oceanography	ES
+243	suecos	http://dbpedia.org/ontology/birthPlace##http://dbpedia.org/resource/Sweden	ES
+226	actores	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Actor	ES
+226	nacidos	http://dbpedia.org/ontology/birthPlace	ES
+226	Berlin	http://dbpedia.org/resource/Berlin	ES
+248	abrevia	http://dbpedia.org/ontology/abbreviation	ES
+248	ICRO	"ICRO"	ES
+213	tarta de zanahorias	http://dbpedia.org/resource/Carrot_cake	ES
+213	ingredientes	http://dbpedia.org/ontology/ingredient	ES
+219	bebida	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Beverage	ES
+219	Coca Cola	http://dbpedia.org/resource/Cola	ES
+215	casado	http://dbpedia.org/ontology/spouse	ES
+215	Tom Cruise	http://dbpedia.org/resource/Tom_Cruise	ES
+245	James Bond	http://dbpedia.org/resource/James_Bond	ES
+245	casado	http://dbpedia.org/ontology/spouse	ES
+229	australianos	http://dbpedia.org/ontology/hometown##http://dbpedia.org/resource/Australia	ES
+229	grupos	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Band	ES
+229	metalcore	http://dbpedia.org/ontology/genre##http://dbpedia.org/resource/Metalcore	ES
+206	Olof Palme	http://dbpedia.org/resource/Olof_Palme	ES
+206	disparado	http://dbpedia.org/ontology/deathDate	ES
+252	nacidos	http://dbpedia.org/ontology/birthPlace	ES
+252	nadadores	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Swimmer	ES
+252	Moscú	http://dbpedia.org/resource/Moscow	ES
+254	Muhammad Ali	http://dbpedia.org/resource/Muhammad_Ali	ES
+254	libro	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Book	ES
+254	escrito	http://dbpedia.org/ontology/author	ES
+258	programas de televisión	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/TelevisionShow	ES
+258	Neil Patrick Harris	http://dbpedia.org/resource/Neil_Patrick_Harris	ES
+260	juegan	http://dbpedia.org/ontology/league	ES
+260	Bundesliga	http://dbpedia.org/resource/Bundesliga	ES
+260	clubs de futbol	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/SoccerClub	ES
+262	fundador	http://dbpedia.org/ontology/founder	ES
+262	Penguin Books	http://dbpedia.org/resource/Penguin_Books	ES
+263	Javascript	http://dbpedia.org/resource/JavaScript	ES
+263	influenciaron	http://dbpedia.org/ontology/influenced	ES
+263	lenguajes de programación	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/ProgrammingLanguage	ES
+264	Che Guevara	http://dbpedia.org/resource/Che_Guevara	ES
+264	hijos	http://dbpedia.org/ontology/child	ES
+265	musicales	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Musical	ES
+265	música	http://dbpedia.org/ontology/musicBy	ES
+265	Leonard Bernstein	http://dbpedia.org/resource/Leonard_Bernstein	ES
+266	cervecerías	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Brewery	ES
+266	Australia	http://dbpedia.org/resource/Australia	ES
+196	caras B	http://dbpedia.org/ontology/bSide	ES
+196	Ramones	http://dbpedia.org/resource/Ramones	ES
+267	completo	http://dbpedia.org/ontology/completionDate	ES
+267	Titanic	http://dbpedia.org/resource/RMS_Titanic	ES
+268	costo	http://dbpedia.org/ontology/budget	ES
+268	Pulp Fiction	http://dbpedia.org/resource/Pulp_Fiction	ES
+273	puentes	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Bridge	ES
+273	cruzan	http://dbpedia.org/ontology/crosses	ES
+273	Siena	http://dbpedia.org/resource/Seine	ES

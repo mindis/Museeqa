@@ -40,8 +40,8 @@ public class AnnotateManualLexicon {
 
         List<CandidateRetriever.Language> languages = new ArrayList<>();
 //        languages.add(CandidateRetriever.Language.EN);
-        languages.add(CandidateRetriever.Language.DE);
-//        languages.add(CandidateRetriever.Language.ES);
+//        languages.add(CandidateRetriever.Language.DE);
+        languages.add(CandidateRetriever.Language.ES);
 
         String content = "";
 
@@ -62,6 +62,8 @@ public class AnnotateManualLexicon {
             QALDCorpus corpus2 = QALDCorpusLoader.load(QALDCorpusLoader.Dataset.qald6Test, includeYAGO, includeAggregation, includeUNION, onlyDBO, isHybrid);
 
             corpus.getDocuments().addAll(corpus2.getDocuments());
+            
+            System.out.println("Left docs: "+ (corpus.getDocuments().size() - coveredIds.size()));
 
             boolean stop = false;
 
