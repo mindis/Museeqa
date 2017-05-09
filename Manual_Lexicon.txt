@@ -1061,3 +1061,7 @@
 98	Heineken	http://dbpedia.org/resource/Heineken	ES	test
 99	Elon Musk	http://dbpedia.org/resource/Elon_Musk	ES	test
 99	famoso	http://dbpedia.org/ontology/knownFor	ES	test
+126	gesprochen	http://dbpedia.org/ontology/language	DE	train
+126	Turkmenistan	http://dbpedia.org/resource/Turkmenistan	DE	train
+1	Doktorvater	http://dbpedia.org/ontology/doctoralAdvisor	DE	test
+1	Albert Einstein	http://dbpedia.org/resource/Albert_Einstein	DE	test
