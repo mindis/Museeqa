@@ -33,14 +33,14 @@ public class AnnotateManualLexicon {
         Scanner scannner = new Scanner(System.in);
 
         boolean includeYAGO = false;
-        boolean includeAggregation = true;
+        boolean includeAggregation = false;
         boolean includeUNION = false;
         boolean onlyDBO = true;
         boolean isHybrid = false;
 
         List<CandidateRetriever.Language> languages = new ArrayList<>();
-        languages.add(CandidateRetriever.Language.EN);
-        languages.add(CandidateRetriever.Language.DE);
+//        languages.add(CandidateRetriever.Language.EN);
+//        languages.add(CandidateRetriever.Language.DE);
         languages.add(CandidateRetriever.Language.ES);
 
         String content = "";
