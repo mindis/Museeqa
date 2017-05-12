@@ -25,3 +25,8 @@ luceneIndex/
 rawFiles/
 models
 trainResult
+Train.sh
+copy.sh
+run.log
+states.txt
+statesTest.txt
