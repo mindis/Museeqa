@@ -38,10 +38,20 @@ public class ProjectConfiguration {
     private static final String PARAM_SETTING_INDEX = "-i";
     private static final String PARAM_SETTING_TRAIN_MAX_WORD_COUNT = "-w1";
     private static final String PARAM_SETTING_TEST_MAX_WORD_COUNT = "-w2";
+    private static final String PARAM_SETTING_LANGUAGE = "-l";
+    private static final String PARAM_SETTING_FEATURE_GROUP = "-f";
 
     public static String getIndex() {
 
         return PARAMETERS.get(PARAM_SETTING_INDEX);
+    }
+    public static String getFeatureGroup() {
+
+        return PARAMETERS.get(PARAM_SETTING_FEATURE_GROUP);
+    }
+    public static String getLanguage() {
+
+        return PARAMETERS.get(PARAM_SETTING_LANGUAGE);
     }
 
     public static String getTrainingDatasetName() {

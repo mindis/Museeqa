@@ -131,25 +131,39 @@ public class Search {
                 }
             }
         }
-
-        Set<Candidate> r = getResources(mergedTokens, 1, false, false, false, lang);
-
-        if (!r.isEmpty()) {
+        
+        if(!ManualLexicon.getClasses(mergedTokens, lang).isEmpty()){
+            return true;
+        }
+        if(!ManualLexicon.getProperties(mergedTokens, lang).isEmpty()){
+            return true;
+        }
+        if(!ManualLexicon.getResources(mergedTokens, lang).isEmpty()){
+            return true;
+        }
+        if(!ManualLexicon.getRestrictionClasses(mergedTokens, lang).isEmpty()){
             return true;
         }
 
-        Set<Candidate> p = getPredicates(mergedTokens, 1, true, false, false, lang);
+        Set<Candidate> r1 = getResources(mergedTokens, 10, false, false, false, lang);
+        Set<Candidate> r2 = getResources(mergedTokens, 10, false, false, false, CandidateRetriever.Language.EN);
+
+        if (!r1.isEmpty() || !r2.isEmpty()) {
+            return true;
+        }
+
+        Set<Candidate> p = getPredicates(mergedTokens, 10, true, false, false, lang);
 
         if (!p.isEmpty()) {
             return true;
         }
 
-        Set<Candidate> c = getClasses(mergedTokens, 1, true, false, true, lang);
+        Set<Candidate> c = getClasses(mergedTokens, 10, true, false, true, lang);
         if (!c.isEmpty()) {
             return true;
         }
 
-        Set<Candidate> rc = getRestrictionClasses(mergedTokens, 1, true, false, false, lang);
+        Set<Candidate> rc = getRestrictionClasses(mergedTokens, 10, true, false, false, lang);
         if (!rc.isEmpty()) {
             return true;
         }
@@ -170,7 +184,7 @@ public class Search {
             return instances;
         }
 
-        Set<String> queryTerms = getQueryTerms(searchTerm, lemmatize, useWordNet);
+        Set<String> queryTerms = getQueryTerms(searchTerm, lemmatize, useWordNet, lang);
 
         List<Instance> result = new ArrayList<>();
 
@@ -207,7 +221,7 @@ public class Search {
             return instances;
         }
 
-        Set<String> queryTerms = getQueryTerms(searchTerm, lemmatize, useWordNet);
+        Set<String> queryTerms = getQueryTerms(searchTerm, lemmatize, useWordNet, lang);
 
         List<Instance> resultDBpedia = new ArrayList<>();
         List<Instance> resultMATOLL = new ArrayList<>();
@@ -277,7 +291,7 @@ public class Search {
             return instances;
         }
 
-        Set<String> queryTerms = getQueryTerms(searchTerm, lemmatize, useWordNet);
+        Set<String> queryTerms = getQueryTerms(searchTerm, lemmatize, useWordNet, lang);
 
         List<Instance> result = new ArrayList<>();
 
@@ -367,7 +381,7 @@ public class Search {
             return instances;
         }
 
-        Set<String> queryTerms = getQueryTerms(searchTerm, lemmatize, useWordNet);
+        Set<String> queryTerms = getQueryTerms(searchTerm, lemmatize, useWordNet, lang);
 
         List<Instance> result = new ArrayList<>();
 
@@ -395,7 +409,7 @@ public class Search {
         return instances;
     }
 
-    private static Set<String> getQueryTerms(String searchTerm, boolean lemmatize, boolean useWordNet) {
+    private static Set<String> getQueryTerms(String searchTerm, boolean lemmatize, boolean useWordNet, Language lang) {
 
         Set<String> queryTerms = new LinkedHashSet<>();
         queryTerms.add(searchTerm);
@@ -404,7 +418,7 @@ public class Search {
         //lemmatize 
         if (lemmatize) {
             try {
-                String lemmatized = StanfordParser.lemmatize(searchTerm, Main.lang);
+                String lemmatized = StanfordParser.lemmatize(searchTerm, lang);
 
                 if (!queryTerms.contains(lemmatized)) {
                     queryTerms.add(lemmatized);

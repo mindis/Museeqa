@@ -24,8 +24,12 @@ public class ObjectiveFunctionTest {
         NELObjectiveFunction function1 = new NELObjectiveFunction();
         QAObjectiveFunction function2 = new QAObjectiveFunction();
 
-        String q1 = "SELECT DISTINCT ?uri WHERE { <http://dbpedia.org/resource/Family_Guy> <http://dbpedia.org/ontology/creator> ?uri . }";
-        String q2 = "SELECT DISTINCT ?uri WHERE { <http://dbpedia.org/resource/Family_Guy> <http://dbpedia.org/ontology/developer> ?uri . }";
+        String q1 = "SELECT DISTINCT ?uri WHERE {  ?uri <http://dbpedia.org/ontology/publisher> <http://dbpedia.org/resource/GMT_Games> . ?uri <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Game> } ";
+        String q2 = "SELECT  *\n"
+                + "WHERE\n"
+                + "  { ?v4  <http://dbpedia.org/ontology/publisher>  <http://dbpedia.org/resource/GMT_Games> . \n"
+                + "    ?v4  a                     <http://dbpedia.org/ontology/Game>\n"
+                + "  }";
 
         double score1 = function1.computeValue(q1, q2);
         double score2 = function2.computeValue(q1, q2);

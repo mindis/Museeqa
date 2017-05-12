@@ -14,15 +14,16 @@ import de.citec.sc.learning.NELTrainer;
 import de.citec.sc.learning.QAHybridSamplingStrategyCallback;
 import de.citec.sc.learning.QAObjectiveFunction;
 import de.citec.sc.learning.QATrainer;
-import de.citec.sc.sampling.EdgeExplorer;
+import de.citec.sc.sampling.L2KBEdgeExplorer;
 import de.citec.sc.sampling.MyBeamSearchSampler;
 import de.citec.sc.sampling.QABeamSearchSampler;
 import de.citec.sc.sampling.SamplingStrategies;
-import de.citec.sc.sampling.SlotExplorer;
+import de.citec.sc.sampling.QCEdgeExplorer;
 import de.citec.sc.sampling.StateInitializer;
 import de.citec.sc.template.NELEdgeTemplate;
 import de.citec.sc.template.NELLexicalTemplate;
 import de.citec.sc.template.NELNodeTemplate;
+import de.citec.sc.template.QAEdgeAdvTemplate;
 import de.citec.sc.template.QAEdgeTemplate;
 import de.citec.sc.template.QATemplateFactory;
 import de.citec.sc.utils.Performance;
@@ -62,18 +63,16 @@ public class Pipeline {
     private static Set<String> validPOSTags;
     private static Map<Integer, String> semanticTypes;
     private static Map<Integer, String> specialSemanticTypes;
-    private static Set<String> frequentWordsToExclude;
-    private static Set<String> wordsWithSpecialSemanticTypes;
+    private static Set<String> validEdges;
     public static List<AbstractTemplate<AnnotatedDocument, State, ?>> nelTemplates;
     public static List<AbstractTemplate<AnnotatedDocument, State, ?>> qaTemplates;
     public static Scorer scorer;
 
-    public static void initialize(Set<String> v, Map<Integer, String> s, Map<Integer, String> st, Set<String> f, Set<String> w) {
+    public static void initialize(Set<String> v, Map<Integer, String> s, Map<Integer, String> st, Set<String> edges) {
         validPOSTags = v;
         semanticTypes = s;
         specialSemanticTypes = st;
-        frequentWordsToExclude = f;
-        wordsWithSpecialSemanticTypes = w;
+        validEdges = edges;
 
         NUMBER_OF_SAMPLING_STEPS = ProjectConfiguration.getNumberOfSamplingSteps();
         NUMBER_OF_EPOCHS = ProjectConfiguration.getNumberOfEpochs();
@@ -85,14 +84,14 @@ public class Pipeline {
         scorer = new DefaultScorer();
 
         nelTemplates = new ArrayList<>();
-        nelTemplates.add(new NELLexicalTemplate(validPOSTags, frequentWordsToExclude, semanticTypes));
-        nelTemplates.add(new NELEdgeTemplate(validPOSTags, frequentWordsToExclude, semanticTypes));
-        nelTemplates.add(new NELNodeTemplate(validPOSTags, frequentWordsToExclude, semanticTypes));
+//        nelTemplates.add(new NELLexicalTemplate(validPOSTags, validEdges, semanticTypes));
+        nelTemplates.add(new NELEdgeTemplate(validPOSTags, validEdges, semanticTypes));
+//        nelTemplates.add(new NELNodeTemplate(validPOSTags, validEdges, semanticTypes));
 
         qaTemplates = new ArrayList<>();
-        qaTemplates.add(new QAEdgeTemplate(validPOSTags, frequentWordsToExclude, specialSemanticTypes));
+        qaTemplates.add(new QAEdgeAdvTemplate(validPOSTags, validEdges,semanticTypes, specialSemanticTypes));
 
-        QATemplateFactory.initialize(validPOSTags, frequentWordsToExclude, semanticTypes, specialSemanticTypes);
+        QATemplateFactory.initialize(validPOSTags, validEdges, semanticTypes, specialSemanticTypes);
     }
 
     public static List<Model<AnnotatedDocument, State>> train(List<AnnotatedDocument> trainingDocuments) {
@@ -206,7 +205,7 @@ public class Pipeline {
          */
         List<Explorer<State>> explorers = new ArrayList<>();
 //        explorers.add(new SingleNodeExplorer(semanticTypes, frequentWordsToExclude, validPOSTags));
-        explorers.add(new EdgeExplorer(semanticTypes, validPOSTags, frequentWordsToExclude));
+        explorers.add(new L2KBEdgeExplorer(semanticTypes, validPOSTags, validEdges));
         /*
          * Create a sampler that generates sampling chains with which it will
          * trigger weight updates during training.
@@ -329,7 +328,7 @@ public class Pipeline {
          */
         List<Explorer<State>> explorers = new ArrayList<>();
 //        explorers.add(new SingleNodeExplorer(semanticTypes, frequentWordsToExclude, validPOSTags));
-        explorers.add(new SlotExplorer(semanticTypes, specialSemanticTypes, validPOSTags, frequentWordsToExclude, wordsWithSpecialSemanticTypes));
+        explorers.add(new QCEdgeExplorer(semanticTypes, specialSemanticTypes, validPOSTags, validEdges));
         /*
          * Create a sampler that generates sampling chains with which it will
          * trigger weight updates during training.
@@ -465,7 +464,7 @@ public class Pipeline {
          */
         List<Explorer<State>> explorers = new ArrayList<>();
 //        explorers.add(new SingleNodeExplorer(semanticTypes, frequentWordsToExclude, validPOSTags));
-        explorers.add(new EdgeExplorer(semanticTypes, validPOSTags, frequentWordsToExclude));
+        explorers.add(new L2KBEdgeExplorer(semanticTypes, validPOSTags, validEdges));
         /*
          * Create a sampler that generates sampling chains with which it will
          * trigger weight updates during training.
@@ -558,7 +557,7 @@ public class Pipeline {
          */
         List<Explorer<State>> explorers = new ArrayList<>();
 //        explorers.add(new SingleNodeExplorer(semanticTypes, frequentWordsToExclude, validPOSTags));
-        explorers.add(new SlotExplorer(semanticTypes, specialSemanticTypes, validPOSTags, frequentWordsToExclude, wordsWithSpecialSemanticTypes));
+        explorers.add(new QCEdgeExplorer(semanticTypes, specialSemanticTypes, validPOSTags, validEdges));
         /*
          * Create a sampler that generates sampling chains with which it will
          * trigger weight updates during training.

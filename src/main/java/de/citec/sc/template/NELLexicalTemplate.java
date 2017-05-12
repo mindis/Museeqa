@@ -29,13 +29,13 @@ import templates.AbstractTemplate;
 public class NELLexicalTemplate extends AbstractTemplate<AnnotatedDocument, State, StateFactorScope<State>> {
 
     private Set<String> validPOSTags;
-    private Set<String> frequentWordsToExclude;
+    private Set<String> validEdges;
     private Map<Integer, String> semanticTypes;
 
-    public NELLexicalTemplate(Set<String> validPOSTags, Set<String> frequentWordsToExclude, Map<Integer, String> s) {
+    public NELLexicalTemplate(Set<String> validPOSTags, Set<String> edges, Map<Integer, String> s) {
         this.validPOSTags = validPOSTags;
         this.semanticTypes = s;
-        this.frequentWordsToExclude = frequentWordsToExclude;
+        this.validEdges = edges;
     }
 
     @Override
@@ -78,8 +78,8 @@ public class NELLexicalTemplate extends AbstractTemplate<AnnotatedDocument, Stat
 
             if (dudeName.equals("Property") || dudeName.equals("RestrictionClass")) {
 
-                List<Integer> dependentNodes = state.getDocument().getParse().getDependentEdges(tokenID, validPOSTags, frequentWordsToExclude);
-                List<Integer> siblings = state.getDocument().getParse().getSiblings(tokenID, validPOSTags, frequentWordsToExclude);
+                List<Integer> dependentNodes = state.getDocument().getParse().getDependentEdges(tokenID, validPOSTags);
+                List<Integer> siblings = state.getDocument().getParse().getSiblings(tokenID, validPOSTags);
 
                 //add lexical feature only for nouns, noun phrases etc.
                 if (dependentNodes.isEmpty() && (headPOS.startsWith("NN") || headPOS.startsWith("JJ"))) {

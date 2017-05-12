@@ -7,6 +7,7 @@ package de.citec.sc.template;
 
 import de.citec.sc.corpus.AnnotatedDocument;
 import de.citec.sc.main.Main;
+import de.citec.sc.query.CandidateRetriever;
 import de.citec.sc.query.DBpediaLabelRetriever;
 import de.citec.sc.utils.DBpediaEndpoint;
 import de.citec.sc.utils.ProjectConfiguration;
@@ -31,15 +32,17 @@ import templates.AbstractTemplate;
  *
  * @author sherzod
  */
-public class NELEdgeTemplate extends AbstractTemplate<AnnotatedDocument, State, StateFactorScope<State>> {
+public class QAEdgeAdvTemplate extends AbstractTemplate<AnnotatedDocument, State, StateFactorScope<State>> {
 
     private Set<String> validPOSTags;
     private Set<String> validEdges;
     private Map<Integer, String> semanticTypes;
+    private Map<Integer, String> specialSemanticTypes;
 
-    public NELEdgeTemplate(Set<String> validPOSTags, Set<String> edges, Map<Integer, String> s) {
+    public QAEdgeAdvTemplate(Set<String> validPOSTags, Set<String> edges, Map<Integer, String> s, Map<Integer, String> sp) {
         this.validPOSTags = validPOSTags;
         this.semanticTypes = s;
+        this.specialSemanticTypes = sp;
         this.validEdges = edges;
     }
 
@@ -62,11 +65,9 @@ public class NELEdgeTemplate extends AbstractTemplate<AnnotatedDocument, State, 
         State state = factor.getFactorScope().getState();
 
         Vector featureVector = factor.getFeatureVector();
-        
-        String featureGroup = ProjectConfiguration.getFeatureGroup();
 
-        Map<String, Double> depFeatures = getDependencyFeatures(state, featureGroup);
-        Map<String, Double> siblingFeatures = getSiblingFeatures(state, featureGroup);
+        Map<String, Double> depFeatures = getDependencyFeatures(state, ProjectConfiguration.getFeatureGroup());
+        Map<String, Double> siblingFeatures = getSiblingFeatures(state, ProjectConfiguration.getFeatureGroup());
 
         for (String k : depFeatures.keySet()) {
             featureVector.addToValue(k, depFeatures.get(k));
@@ -92,7 +93,7 @@ public class NELEdgeTemplate extends AbstractTemplate<AnnotatedDocument, State, 
             Integer dudeID = state.getHiddenVariables().get(tokenID).getDudeId();
 
             String dudeName = "EMPTY";
-            if (dudeID != -1) {
+            if(semanticTypes.containsKey(dudeID)){
                 dudeName = semanticTypes.get(dudeID);
             }
 
@@ -113,8 +114,8 @@ public class NELEdgeTemplate extends AbstractTemplate<AnnotatedDocument, State, 
                     String depDudeName = "EMPTY";
                     String slotNumber = state.getSlot(depNodeID, tokenID);
 
-                    if (depDudeID != -1) {
-                        depDudeName = semanticTypes.get(depDudeID);
+                    if(specialSemanticTypes.containsKey(depDudeID)){
+                        depDudeName = specialSemanticTypes.get(depDudeID);
                     }
 
 //                    if (depURI.equals("EMPTY_STRING")) {
@@ -123,28 +124,31 @@ public class NELEdgeTemplate extends AbstractTemplate<AnnotatedDocument, State, 
 
                     //GROUP 1
                     if (featureGroup.contains("1")) {
-                        features.put("NEL  GROUP 1 PARENT : Lemma & URI : " + headToken + " & " + headURI, 1.0);
-                        features.put("NEL  GROUP 1 PARENT : POS & SEM-TYPE : " + headPOS + " & " + dudeName, 1.0);
+                        features.put("QA  GROUP 1 PARENT : Lemma & URI : " + headToken + " & " + headURI, 1.0);
+                        features.put("QA  GROUP 1 PARENT : Lemma & SEM-TYPE : " + headToken + " & " + dudeName, 1.0);
+                        features.put("QA  GROUP 1 PARENT : POS & SEM-TYPE : " + headPOS + " & " + dudeName, 1.0);
 
-                        features.put("NEL  GROUP 1 CHILD : Lemma & URI : " + depToken + " & " + depURI, 1.0);
-                        features.put("NEL  GROUP 1 CHILD : POS & SEM-TYPE : " + depPOS + " & " + depDudeName, 1.0);
-                        features.put("NEL  GROUP 1 DEP-REL & SLOT : " + depRelation + " & " + slotNumber, 1.0);
+                        features.put("QA  GROUP 1 CHILD : Lemma & URI : " + depToken + " & " + depURI, 1.0);
+                        features.put("QA  GROUP 1 CHILD : Lemma & SEM-TYPE : " + depToken + " & " + depDudeName, 1.0);
+                        features.put("QA  GROUP 1 CHILD : POS & SEM-TYPE : " + depPOS + " & " + depDudeName, 1.0);
+                        features.put("QA  GROUP 1 DEP-REL & SLOT : " + depRelation + " & " + slotNumber, 1.0);
 
                     }
 
                     //GROUP 2
                     if (featureGroup.contains("2")) {
-                        features.put("NEL  GROUP 2 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE : " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName, 1.0);
-                        features.put("NEL  GROUP 2 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & DEP-REL : " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + depRelation, 1.0);
-                        features.put("NEL  GROUP 2 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & SLOT : " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + slotNumber, 1.0);
-                        features.put("NEL  GROUP 2 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & DEP-REL & SLOT : " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + depRelation + " & " + slotNumber, 1.0);
+                        features.put("QA  GROUP 2 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE : " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName, 1.0);
+                        features.put("QA  GROUP 2 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & DEP-REL : " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + depRelation, 1.0);
+                        features.put("QA  GROUP 2 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & SLOT : " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + slotNumber, 1.0);
+                        features.put("QA  GROUP 2 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & DEP-REL & SLOT : " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + depRelation + " & " + slotNumber, 1.0);
+                        features.put("QA  GROUP 2 PARENT POS & PARENT SEM-TYPE & CHILD LEMMA & CHILD POS & CHILD SEM-TYPE & DEP-REL & SLOT : " + headPOS + " & " + dudeName + " & " + depToken+" & "+ depPOS + " & " + depDudeName + " & " + depRelation + " & " + slotNumber, 1.0);
                     }
 
                     //GROUP 3
                     if (featureGroup.contains("3")) {
-                        features.put("NEL  GROUP 3 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & PARENT URI: " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + headURI, 1.0);
-                        features.put("NEL  GROUP 3 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & CHILD URI: " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + depURI, 1.0);
-                        features.put("NEL  GROUP 3 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & PARENT URI & CHILD URI: " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + headURI + " & " + depURI, 1.0);
+                        features.put("QA  GROUP 3 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & PARENT URI: " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + headURI, 1.0);
+                        features.put("QA  GROUP 3 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & CHILD URI: " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + depURI, 1.0);
+                        features.put("QA  GROUP 3 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & PARENT URI & CHILD URI: " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + headURI + " & " + depURI, 1.0);
                     }
 
                     //GROUP 4
@@ -152,8 +156,8 @@ public class NELEdgeTemplate extends AbstractTemplate<AnnotatedDocument, State, 
                         double headSimilarityScore = getSimilarityScore(headToken, headURI);
                         double depSimilarityScore = getSimilarityScore(depToken, depURI);
 
-                        features.put("NEL  GROUP 4 SIM (PARENT URI, PARENT LEMMA) : ", headSimilarityScore);
-                        features.put("NEL  GROUP 4 SIM (CHILD URI, CHILD LEMMA) : ", depSimilarityScore);
+                        features.put("QA  GROUP 4 SIM (PARENT URI, PARENT LEMMA) : ", headSimilarityScore);
+                        features.put("QA  GROUP 4 SIM (CHILD URI, CHILD LEMMA) : ", depSimilarityScore);
                     }
 
                     //GROUP 5
@@ -164,10 +168,10 @@ public class NELEdgeTemplate extends AbstractTemplate<AnnotatedDocument, State, 
                             String domain = DBpediaEndpoint.getDomain(headURI);
                             
                             if(slotNumber.equals("1")){
-                                features.put("NEL  GROUP 5 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & SLOT & DOMAIN: " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + slotNumber +" & "+ domain, 1.0);
+                                features.put("QA  GROUP 5 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & SLOT & DOMAIN: " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + slotNumber +" & "+ domain, 1.0);
                             }
                             else if(slotNumber.equals("2")){
-                                features.put("NEL  GROUP 5 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & SLOT & RANGE: " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + slotNumber +" & "+ range, 1.0);
+                                features.put("QA  GROUP 5 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & SLOT & RANGE: " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + slotNumber +" & "+ range, 1.0);
                             }
                         }                        
                     }
@@ -193,8 +197,8 @@ public class NELEdgeTemplate extends AbstractTemplate<AnnotatedDocument, State, 
                         }
                         
                         
-                        features.put("NEL  GROUP 6 PARENT FREQUENCY SCORE : ", headFrequency);
-                        features.put("NEL  GROUP 6 CHILD FREQUENCY SCORE : ", depFrequencyScore);
+                        features.put("QA  GROUP 6 PARENT FREQUENCY SCORE : ", headFrequency);
+                        features.put("QA  GROUP 6 CHILD FREQUENCY SCORE : ", depFrequencyScore);
                     }
 
 //                    Set<String> mergedIntervalPOSTAGs = state.getDocument().getParse().getIntervalPOSTagsMerged(tokenID, depNodeID);
@@ -247,7 +251,8 @@ public class NELEdgeTemplate extends AbstractTemplate<AnnotatedDocument, State, 
             String headURI = state.getHiddenVariables().get(tokenID).getCandidate().getUri();
             Integer dudeID = state.getHiddenVariables().get(tokenID).getDudeId();
             String dudeName = "EMPTY";
-            if (dudeID != -1) {
+            
+            if(semanticTypes.containsKey(dudeID)){
                 dudeName = semanticTypes.get(dudeID);
             }
 
@@ -267,35 +272,38 @@ public class NELEdgeTemplate extends AbstractTemplate<AnnotatedDocument, State, 
                     String slotNumber = state.getSlot(depNodeID, tokenID);
 
                     String depDudeName = "EMPTY";
-                    if (depDudeID != -1) {
-                        depDudeName = semanticTypes.get(depDudeID);
+                    
+                    if(specialSemanticTypes.containsKey(depDudeID)){
+                        depDudeName = specialSemanticTypes.get(depDudeID);
                     }
 
                     
                     //GROUP 1
                     if (featureGroup.contains("1")) {
-                        features.put("NEL  GROUP 1 BROTHER : Lemma & URI : " + headToken + " & " + headURI, 1.0);
-                        features.put("NEL  GROUP 1 BROTHER : POS & SEM-TYPE : " + headPOS + " & " + dudeName, 1.0);
+                        features.put("QA  GROUP 1 BROTHER : Lemma & URI : " + headToken + " & " + headURI, 1.0);
+                        features.put("QA  GROUP 1 BROTHER : Lemma & SEM-TYPE : " + depToken + " & " + dudeName, 1.0);
+                        features.put("QA  GROUP 1 BROTHER : POS & SEM-TYPE : " + headPOS + " & " + dudeName, 1.0);
 
-                        features.put("NEL  GROUP 1 SIBLING : Lemma & URI : " + depToken + " & " + depURI, 1.0);
-                        features.put("NEL  GROUP 1 SIBLING : POS & SEM-TYPE : " + depPOS + " & " + depDudeName, 1.0);
-                        features.put("NEL  GROUP 1 DEP-REL & SLOT : " + depRelation + " & " + slotNumber, 1.0);
+                        features.put("QA  GROUP 1 SIBLING : Lemma & URI : " + depToken + " & " + depURI, 1.0);
+                        features.put("QA  GROUP 1 SIBLING : Lemma & SEM-TYPE : " + depToken + " & " + depDudeName, 1.0);
+                        features.put("QA  GROUP 1 SIBLING : POS & SEM-TYPE : " + depPOS + " & " + depDudeName, 1.0);
+                        features.put("QA  GROUP 1 DEP-REL & SLOT : " + depRelation + " & " + slotNumber, 1.0);
 
                     }
 
                     //GROUP 2
                     if (featureGroup.contains("2")) {
-                        features.put("NEL  GROUP 2 BROTHER POS & BROTHER SEM-TYPE & SIBLING POS & SIBLING SEM-TYPE : " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName, 1.0);
-                        features.put("NEL  GROUP 2 BROTHER POS & BROTHER SEM-TYPE & SIBLING POS & SIBLING SEM-TYPE & DEP-REL : " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + depRelation, 1.0);
-                        features.put("NEL  GROUP 2 BROTHER POS & BROTHER SEM-TYPE & SIBLING POS & SIBLING SEM-TYPE & SLOT : " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + slotNumber, 1.0);
-                        features.put("NEL  GROUP 2 BROTHER POS & BROTHER SEM-TYPE & SIBLING POS & SIBLING SEM-TYPE & DEP-REL & SLOT : " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + depRelation + " & " + slotNumber, 1.0);
+                        features.put("QA  GROUP 2 BROTHER POS & BROTHER SEM-TYPE & SIBLING POS & SIBLING SEM-TYPE : " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName, 1.0);
+                        features.put("QA  GROUP 2 BROTHER POS & BROTHER SEM-TYPE & SIBLING POS & SIBLING SEM-TYPE & DEP-REL : " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + depRelation, 1.0);
+                        features.put("QA  GROUP 2 BROTHER POS & BROTHER SEM-TYPE & SIBLING POS & SIBLING SEM-TYPE & SLOT : " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + slotNumber, 1.0);
+                        features.put("QA  GROUP 2 BROTHER POS & BROTHER SEM-TYPE & SIBLING POS & SIBLING SEM-TYPE & DEP-REL & SLOT : " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + depRelation + " & " + slotNumber, 1.0);
                     }
 
                     //GROUP 3
                     if (featureGroup.contains("3")) {
-                        features.put("NEL  GROUP 3 BROTHER POS & BROTHER SEM-TYPE & SIBLING POS & SIBLING SEM-TYPE & BROTHER URI: " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + headURI, 1.0);
-                        features.put("NEL  GROUP 3 BROTHER POS & BROTHER SEM-TYPE & SIBLING POS & SIBLING SEM-TYPE & SIBLING URI: " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + depURI, 1.0);
-                        features.put("NEL  GROUP 3 BROTHER POS & BROTHER SEM-TYPE & SIBLING POS & SIBLING SEM-TYPE & BROTHER URI & SIBLING URI: " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + headURI + " & " + depURI, 1.0);
+                        features.put("QA  GROUP 3 BROTHER POS & BROTHER SEM-TYPE & SIBLING POS & SIBLING SEM-TYPE & BROTHER URI: " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + headURI, 1.0);
+                        features.put("QA  GROUP 3 BROTHER POS & BROTHER SEM-TYPE & SIBLING POS & SIBLING SEM-TYPE & SIBLING URI: " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + depURI, 1.0);
+                        features.put("QA  GROUP 3 BROTHER POS & BROTHER SEM-TYPE & SIBLING POS & SIBLING SEM-TYPE & BROTHER URI & SIBLING URI: " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + headURI + " & " + depURI, 1.0);
                     }
 
                     //GROUP 4
@@ -303,8 +311,8 @@ public class NELEdgeTemplate extends AbstractTemplate<AnnotatedDocument, State, 
                         double headSimilarityScore = getSimilarityScore(headToken, headURI);
                         double depSimilarityScore = getSimilarityScore(depToken, depURI);
 
-                        features.put("NEL  GROUP 4 SIM (BROTHER URI, PARENT LEMMA) : ", headSimilarityScore);
-                        features.put("NEL  GROUP 4 SIM (SIBLING URI, SIBLING LEMMA) : ", depSimilarityScore);
+                        features.put("QA  GROUP 4 SIM (BROTHER URI, PARENT LEMMA) : ", headSimilarityScore);
+                        features.put("QA  GROUP 4 SIM (SIBLING URI, SIBLING LEMMA) : ", depSimilarityScore);
                     }
 
                     //GROUP 5
@@ -315,10 +323,10 @@ public class NELEdgeTemplate extends AbstractTemplate<AnnotatedDocument, State, 
                             String domain = DBpediaEndpoint.getDomain(headURI);
                             
                             if(slotNumber.equals("1")){
-                                features.put("NEL  GROUP 5 BROTHER POS & BROTHER SEM-TYPE & SIBLING POS & SIBLING SEM-TYPE & SLOT & DOMAIN: " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + slotNumber +" & "+ domain, 1.0);
+                                features.put("QA  GROUP 5 BROTHER POS & BROTHER SEM-TYPE & SIBLING POS & SIBLING SEM-TYPE & SLOT & DOMAIN: " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + slotNumber +" & "+ domain, 1.0);
                             }
                             else if(slotNumber.equals("2")){
-                                features.put("NEL  GROUP 5 BROTHER POS & BROTHER SEM-TYPE & SIBLING POS & SIBLING SEM-TYPE & SLOT & RANGE: " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + slotNumber +" & "+ range, 1.0);
+                                features.put("QA  GROUP 5 BROTHER POS & BROTHER SEM-TYPE & SIBLING POS & SIBLING SEM-TYPE & SLOT & RANGE: " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + slotNumber +" & "+ range, 1.0);
                             }
                         }                        
                     }
@@ -344,8 +352,8 @@ public class NELEdgeTemplate extends AbstractTemplate<AnnotatedDocument, State, 
                         }
                         
                         
-                        features.put("NEL  GROUP 6 BROTHER FREQUENCY SCORE : ", headFrequency);
-                        features.put("NEL  GROUP 6 SIBLING FREQUENCY SCORE : ", depFrequencyScore);
+                        features.put("QA  GROUP 6 BROTHER FREQUENCY SCORE : ", headFrequency);
+                        features.put("QA  GROUP 6 SIBLING FREQUENCY SCORE : ", depFrequencyScore);
                     }
                     
 //                    if (depURI.equals("EMPTY_STRING")) {

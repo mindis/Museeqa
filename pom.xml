@@ -126,7 +126,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>de.citec.sc.index.AnchorTextIndex</mainClass>
+                            <mainClass>de.citec.sc.main.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

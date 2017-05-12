@@ -58,10 +58,11 @@ public class StanfordParser {
     private static StanfordCoreNLP enPipeline;
     private static StanfordCoreNLP dePipeline;
     private static StanfordCoreNLP esPipeline;
+    private static boolean loaded = false;
 
-    private static void loadModels() {
+    private static void loadModels(Language lang) {
 
-        switch (Main.lang) {
+        switch (lang) {
             case EN:
                 System.out.println("Loading Stanford models for EN");
 
@@ -69,6 +70,7 @@ public class StanfordParser {
                         new String[]{"-props", "src/main/resources/dep-parse-properties/english.props"});
 
                 enPipeline = new StanfordCoreNLP(enProps);
+                loaded = true;
                 break;
             case DE:
                 System.out.println("Loading Stanford models for DE");
@@ -76,6 +78,7 @@ public class StanfordParser {
                 Properties deProps = StringUtils.argsToProperties(
                         new String[]{"-props", "src/main/resources/dep-parse-properties/german.props"});
                 dePipeline = new StanfordCoreNLP(deProps);
+                loaded = true;
                 break;
             case ES:
                 System.out.println("Loading Stanford models for ES");
@@ -83,6 +86,7 @@ public class StanfordParser {
                 Properties esProps = StringUtils.argsToProperties(
                         new String[]{"-props", "src/main/resources/dep-parse-properties/spanish.props"});
                 esPipeline = new StanfordCoreNLP(esProps);
+                loaded = true;
                 break;
         }
 
@@ -92,8 +96,8 @@ public class StanfordParser {
 
     private static List<TypedDependency> getDependencies(String sentence, Language lang) {
 
-        if (enPipeline == null) {
-            loadModels();
+        if (!loaded) {
+            loadModels(lang);
         }
 
         TokenizerFactory<CoreLabel> tokenizerFactory = PTBTokenizer.factory(new CoreLabelTokenFactory(), "");
@@ -114,8 +118,8 @@ public class StanfordParser {
 
     public static DependencyParse parse(String text, Language lang) {
 
-        if (enPipeline == null) {
-            loadModels();
+        if (!loaded) {
+            loadModels(lang);
         }
 
         DependencyParse parse = new DependencyParse();
@@ -171,7 +175,7 @@ public class StanfordParser {
     public static List<String> lemmatizeDocument(String documentText, Language lang) {
 
         if (enPipeline == null) {
-            loadModels();
+            loadModels(lang);
         }
 
         List<String> lemmas = new LinkedList<>();
@@ -211,8 +215,8 @@ public class StanfordParser {
      */
     public static String lemmatize(String t, Language lang) {
 
-        if (enPipeline == null && dePipeline == null && esPipeline == null) {
-            loadModels();
+        if (!loaded) {
+            loadModels(lang);
         }
 
         String lemma = "";

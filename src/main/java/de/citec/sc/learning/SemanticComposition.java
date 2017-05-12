@@ -25,21 +25,18 @@ public class SemanticComposition {
 
     private static Map<Integer, RDFDUDES> dudeTypes;
     private static Set<String> validPOSTags;
-    private static Set<String> frequentWordsToExclude;
     private static Map<Integer, String> semanticTypes;
     private static Map<Integer, String> specialSemanticTypes;
-    private static Set<String> wordsWithSpecialSemanticTypes;
+    
     private static Set<Integer> mergedNodes;
 
-    protected static RDFDUDES compose(State state, Map<Integer, RDFDUDES> instantiatedDudeTypes, Set<String> validPOSs, Set<String> f, Map<Integer, String> s, Map<Integer, String> sp, Set<String> w) {
+    protected static RDFDUDES compose(State state, Map<Integer, RDFDUDES> instantiatedDudeTypes, Set<String> validPOSs, Map<Integer, String> s, Map<Integer, String> sp) {
         Integer headNode = state.getDocument().getParse().getHeadNode();
 
         validPOSTags = validPOSs;
         dudeTypes = instantiatedDudeTypes;
-        frequentWordsToExclude = f;
         semanticTypes = s;
         specialSemanticTypes = sp;
-        wordsWithSpecialSemanticTypes = w;
 
         mergedNodes = new HashSet<>();
 
@@ -56,7 +53,7 @@ public class SemanticComposition {
         //loop over all slot arguments and join them
         for (Integer depNode : state.getSlotVariables().keySet()) {
 
-            if (state.getDocument().getParse().getDependentEdges(depNode, validPOSTags, frequentWordsToExclude).size() > 0) {
+            if (state.getDocument().getParse().getDependentEdges(depNode, validPOSTags).size() > 0) {
                 continue;
             }
 
@@ -103,7 +100,12 @@ public class SemanticComposition {
             RDFDUDES head = dudeTypes.get(headNode);
 
             if (!mergedNodes.contains(depNodeIndex)) {
+                try{
                 dependent = mergeChildNodes(state, depNodeIndex);
+                }
+                catch(Exception e){
+                    int z=2;
+                }
 
                 String argument = state.getSlot(depNodeIndex, headNode);
 

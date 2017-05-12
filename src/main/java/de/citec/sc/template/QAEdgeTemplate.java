@@ -31,13 +31,13 @@ import templates.AbstractTemplate;
 public class QAEdgeTemplate extends AbstractTemplate<AnnotatedDocument, State, StateFactorScope<State>> {
 
     private Set<String> validPOSTags;
-    private Set<String> frequentWordsToExclude;
+    private Set<String> validEdges;
     private Map<Integer, String> specialSemanticTypes;
 
-    public QAEdgeTemplate(Set<String> validPOSTags, Set<String> frequentWordsToExclude, Map<Integer, String> s) {
+    public QAEdgeTemplate(Set<String> validPOSTags, Set<String> edges, Map<Integer, String> s) {
         this.validPOSTags = validPOSTags;
         this.specialSemanticTypes = s;
-        this.frequentWordsToExclude = frequentWordsToExclude;
+        this.validEdges = edges;
     }
 
     @Override

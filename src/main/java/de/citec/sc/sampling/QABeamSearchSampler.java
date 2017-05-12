@@ -62,7 +62,7 @@ public class QABeamSearchSampler<InstanceT, StateT extends AbstractState<Instanc
      * Defines the sampling strategy for the training phase. The test phase
      * currently always uses the greedy variant.
      */
-    private BeamSearchSamplingStrategy<StateT> trainSamplingStrategy = BeamSearchSamplingStrategies
+    private BeamSearchSamplingStrategy<StateT> trainSamplingStrategy = SamplingStrategies
             .greedyBeamSearchSamplingStrategyByObjective(DEFAULT_BEAM_SIZE, s -> s.getObjectiveScore());
 
     private AcceptStrategy<StateT> trainAcceptStrategy = AcceptStrategies.objectiveAccept();
@@ -70,7 +70,7 @@ public class QABeamSearchSampler<InstanceT, StateT extends AbstractState<Instanc
     /**
      * Greedy sampling strategy for test phase.
      */
-    private BeamSearchSamplingStrategy<StateT> testSamplingStrategy = BeamSearchSamplingStrategies
+    private BeamSearchSamplingStrategy<StateT> testSamplingStrategy = SamplingStrategies
             .greedyBeamSearchSamplingStrategyByModel(DEFAULT_BEAM_SIZE, s -> s.getModelScore());
 
     /**

@@ -6,6 +6,7 @@
 package de.citec.sc.query;
 
 import de.citec.sc.query.CandidateRetriever.Language;
+import de.citec.sc.utils.FileFactory;
 import edu.stanford.nlp.util.ArraySet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -28,12 +29,20 @@ public class ManualLexicon {
     private static HashMap<String, Set<String>> lexiconRestrictionClassesDE;
     private static HashMap<String, Set<String>> lexiconResourcesDE;
 
+    private static HashMap<String, Set<String>> lexiconPropertiesES;
+    private static HashMap<String, Set<String>> lexiconClassesES;
+    private static HashMap<String, Set<String>> lexiconRestrictionClassesES;
+    private static HashMap<String, Set<String>> lexiconResourcesES;
+
     public static boolean useManualLexicon = false;
-    
+
     private static boolean loaded = false;
 
     public static void useManualLexicon(boolean b) {
         useManualLexicon = b;
+        if (b) {
+            load();
+        }
     }
 
     public static void load() {
@@ -47,15 +56,84 @@ public class ManualLexicon {
         lexiconRestrictionClassesDE = new HashMap<>();
         lexiconResourcesDE = new HashMap<>();
 
+        lexiconPropertiesES = new HashMap<>();
+        lexiconClassesES = new HashMap<>();
+        lexiconRestrictionClassesES = new HashMap<>();
+        lexiconResourcesES = new HashMap<>();
+
         if (useManualLexicon) {
 
-            loadTrainLexiconEN();
+            Set<String> content = FileFactory.readFile("Manual_Lexicon.txt");
 
-            loadTestLexiconEN();
+            for (String c : content) {
+                String[] data = c.split("\t");
 
-            loadTrainLexiconDE();
+                String surfaceForm = data[1];
+                String uri = data[2];
+                String language = data[3];
+                String dataset = data[4];
+
+                if (uri.split(",").length > 1) {
+                    continue;
+                }
+
+                switch (language) {
+                    case "EN":
+                        //classes, restriction classes
+                        if (uri.contains("###")) {
+                            if (uri.startsWith("http://www.w3.org/1999/02/22-rdf-syntax-ns#type###")) {
+                                addLexicon(surfaceForm, uri, lexiconClassesEN);
+                            } else {
+                                addLexicon(surfaceForm, uri, lexiconRestrictionClassesEN);
+                            }
+                        } else {
+                            if (uri.startsWith("http://dbpedia.org/ontology/")) {
+                                addLexicon(surfaceForm, uri, lexiconPropertiesEN);
+                            } else if (uri.startsWith("http://dbpedia.org/resource/")) {
+                                addLexicon(surfaceForm, uri, lexiconResourcesEN);
+                            }
+                        }
+
+                        break;
+                    case "DE":
+                        //classes, restriction classes
+                        if (uri.contains("###")) {
+                            if (uri.startsWith("http://www.w3.org/1999/02/22-rdf-syntax-ns#type###")) {
+                                addLexicon(surfaceForm, uri, lexiconClassesDE);
+                            } else {
+                                addLexicon(surfaceForm, uri, lexiconRestrictionClassesDE);
+                            }
+                        } else {
+                            if (uri.startsWith("http://dbpedia.org/ontology/")) {
+                                addLexicon(surfaceForm, uri, lexiconPropertiesDE);
+                            } else if (uri.startsWith("http://dbpedia.org/resource/")) {
+                                addLexicon(surfaceForm, uri, lexiconResourcesDE);
+                            }
+                        }
+
+                        break;
+                    case "ES":
+                        //classes, restriction classes
+                        if (uri.contains("###")) {
+                            if (uri.startsWith("http://www.w3.org/1999/02/22-rdf-syntax-ns#type###")) {
+                                addLexicon(surfaceForm, uri, lexiconClassesES);
+                            } else {
+                                addLexicon(surfaceForm, uri, lexiconRestrictionClassesES);
+                            }
+                        } else {
+                            if (uri.startsWith("http://dbpedia.org/ontology/")) {
+                                addLexicon(surfaceForm, uri, lexiconPropertiesES);
+                            } else if (uri.startsWith("http://dbpedia.org/resource/")) {
+                                addLexicon(surfaceForm, uri, lexiconResourcesES);
+                            }
+                        }
+
+                        break;
+
+                }
+            }
         }
-        
+
         loaded = true;
 
     }
@@ -300,23 +378,26 @@ public class ManualLexicon {
         term = term.toLowerCase();
         Set<String> result = new HashSet<>();
 
+        if (!loaded) {
+            load();
+        }
+
         switch (lang) {
             case EN:
-                if (lexiconPropertiesEN == null) {
-                    load();
-                }
-
                 if (lexiconPropertiesEN.containsKey(term)) {
                     result.addAll(lexiconPropertiesEN.get(term));
                 }
+                break;
             case DE:
-                if (!loaded) {
-                    load();
-                }
-
                 if (lexiconPropertiesDE.containsKey(term)) {
                     result.addAll(lexiconPropertiesDE.get(term));
                 }
+                break;
+            case ES:
+                if (lexiconPropertiesES.containsKey(term)) {
+                    result.addAll(lexiconPropertiesES.get(term));
+                }
+                break;
         }
         return result;
     }
@@ -326,23 +407,26 @@ public class ManualLexicon {
         term = term.toLowerCase();
         Set<String> result = new HashSet<>();
 
+        if (!loaded) {
+            load();
+        }
+
         switch (lang) {
             case EN:
-                if (lexiconRestrictionClassesEN == null) {
-                    load();
-                }
-
                 if (lexiconRestrictionClassesEN.containsKey(term)) {
                     result.addAll(lexiconRestrictionClassesEN.get(term));
                 }
+                break;
             case DE:
-                if (lexiconRestrictionClassesDE == null) {
-                    load();
-                }
-
                 if (lexiconRestrictionClassesDE.containsKey(term)) {
                     result.addAll(lexiconRestrictionClassesDE.get(term));
                 }
+                break;
+            case ES:
+                if (lexiconRestrictionClassesES.containsKey(term)) {
+                    result.addAll(lexiconRestrictionClassesES.get(term));
+                }
+                break;
         }
         return result;
     }
@@ -352,25 +436,28 @@ public class ManualLexicon {
         term = term.toLowerCase();
         Set<String> result = new HashSet<>();
 
+        if (!loaded) {
+            load();
+        }
+
         switch (lang) {
             case EN:
-                if (lexiconClassesEN == null) {
-                    load();
-                }
-
                 if (lexiconClassesEN.containsKey(term)) {
                     result.addAll(lexiconClassesEN.get(term));
                 }
+                break;
             case DE:
-                if (lexiconClassesDE == null) {
-                    load();
-                }
-
                 if (lexiconClassesDE.containsKey(term)) {
                     result.addAll(lexiconClassesDE.get(term));
                 }
+                break;
+            case ES:
+                if (lexiconClassesES.containsKey(term)) {
+                    result.addAll(lexiconClassesES.get(term));
+                }
+                break;
         }
-        
+
         return result;
     }
 
@@ -379,23 +466,26 @@ public class ManualLexicon {
         term = term.toLowerCase();
         Set<String> result = new HashSet<>();
 
+        if (!loaded) {
+            load();
+        }
+
         switch (lang) {
             case EN:
-                if (lexiconResourcesEN == null) {
-                    load();
-                }
-
                 if (lexiconResourcesEN.containsKey(term)) {
                     result.addAll(lexiconResourcesEN.get(term));
                 }
+                break;
             case DE:
-                if (lexiconResourcesDE == null) {
-                    load();
-                }
-
                 if (lexiconResourcesDE.containsKey(term)) {
                     result.addAll(lexiconResourcesDE.get(term));
                 }
+                break;
+            case ES:
+                if (lexiconResourcesES.containsKey(term)) {
+                    result.addAll(lexiconResourcesES.get(term));
+                }
+                break;
         }
 
         return result;

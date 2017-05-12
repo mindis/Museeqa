@@ -21,7 +21,7 @@ import templates.TemplateFactory;
 public class QATemplateFactory implements TemplateFactory<AnnotatedDocument, State> {
 
     private static Set<String> validPOSTags;
-    private static Set<String> frequentWordsToExclude;
+    private static Set<String> validEdges;
     private static Map<Integer, String> semanticTypes;
     private static Map<Integer, String> specialSemanticTypes;
 
@@ -29,7 +29,7 @@ public class QATemplateFactory implements TemplateFactory<AnnotatedDocument, Sta
         validPOSTags = v;
         semanticTypes = s;
         specialSemanticTypes = sp;
-        frequentWordsToExclude = f;
+        validEdges = f;
     }
 
     @Override
@@ -37,13 +37,15 @@ public class QATemplateFactory implements TemplateFactory<AnnotatedDocument, Sta
 
         switch (templateName) {
             case "NELLexicalTemplate":
-                return new NELLexicalTemplate(validPOSTags, frequentWordsToExclude, semanticTypes);
+                return new NELLexicalTemplate(validPOSTags, validEdges, semanticTypes);
             case "NELEdgeTemplate":
-                return new NELEdgeTemplate(validPOSTags, frequentWordsToExclude, semanticTypes);
+                return new NELEdgeTemplate(validPOSTags, validEdges, semanticTypes);
             case "NELNodeTemplate":
-                return new NELNodeTemplate(validPOSTags, frequentWordsToExclude, semanticTypes);
+                return new NELNodeTemplate(validPOSTags, validEdges, semanticTypes);
             case "QAEdgeTemplate":
-                return new QAEdgeTemplate(validPOSTags, frequentWordsToExclude, specialSemanticTypes);
+                return new QAEdgeTemplate(validPOSTags, validEdges, specialSemanticTypes);
+            case "QAEdgeAdvTemplate":
+                return new QAEdgeAdvTemplate(validPOSTags, validEdges,semanticTypes, specialSemanticTypes);
 
         }
 

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -44,7 +45,7 @@ public class DependencyParse {
 //        System.out.println("Before\n\n" + toString()+"\n");
 //        mergeCompountEdges();
         mergePatterns();
-        
+
         mergeAmodEdges();
 //
 ////        System.out.println("After mergeAmodEdges\n\n" + toString()+"\n");
@@ -61,7 +62,7 @@ public class DependencyParse {
     private void mergePatterns() {
 
         List<String> patterns = new ArrayList<>();
-        patterns.add("NOUN ADP PROPN");//Battle (NN) 		5,of (IN) 		6,Gettysburg (NNP)
+//        patterns.add("NOUN ADP PROPN");//Battle (NN) 		5,of (IN) 		6,Gettysburg (NNP)
         patterns.add("PROPN PROPN PUNCT PROPN");//John (PROPN) 		6,F (PROPN) 		7,. (PUNCT) 		8,Kennedy (PROPN)
         patterns.add("PROPN PROPN PROPN PROPN");//West (PROPN) 		10,African (PROPN) 		11,CFA (PROPN) 		12,franc (PROPN)
         patterns.add("PROPN PROPN PROPN");//West (PROPN) 		10,African (PROPN) 		11,CFA (PROPN) 		12,franc (PROPN)
@@ -72,7 +73,29 @@ public class DependencyParse {
         patterns.add("NOUN NOUN ADP NOUN");//nobel (NOUN) 		6,prize (NOUN) 		7,in (ADP) 		8,physics (NOUN)
         patterns.add("PROPN PROPN ADP NOUN");//Nobel (PROPN) 		9,Prize (PROPN) 		10,in (ADP) 		11,literature (NOUN)
         patterns.add("PROPN NUM");//7,Chile Route (NNP) 		8,68 (CD) 
-        patterns.add("DET PROPN");//The (DET) 		14,Sopranos (PROPN)
+        patterns.add("NOUN NOUN ADP NOUN");//nobel (NOUN) 		6,prize (NOUN) 		7,in (ADP) 		8,physics (NOUN) 
+//        patterns.add("DET PROPN");//The (DET) 		14,Sopranos (PROPN)
+
+        List<String> edges = new ArrayList<>();
+        edges.add("obj");
+        edges.add("obl");
+        edges.add("flat");
+        edges.add("compound");
+        edges.add("nummod");
+        edges.add("appos");
+        edges.add("subj");
+        edges.add("nsubj");
+        edges.add("dobj");
+        edges.add("iobj");
+        edges.add("nsubjpass");
+        edges.add("csubj");
+        edges.add("csubjpass");
+        edges.add("nmod:poss");
+        edges.add("ccomp");
+        edges.add("nmod");
+        edges.add("amod");
+        edges.add("xcomp");
+        edges.add("vocative");
 
         int counter = 0;
         int max = nodes.size();
@@ -125,8 +148,7 @@ public class DependencyParse {
                                     continue;
                                 }
                             }
-                        }
-                        else{
+                        } else {
                             continue;
                         }
 
@@ -135,6 +157,7 @@ public class DependencyParse {
                             if (mergedTokens.isEmpty()) {
                                 continue;
                             }
+
                             boolean b = Search.matches(mergedTokens.toLowerCase(), Main.lang);
 
                             //if matches then remove nodes
@@ -145,6 +168,40 @@ public class DependencyParse {
                                         continue;
                                     }
 
+                                    HashMap<Integer, Integer> temp = (HashMap<Integer, Integer>) relations.clone();
+                                    HashMap<Integer, String> tempEdgeStrings = (HashMap<Integer, String>) edgeStrings.clone();
+                                    //replace every parent relation if it equals to depNode
+                                    for (Integer d : relations.keySet()) {
+                                        Integer p = relations.get(d);
+
+                                        if (d.equals(depNode)) {
+
+                                            if (!mergedNodes.contains(p)) {
+
+                                                String edgeString = edgeStrings.get(d);
+
+                                                if (edges.contains(edgeString)) {
+                                                    temp.put(allNodes.get(i), p);
+                                                    tempEdgeStrings.put(allNodes.get(i), edgeString);
+                                                }
+                                            }
+                                        } else if (p.equals(depNode)) {
+                                            if (!mergedNodes.contains(d)) {
+                                                temp.put(d, allNodes.get(i));
+                                            } else {
+                                                temp.remove(d);
+                                            }
+                                        }
+                                    }
+                                    //clone back the values
+                                    relations = (HashMap<Integer, Integer>) temp.clone();
+                                    edgeStrings = (HashMap<Integer, String>) tempEdgeStrings.clone();
+
+                                    //check if the root
+                                    if (headNode == depNode) {
+                                        headNode = allNodes.get(i);
+                                    }
+
                                     edgeStrings.remove(depNode);
                                     relations.remove(depNode);
                                     nodes.remove(depNode);
@@ -153,6 +210,7 @@ public class DependencyParse {
 
                                 POSTAG.put(allNodes.get(i), "PROPN");
                                 nodes.put(allNodes.get(i), mergedTokens);
+
                                 merged = true;
                                 break;
                             }
@@ -167,78 +225,30 @@ public class DependencyParse {
         }
     }
 
-    private void mergeDependentNodesWithPatterns() {
-
-        List<String> patterns = new ArrayList<>();
-//        patterns.add("NN IN NNP");//Battle (NN) 		5,of (IN) 		6,Gettysburg (NNP)
-        patterns.add("PROPN IN NNP");//Lawrence (NNP) 		7,of (IN) 		8,Arabia (NNP)
-        patterns.add("NNP CC NNP");//Lawrence (NNP) 		7,of (IN) 		8,Arabia (NNP)
-//        patterns.add("NNS IN NNP");//Houses (NNP) 		7,of (IN) 		8,Parliament (NNP)
-        patterns.add("NN IN NNS");//nobel prize (NN) 		7,of (IN) 		8,physics (NNS)
-        patterns.add("NNP CD");//7,Chile Route (NNP) 		8,68 (CD) 
-        patterns.add("PROPN PROPN");//7,Chile Route (NNP) 		8,68 (CD) 
-
-        List<String> depRelations = new ArrayList<>();
-        depRelations.add("flat");
-        depRelations.add("name");
-
-        List<Integer> allNodes = new ArrayList<>();
-        allNodes.addAll(nodes.keySet());
-
-        //sort the nodes
-        Collections.sort(allNodes);
-
-        for (int i = 0; i < allNodes.size(); i++) {
-
-            //get 1,2 token
-            for (int r = 1; r <= 2; r++) {
-
-                if (i + r < allNodes.size()) {
-
-                    List<Integer> mergedNodes = allNodes.subList(i, i + r + 1);
-                    String postags = "";
-                    String mergedTokens = "";
-                    for (Integer m : mergedNodes) {
-                        postags += POSTAG.get(m) + " ";
-                        mergedTokens += getToken(m) + " ";
-                    }
-                    postags = postags.trim();
-                    mergedTokens = mergedTokens.trim();
-
-                    if (patterns.contains(postags)) {
-
-                        if (mergedTokens.isEmpty()) {
-                            continue;
-                        }
-                        boolean b = Search.matches(mergedTokens.toLowerCase(), Main.lang);
-
-                        //if matches then remove nodes
-                        if (b) {
-
-                            for (Integer depNode : mergedNodes) {
-                                if (depNode == allNodes.get(i)) {
-                                    continue;
-                                }
-
-                                edgeStrings.remove(depNode);
-                                relations.remove(depNode);
-                                nodes.remove(depNode);
-                                POSTAG.remove(depNode);
-                            }
-
-                            POSTAG.put(allNodes.get(i), "NNP");
-                            nodes.put(allNodes.get(i), mergedTokens);
-                        }
-                    }
-                }
-            }
-
-        }
-    }
-
     private void mergeAmodEdges() {
         //do another merging on amod - Give me all Australian nonprofit organizations. --> merges nonprofit organizations
         int counter = 0;
+        
+        List<String> edges = new ArrayList<>();
+        edges.add("obj");
+        edges.add("obl");
+        edges.add("flat");
+        edges.add("compound");
+        edges.add("nummod");
+        edges.add("appos");
+        edges.add("subj");
+        edges.add("nsubj");
+        edges.add("dobj");
+        edges.add("iobj");
+        edges.add("nsubjpass");
+        edges.add("csubj");
+        edges.add("csubjpass");
+        edges.add("nmod:poss");
+        edges.add("ccomp");
+        edges.add("nmod");
+        edges.add("amod");
+        edges.add("xcomp");
+        edges.add("vocative");
 
         List<Integer> traversedDepNodes = new ArrayList<>();
 
@@ -351,113 +361,45 @@ public class DependencyParse {
                         continue;
                     }
 
+                    HashMap<Integer, Integer> temp = (HashMap<Integer, Integer>) relations.clone();
+                    HashMap<Integer, String> tempEdgeStrings = (HashMap<Integer, String>) edgeStrings.clone();
+                    //replace every parent relation if it equals to depNode
+                    for (Integer d : relations.keySet()) {
+                        Integer p = relations.get(d);
+
+                        if (d.equals(depNode)) {
+
+                            if (!depNodesWithCompoundEdge.contains(p)) {
+
+                                String edgeString = edgeStrings.get(d);
+
+                                if (edges.contains(edgeString)) {
+                                    temp.put(headNode, p);
+                                    tempEdgeStrings.put(headNode, edgeString);
+                                }
+                            }
+                        } else if (p.equals(depNode)) {
+                            if (!depNodesWithCompoundEdge.contains(d)) {
+                                temp.put(d, headNode);
+                            } else {
+                                temp.remove(d);
+                            }
+                        }
+                    }
+                    //clone back the values
+                    relations = (HashMap<Integer, Integer>) temp.clone();
+                    edgeStrings = (HashMap<Integer, String>) tempEdgeStrings.clone();
+
+                    //check if the root
+                    if (this.headNode == depNode) {
+                        this.headNode = headNode;
+                    }
+
                     edgeStrings.remove(depNode);
                     relations.remove(depNode);
                     nodes.remove(depNode);
                     POSTAG.remove(depNode);
-
                 }
-
-                nodes.put(headNode, mergedTokens);
-            }
-        }
-    }
-
-    private void mergeDepEdges() {
-        //do another merging on amod - Give me all Australian nonprofit organizations. --> merges nonprofit organizations
-        int counter = 0;
-
-        List<Integer> traversedDepNodes = new ArrayList<>();
-
-        while (edgeStrings.containsValue("dep")) {
-
-            counter++;
-            Integer headNode = -1;
-
-            List<Integer> depNodesWithCompoundEdge = new ArrayList<>();
-
-            //get the head node
-            for (Integer depNode : edgeStrings.keySet()) {
-                if (traversedDepNodes.contains(depNode)) {
-                    continue;
-                }
-
-                if (edgeStrings.get(depNode).equals("dep")) {
-                    headNode = getParentNode(depNode);
-                    String headPOS = getPOSTag(headNode);
-                    String depPOS = getPOSTag(depNode);
-
-                    boolean isValidMerge = false;
-                    switch (headPOS) {
-                        case "NNP":
-                            if (depPOS.equals("NNP") || depPOS.equals("NNPS")) {
-                                isValidMerge = true;
-                            }
-                            break;
-                        case "NNPS":
-                            if (depPOS.equals("NNP") || depPOS.equals("NNPS")) {
-                                isValidMerge = true;
-                            }
-                            break;
-                        case "NN":
-                            if (depPOS.equals("NN") || depPOS.equals("NNS")) {
-                                isValidMerge = true;
-                            }
-                            break;
-                        case "NNS":
-                            if (depPOS.equals("NN") || depPOS.equals("NNS")) {
-                                isValidMerge = true;
-                            }
-                            break;
-                    }
-
-                    if (!isValidMerge) {
-                        continue;
-                    }
-                    depNodesWithCompoundEdge.add(headNode);
-                    depNodesWithCompoundEdge.add(depNode);
-
-                    //not to continue with the same node
-                    traversedDepNodes.add(depNode);
-                    break;
-                }
-            }
-
-            if (headNode == -1) {
-                break;
-            }
-            if (counter == nodes.size()) {
-                break;
-            }
-
-            Collections.sort(depNodesWithCompoundEdge);
-
-            String mergedTokens = "";
-            for (Integer nodeIndex : depNodesWithCompoundEdge) {
-                if (nodes.get(nodeIndex) == null) {
-                    continue;
-                }
-                if (nodes.get(nodeIndex).equals("null")) {
-                    continue;
-                }
-                mergedTokens += nodes.get(nodeIndex) + " ";
-            }
-            mergedTokens = mergedTokens.trim();
-
-            //check if there are any capital letters in the mergedTokens
-            //if there are don't expand these tokens
-//            boolean hasUppercase = !mergedTokens.equals(mergedTokens.toLowerCase());
-//            
-//            if(hasUppercase){
-//                continue;
-//            }
-            if (mergedTokens.isEmpty()) {
-                continue;
-            }
-            boolean b = Search.matches(mergedTokens, Main.lang);
-
-            //if matches then remove nodes
-            if (b) {
 
                 for (Integer depNode : depNodesWithCompoundEdge) {
                     if (depNode == headNode) {
@@ -475,264 +417,22 @@ public class DependencyParse {
             }
         }
     }
-
-    private void mergeDetEdges() {
-        //do another merging on amod - Give me all Australian nonprofit organizations. --> merges nonprofit organizations
-        int counter = 0;
-
-        List<Integer> traversedDepNodes = new ArrayList<>();
-
-        while (edgeStrings.containsValue("det")) {
-
-            counter++;
-            Integer headNode = -1;
-
-            List<Integer> depNodesWithCompoundEdge = new ArrayList<>();
-
-            //get the head node
-            for (Integer depNode : edgeStrings.keySet()) {
-                if (traversedDepNodes.contains(depNode)) {
-                    continue;
-                }
-
-                if (edgeStrings.get(depNode).equals("det")) {
-                    headNode = getParentNode(depNode);
-                    String headToken = getToken(headNode);
-                    String depToken = getToken(depNode);
-
-                    //The Sopranos
-                    boolean isHeadNodeUpperCase = !headToken.equals(headToken.toLowerCase());
-                    boolean isDepNodeUpperCase = !depToken.equals(depToken.toLowerCase());
-
-                    if (!(isDepNodeUpperCase || isHeadNodeUpperCase)) {
-                        continue;
-                    }
-
-                    depNodesWithCompoundEdge.add(headNode);
-                    depNodesWithCompoundEdge.add(depNode);
-
-                    //not to continue with the same node
-                    traversedDepNodes.add(depNode);
-                    break;
-                }
-            }
-
-            if (headNode == -1) {
-                break;
-            }
-            if (counter == nodes.size()) {
-                break;
-            }
-
-            Collections.sort(depNodesWithCompoundEdge);
-
-            //add all indice between the maximum and the minimum value
-            //Melon de Bourgogne = not to have sth like this :Melon Bourgogne
-            List<Integer> missingIntervals = new ArrayList<>();
-
-            for (int i = 0; i < depNodesWithCompoundEdge.size(); i++) {
-
-                if (i + 1 < depNodesWithCompoundEdge.size()) {
-                    Integer node = depNodesWithCompoundEdge.get(i);
-                    Integer nextNode = depNodesWithCompoundEdge.get(i + 1);
-
-                    //if there is some index missing
-                    if (nextNode - node != 1) {
-                        missingIntervals.add(node + 1);
-                    }
-                }
-            }
-            //add missing intervals and sort again
-            if (!missingIntervals.isEmpty()) {
-                depNodesWithCompoundEdge.addAll(missingIntervals);
-                Collections.sort(depNodesWithCompoundEdge);
-            }
-
-            String mergedTokens = "";
-            for (Integer nodeIndex : depNodesWithCompoundEdge) {
-                if (nodes.get(nodeIndex) == null) {
-                    continue;
-                }
-                if (nodes.get(nodeIndex).equals("null")) {
-                    continue;
-                }
-                mergedTokens += nodes.get(nodeIndex) + " ";
-            }
-            mergedTokens = mergedTokens.trim();
-
-            //check if there are any capital letters in the mergedTokens
-            //if there are don't expand these tokens
-//            boolean hasUppercase = !mergedTokens.equals(mergedTokens.toLowerCase());
-//            
-//            if(hasUppercase){
-//                continue;
-//            }
-            if (mergedTokens.isEmpty()) {
-                continue;
-            }
-            boolean b = Search.matches(mergedTokens, Main.lang);
-
-            //if matches then remove nodes
-            if (b) {
-
-                for (Integer depNode : depNodesWithCompoundEdge) {
-                    if (depNode == headNode) {
-                        continue;
-                    }
-
-                    edgeStrings.remove(depNode);
-                    relations.remove(depNode);
-                    nodes.remove(depNode);
-                    POSTAG.remove(depNode);
-
-                }
-
-                nodes.put(headNode, mergedTokens);
+    
+    public void removePunctuations() {
+        HashMap<Integer, String> tempEdgeStrings = (HashMap<Integer, String>) edgeStrings.clone();
+        
+        for(Integer node : tempEdgeStrings.keySet()){
+            String edgeString = tempEdgeStrings.get(node);
+            
+            if(edgeString.equals("punct")){
+                relations.remove(node);
+                edgeStrings.remove(node);
+                nodes.remove(node);
+                POSTAG.remove(node);
+                
+                
             }
         }
-    }
-
-    private void mergeCompountEdges() {
-
-        Set<String> depRelations = new HashSet<>();
-        depRelations.add("compound");
-        depRelations.add("flat");
-
-        int counter = 0;
-        while (edgeStrings.containsValue("compound") || edgeStrings.containsValue("flat")) {
-
-            if (counter == nodes.size()) {
-                break;
-            }
-            counter++;
-
-            Integer headNode = -1;
-            String headPOS = "";
-            String headToken = "";
-            //get the head node
-            for (Integer depNode : edgeStrings.keySet()) {
-                if (edgeStrings.get(depNode).equals("compound") || edgeStrings.get(depNode).equals("flat")) {
-                    headNode = getParentNode(depNode);
-                    headPOS = getPOSTag(headNode);
-                    headToken = getToken(headNode);
-                    break;
-                }
-            }
-
-            if (headNode == -1) {
-                break;
-            }
-
-            List<Integer> depNodes = getDependentEdges(headNode);
-
-            List<Integer> depNodesWithCompoundEdge = new ArrayList<>();
-
-            //get all edges with comound
-            for (Integer depNode : depNodes) {
-                String depPOS = getPOSTag(depNode);
-                String depToken = getToken(depNode);
-
-                //if both tokens are uppercase
-                boolean isHeadNodeUpperCase = !headToken.equals(headToken.toLowerCase());
-                boolean isDepNodeUpperCase = !depToken.equals(depToken.toLowerCase());
-
-                if (!(isHeadNodeUpperCase && isDepNodeUpperCase)) {
-                    continue;
-                }
-
-                if (edgeStrings.get(depNode).equals("compound") || edgeStrings.get(depNode).equals("flat")) {
-
-                    boolean isValidMerge = false;
-                    switch (headPOS) {
-                        case "PROPN":
-                            if (depPOS.equals("PROPN")) {
-                                isValidMerge = true;
-                            }
-                            break;
-//                        case "NOUN":
-//                            if (depPOS.equals("NOUN")) {
-//                                isValidMerge = true;
-//                            } else if (depPOS.equals("PROPN")) {
-//                                isValidMerge = true;
-//                            }
-//                            break;
-                    }
-
-                    if (!isValidMerge) {
-                        continue;
-                    }
-
-                    depNodesWithCompoundEdge.add(depNode);
-
-                    //remove the edge from the map
-                    edgeStrings.remove(depNode);
-
-                    relations.remove(depNode);
-
-                    POSTAG.remove(depNode);
-                }
-            }
-
-            //add the head node too
-            depNodesWithCompoundEdge.add(headNode);
-            Collections.sort(depNodesWithCompoundEdge);
-
-            //add all indice between the maximum and the minimum value
-            //Melon de Bourgogne = not to have sth like this :Melon Bourgogne
-            List<Integer> missingIntervals = new ArrayList<>();
-
-            for (int i = 0; i < depNodesWithCompoundEdge.size(); i++) {
-
-                if (i + 1 < depNodesWithCompoundEdge.size()) {
-                    Integer node = depNodesWithCompoundEdge.get(i);
-                    Integer nextNode = depNodesWithCompoundEdge.get(i + 1);
-
-                    //if there is some index missing
-                    if (nextNode - node != 1) {
-                        missingIntervals.add(node + 1);
-                    }
-                }
-            }
-            //add missing intervals and sort again
-            if (!missingIntervals.isEmpty()) {
-                depNodesWithCompoundEdge.addAll(missingIntervals);
-                Collections.sort(depNodesWithCompoundEdge);
-            }
-
-            String mergedTokens = "";
-            for (Integer nodeIndex : depNodesWithCompoundEdge) {
-                if (nodes.get(nodeIndex) == null) {
-                    continue;
-                }
-                if (nodes.get(nodeIndex).equals("null")) {
-                    continue;
-                }
-
-                mergedTokens += nodes.get(nodeIndex) + " ";
-
-                if (nodeIndex == headNode) {
-                    continue;
-                }
-
-                //remove the edge from the map
-                edgeStrings.remove(nodeIndex);
-
-                relations.remove(nodeIndex);
-
-                POSTAG.remove(nodeIndex);
-                //remove the token string as well
-                nodes.remove(nodeIndex);
-            }
-            mergedTokens = mergedTokens.trim();
-
-            if (mergedTokens.isEmpty()) {
-                continue;
-            }
-
-            nodes.put(headNode, mergedTokens);
-
-        }
-
     }
 
     /**
@@ -865,7 +565,7 @@ public class DependencyParse {
      * @param acceptedPOSTAGs set of postags
      * @return List of dependent nodes
      */
-    public List<Integer> getDependentEdges(int headNode, Set<String> acceptedPOSTAGs, Set<String> frequentWordsToExclude) {
+    public List<Integer> getDependentEdges(int headNode, Set<String> acceptedPOSTAGs) {
 
         List<Integer> list = new ArrayList<>();
         for (Integer k : relations.keySet()) {
@@ -875,12 +575,6 @@ public class DependencyParse {
                 String postag = getPOSTag(k);
 
                 if (!acceptedPOSTAGs.contains(postag)) {
-                    continue;
-                }
-
-                String token = getToken(k);
-
-                if (frequentWordsToExclude.contains(token.toLowerCase())) {
                     continue;
                 }
 
@@ -899,7 +593,7 @@ public class DependencyParse {
      * @param headNode
      * @return List of sibling nodes
      */
-    public List<Integer> getSiblings(int nodeId, Set<String> acceptedPOSTAGs, Set<String> frequentWordsToExclude) {
+    public List<Integer> getSiblings(int nodeId, Set<String> acceptedPOSTAGs) {
 
         List<Integer> list = new ArrayList<>();
 
@@ -913,12 +607,6 @@ public class DependencyParse {
                 String postag = getPOSTag(s);
 
                 if (!acceptedPOSTAGs.contains(postag)) {
-                    continue;
-                }
-
-                String token = getToken(s);
-
-                if (frequentWordsToExclude.contains(token.toLowerCase())) {
                     continue;
                 }
 

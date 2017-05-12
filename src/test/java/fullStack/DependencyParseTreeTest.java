@@ -74,8 +74,30 @@ public class DependencyParseTreeTest {
         wordsWithSpecialSemanticTypes.add("how");
         wordsWithSpecialSemanticTypes.add("when");
         wordsWithSpecialSemanticTypes.add("where");
+        
+        
+        Set<String> edges = new HashSet<>();
+        edges.add("obj");
+        edges.add("obl");
+        edges.add("flat");
+        edges.add("compound");
+        edges.add("nummod");
+        edges.add("appos");
+        edges.add("subj");
+        edges.add("nsubj");
+        edges.add("dobj");
+        edges.add("iobj");
+        edges.add("nsubjpass");
+        edges.add("csubj");
+        edges.add("csubjpass");
+        edges.add("nmod:poss");
+        edges.add("ccomp");
+        edges.add("nmod");
+        edges.add("amod");
+        edges.add("xcomp");
+        edges.add("vocative");
 
-        QueryConstructor.initialize(specialSemanticTypes, semanticTypes, validPOSTags, frequentWordsToExclude, wordsWithSpecialSemanticTypes);
+        QueryConstructor.initialize(specialSemanticTypes, semanticTypes, validPOSTags,edges);
 
         /**
          * Text: Who created Family_Guy Nodes : 1 2 3 Edges: (1,2 = subj) (3,2 =

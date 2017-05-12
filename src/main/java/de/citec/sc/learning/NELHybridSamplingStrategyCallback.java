@@ -2,6 +2,7 @@ package de.citec.sc.learning;
 
 import de.citec.sc.learning.NELTrainer.EpochCallback;
 import de.citec.sc.sampling.MyBeamSearchSampler;
+import de.citec.sc.sampling.SamplingStrategies;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sampling.BeamSearchSampler;
@@ -24,12 +25,12 @@ public class NELHybridSamplingStrategyCallback<StateT extends AbstractState<?>> 
     @Override
     public void onStartEpoch(NELTrainer caller, int epoch, int numberOfEpochs, int numberOfInstances) {
         if ((epoch + 1) % 2 == 0) {
-            sampler.setTrainSamplingStrategy(BeamSearchSamplingStrategies.greedyBeamSearchSamplingStrategyByModel(beamSize,
+            sampler.setTrainSamplingStrategy(SamplingStrategies.greedyBeamSearchSamplingStrategyByModel(beamSize,
                     s -> s.getModelScore()));
             log.info("Switched to model score");
         } else {
             sampler.setTrainSamplingStrategy(
-                    BeamSearchSamplingStrategies.greedyBeamSearchSamplingStrategyByObjective(beamSize, s -> s.getObjectiveScore()));
+                    SamplingStrategies.greedyBeamSearchSamplingStrategyByObjective(beamSize, s -> s.getObjectiveScore()));
             log.info("Switched to objective score");
         }
     }

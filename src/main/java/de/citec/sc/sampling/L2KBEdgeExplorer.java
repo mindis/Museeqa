@@ -26,17 +26,17 @@ import sampling.Explorer;
  *
  * @author sherzod
  */
-public class EdgeExplorer implements Explorer<State> {
+public class L2KBEdgeExplorer implements Explorer<State> {
 
     private Map<Integer, String> semanticTypes;
     private Set<String> validPOSTags;
-    private Set<String> frequentWordsToExclude;
+    private Set<String> validEdges;
     private static Set<String> wordsWithSpecialSemanticTypes;
 
-    public EdgeExplorer(Map<Integer, String> assignedDUDES, Set<String> validPOSTags, Set<String> wordToExclude) {
+    public L2KBEdgeExplorer(Map<Integer, String> assignedDUDES, Set<String> validPOSTags, Set<String> edges) {
         this.semanticTypes = assignedDUDES;
         this.validPOSTags = validPOSTags;
-        this.frequentWordsToExclude = wordToExclude;
+        this.validEdges = edges;
     }
 
     @Override
@@ -49,9 +49,6 @@ public class EdgeExplorer implements Explorer<State> {
             String pos = currentState.getDocument().getParse().getPOSTag(indexOfNode);
 
             if (!validPOSTags.contains(pos)) {
-                continue;
-            }
-            if (frequentWordsToExclude.contains(node.toLowerCase())) {
                 continue;
             }
             //assign all dudes
@@ -68,13 +65,17 @@ public class EdgeExplorer implements Explorer<State> {
 //                        }
 //                    }
                 Set<Candidate> headNodeCandidates = getDBpediaMatches(dudeName, node);
+                
+                if(node.equals("erfunden") && dudeName.equals("Property")){
+                    int z=2;
+                }
 
                 if (headNodeCandidates.isEmpty()) {
                     continue;
                 }
 
-                List<Integer> childNodes = currentState.getDocument().getParse().getDependentEdges(indexOfNode, validPOSTags, frequentWordsToExclude);
-                List<Integer> siblings = currentState.getDocument().getParse().getSiblings(indexOfNode, validPOSTags, frequentWordsToExclude);
+                List<Integer> childNodes = currentState.getDocument().getParse().getDependentEdges(indexOfNode, validPOSTags);
+                List<Integer> siblings = currentState.getDocument().getParse().getSiblings(indexOfNode, validPOSTags);
 
                 boolean hasValidDepNode = false;
 
@@ -82,6 +83,13 @@ public class EdgeExplorer implements Explorer<State> {
 
                     //greedy exploring, skip nodes with assigned URI
                     if (!currentState.getHiddenVariables().get(depNodeIndex).getCandidate().getUri().equals("EMPTY_STRING")) {
+                        continue;
+                    }
+
+                    //consider certain edges, skip others
+                    String depRelation = currentState.getDocument().getParse().getDependencyRelation(depNodeIndex);
+
+                    if (!validEdges.contains(depRelation)) {
                         continue;
                     }
 
@@ -171,6 +179,13 @@ public class EdgeExplorer implements Explorer<State> {
 
                         //greedy exploring, skip nodes with assigned URI
                         if (!currentState.getHiddenVariables().get(depNodeIndex).getCandidate().getUri().equals("EMPTY_STRING")) {
+                            continue;
+                        }
+
+                        //consider certain edges, skip others
+                        String depRelation = currentState.getDocument().getParse().getDependencyRelation(depNodeIndex);
+
+                        if (!validEdges.contains(depRelation)) {
                             continue;
                         }
 
@@ -269,7 +284,10 @@ public class EdgeExplorer implements Explorer<State> {
 
                 if (!Stopwords.isStopWord(queryTerm)) {
                     Set<Candidate> propertyURIs = Search.getPredicates(queryTerm, topK, useLemmatizer, mergePartialMatches, useWordNet, Main.lang);
-                    uris.addAll(propertyURIs);
+                    
+                    for(Candidate c : propertyURIs){
+                        uris.add(c.clone());
+                    }
                 }
 
                 //retrieve manual lexicon even if it's in stop word list
@@ -288,7 +306,9 @@ public class EdgeExplorer implements Explorer<State> {
                 if (!Stopwords.isStopWord(queryTerm)) {
                     Set<Candidate> classURIs = Search.getClasses(queryTerm, topK, useLemmatizer, mergePartialMatches, useWordNet, Main.lang);
 
-                    uris.addAll(classURIs);
+                    for(Candidate c : classURIs){
+                        uris.add(c.clone());
+                    }
                 }
 
                 //retrieve manual lexicon even if it's in stop word list
@@ -306,7 +326,10 @@ public class EdgeExplorer implements Explorer<State> {
 
                 if (!Stopwords.isStopWord(queryTerm)) {
                     Set<Candidate> restrictionClassURIs = Search.getRestrictionClasses(queryTerm, topK, useLemmatizer, mergePartialMatches, useWordNet, Main.lang);
-                    uris.addAll(restrictionClassURIs);
+                    
+                    for(Candidate c : restrictionClassURIs){
+                        uris.add(c.clone());
+                    }
                 }
 
                 //check manual lexicon for Restriction Classes
@@ -326,20 +349,23 @@ public class EdgeExplorer implements Explorer<State> {
                 //extract resources
                 if (!Stopwords.isStopWord(queryTerm)) {
                     Set<Candidate> resourceURIs = Search.getResources(queryTerm, topK, useLemmatizer, mergePartialMatches, useWordNet, Main.lang);
-
+                    
                     //set some empty propertyy
                     for (Candidate c : resourceURIs) {
-                        c.setUri("<someProperty>###" + c.getUri());
+                        Candidate c2 = c.clone();
+                        c2.setUri("p###" + c2.getUri());
+                        
+                        uris.add(c2);
                     }
 
-                    uris.addAll(resourceURIs);
+//                    uris.addAll(resourceURIs);
                 }
 
                 //check manual lexicon for Resources => to make underspecified class
                 if (ManualLexicon.useManualLexicon) {
                     Set<String> definedLexica = ManualLexicon.getResources(queryTerm, Main.lang);
                     for (String d : definedLexica) {
-                        uris.add(new Candidate(new Instance("<someProperty>###" + d, 10000), 0, 1.0, 1.0));
+                        uris.add(new Candidate(new Instance("p###" + d, 10000), 0, 1.0, 1.0));
                     }
                 }
                 break;
@@ -350,7 +376,10 @@ public class EdgeExplorer implements Explorer<State> {
                 useWordNet = false;
                 if (!Stopwords.isStopWord(queryTerm)) {
                     Set<Candidate> resourceURIs = Search.getResources(queryTerm, topK, useLemmatizer, mergePartialMatches, useWordNet, Main.lang);
-                    uris.addAll(resourceURIs);
+                    
+                    for(Candidate c : resourceURIs){
+                        uris.add(c.clone());
+                    }
                 }
 
                 //check manual lexicon

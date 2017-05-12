@@ -73,8 +73,8 @@ public class SimilarityTemplate extends AbstractTemplate<AnnotatedDocument, Stat
                 continue;
             }
 
-            List<Integer> dependentNodes = state.getDocument().getParse().getDependentEdges(tokenID, validPOSTags, frequentWordsToExclude);
-            List<Integer> siblings = state.getDocument().getParse().getSiblings(tokenID, validPOSTags, frequentWordsToExclude);
+            List<Integer> dependentNodes = state.getDocument().getParse().getDependentEdges(tokenID, validPOSTags);
+            List<Integer> siblings = state.getDocument().getParse().getSiblings(tokenID, validPOSTags);
 
             if (!dependentNodes.isEmpty()) {
 

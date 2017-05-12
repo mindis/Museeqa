@@ -32,11 +32,10 @@ public class QueryConstructor {
     private static Map<Integer, String> semanticTypes;
     private static Map<Integer, String> specialSemanticTypes;
     private static Set<String> validPOSTags;
-    private static Set<String> frequentWordsToExclude;
-    private static Set<String> wordsWithSpecialSemanticTypes;
+    private static Set<String> validEdges;
     private static ExpressionFactory expressions;
 
-    public static void initialize(Map<Integer, String> sp, Map<Integer, String> s, Set<String> v, Set<String> f, Set<String> w) {
+    public static void initialize(Map<Integer, String> sp, Map<Integer, String> s, Set<String> v, Set<String> edges) {
 
         specialSemanticTypes = sp;
 
@@ -44,9 +43,7 @@ public class QueryConstructor {
 
         validPOSTags = v;
 
-        frequentWordsToExclude = f;
-
-        wordsWithSpecialSemanticTypes = w;
+        validEdges = edges;
 
         expressions = new ExpressionFactory();
     }
@@ -67,7 +64,7 @@ public class QueryConstructor {
             //instantiate DUDES with URIs
             HashMap<Integer, RDFDUDES> instantiatedDUDES = instantiateDUDES(state);
 
-            RDFDUDES headDUDE = SemanticComposition.compose(state, instantiatedDUDES, validPOSTags, frequentWordsToExclude, semanticTypes, specialSemanticTypes, wordsWithSpecialSemanticTypes);
+            RDFDUDES headDUDE = SemanticComposition.compose(state, instantiatedDUDES, validPOSTags, semanticTypes, specialSemanticTypes);
 
             if (headDUDE == null) {
                 return "";
@@ -184,7 +181,7 @@ public class QueryConstructor {
                     instantiatedDudes.put(nodeIndex, someProperty);
                     break;
                 case "Class":
-                    RDFDUDES someClass = new RDFDUDES(RDFDUDES.Type.CLASS);
+                    RDFDUDES someClass = new RDFDUDES(RDFDUDES.Type.CLASS, "1");
                     someClass.instantiateProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
                     //restriction class
                     if (uri.contains("###")) {
@@ -208,11 +205,11 @@ public class QueryConstructor {
                     break;
 
                 case "UnderSpecifiedClass":
-                    RDFDUDES someUnderSpecifiedClass = new RDFDUDES(RDFDUDES.Type.CLASS);
+                    RDFDUDES someUnderSpecifiedClass = new RDFDUDES(RDFDUDES.Type.CLASS, "1");
 
                     int nextNumber = FreshVariable.get();
 
-                    someUnderSpecifiedClass.instantiateProperty(nextNumber);
+                    someUnderSpecifiedClass.instantiateProperty("p"+nextNumber);
                     someUnderSpecifiedClass.instantiateObject(uri);
 
                     instantiatedDudes.put(nodeIndex, someUnderSpecifiedClass);

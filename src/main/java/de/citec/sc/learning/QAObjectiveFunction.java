@@ -61,7 +61,7 @@ public class QAObjectiveFunction extends ObjectiveFunction<State, String> implem
         double score1 = AnswerEvaluator.evaluate(constructedQuery, goldState);
 
         double score = Math.max(score1, score2);
-
+        
         return score;
     }
 
@@ -89,7 +89,7 @@ public class QAObjectiveFunction extends ObjectiveFunction<State, String> implem
         }
 
         double score = Math.max(score1, score2);
-
+        
         return score;
     }
 }

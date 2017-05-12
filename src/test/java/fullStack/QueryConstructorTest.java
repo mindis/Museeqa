@@ -9,6 +9,7 @@ import de.citec.sc.corpus.AnnotatedDocument;
 import de.citec.sc.corpus.QALDCorpus;
 import de.citec.sc.evaluator.QueryEvaluator;
 import de.citec.sc.learning.QueryConstructor;
+import de.citec.sc.main.Main;
 import de.citec.sc.parser.DependencyParse;
 import de.citec.sc.qald.QALDCorpusLoader;
 import de.citec.sc.qald.Question;
@@ -40,7 +41,7 @@ import org.junit.Test;
 public class QueryConstructorTest {
 
 //    public static void main(String[] args){
-    @Ignore
+//    @Ignore
     @Test
     public void test1() {
 
@@ -94,8 +95,31 @@ public class QueryConstructorTest {
         wordsWithSpecialSemanticTypes.add("how");
         wordsWithSpecialSemanticTypes.add("when");
         wordsWithSpecialSemanticTypes.add("where");
+        
+        Set<String> edges = new HashSet<>();
+        edges.add("obj");
+        edges.add("obl");
+        edges.add("flat");
+        edges.add("compound");
+        edges.add("nummod");
+        edges.add("appos");
+        edges.add("subj");
+        edges.add("nsubj");
+        edges.add("dobj");
+        edges.add("iobj");
+        edges.add("nsubjpass");
+        edges.add("csubj");
+        edges.add("csubjpass");
+        edges.add("nmod:poss");
+        edges.add("ccomp");
+        edges.add("nmod");
+        edges.add("amod");
+        edges.add("xcomp");
+        edges.add("vocative");
+        
+        Main.lang = Language.EN;
 
-        QueryConstructor.initialize(specialSemanticTypes, semanticTypes, validPOSTags, frequentWordsToExclude, wordsWithSpecialSemanticTypes);
+        QueryConstructor.initialize(specialSemanticTypes, semanticTypes, validPOSTags, edges);
 
         /**
          * Text: Who created Family_Guy Nodes : 1 2 3 Edges: (1,2 = subj) (3,2 =
@@ -148,7 +172,7 @@ public class QueryConstructorTest {
 
     }
 
-    @Ignore
+    
     @Test
     public void test2() {
 
@@ -202,8 +226,29 @@ public class QueryConstructorTest {
         wordsWithSpecialSemanticTypes.add("how");
         wordsWithSpecialSemanticTypes.add("when");
         wordsWithSpecialSemanticTypes.add("where");
+        
+        Set<String> edges = new HashSet<>();
+        edges.add("obj");
+        edges.add("obl");
+        edges.add("flat");
+        edges.add("compound");
+        edges.add("nummod");
+        edges.add("appos");
+        edges.add("subj");
+        edges.add("nsubj");
+        edges.add("dobj");
+        edges.add("iobj");
+        edges.add("nsubjpass");
+        edges.add("csubj");
+        edges.add("csubjpass");
+        edges.add("nmod:poss");
+        edges.add("ccomp");
+        edges.add("nmod");
+        edges.add("amod");
+        edges.add("xcomp");
+        edges.add("vocative");
 
-        QueryConstructor.initialize(specialSemanticTypes, semanticTypes, validPOSTags, frequentWordsToExclude, wordsWithSpecialSemanticTypes);
+        QueryConstructor.initialize(specialSemanticTypes, semanticTypes, validPOSTags, edges);
 
         /**
          * Text: Who created Family_Guy Nodes : 1 2 3 Edges: (1,2 = subj) (3,2 =
@@ -220,6 +265,8 @@ public class QueryConstructorTest {
         parseTree.addEdge(5, 3, "nsubj");
 
         parseTree.setHeadNode(3);
+        
+        Main.lang = Language.EN;
 
         Map<Language, String> qMap = new HashMap<Language, String>();
         qMap.put(Language.EN, "How tall is Michael Jordan?");
@@ -263,7 +310,7 @@ public class QueryConstructorTest {
     @Test
     public void test3() {
 
-        CandidateRetriever retriever = new CandidateRetrieverOnLucene(true, "luceneIndex");
+        CandidateRetriever retriever = new CandidateRetrieverOnLucene(false, "luceneIndex");
 
         WordNetAnalyzer wordNet = new WordNetAnalyzer("src/main/resources/WordNet-3.0/dict");
 
@@ -322,8 +369,29 @@ public class QueryConstructorTest {
         wordsWithSpecialSemanticTypes.add("how");
         wordsWithSpecialSemanticTypes.add("when");
         wordsWithSpecialSemanticTypes.add("where");
+        
+        Set<String> edges = new HashSet<>();
+        edges.add("obj");
+        edges.add("obl");
+        edges.add("flat");
+        edges.add("compound");
+        edges.add("nummod");
+        edges.add("appos");
+        edges.add("subj");
+        edges.add("nsubj");
+        edges.add("dobj");
+        edges.add("iobj");
+        edges.add("nsubjpass");
+        edges.add("csubj");
+        edges.add("csubjpass");
+        edges.add("nmod:poss");
+        edges.add("ccomp");
+        edges.add("nmod");
+        edges.add("amod");
+        edges.add("xcomp");
+        edges.add("vocative");
 
-        QueryConstructor.initialize(specialSemanticTypes, semanticTypes, validPOSTags, frequentWordsToExclude, wordsWithSpecialSemanticTypes);
+        QueryConstructor.initialize(specialSemanticTypes, semanticTypes, validPOSTags, edges);
 
         List<AnnotatedDocument> documents = getDocuments(QALDCorpusLoader.Dataset.valueOf("qaldSubset"));
 

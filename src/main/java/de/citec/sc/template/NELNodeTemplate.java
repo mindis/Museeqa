@@ -31,13 +31,13 @@ import templates.AbstractTemplate;
 public class NELNodeTemplate extends AbstractTemplate<AnnotatedDocument, State, StateFactorScope<State>> {
 
     private Set<String> validPOSTags;
-    private Set<String> frequentWordsToExclude;
+    private Set<String> validEdges;
     private Map<Integer, String> semanticTypes;
 
-    public NELNodeTemplate(Set<String> validPOSTags, Set<String> frequentWordsToExclude, Map<Integer, String> s) {
+    public NELNodeTemplate(Set<String> validPOSTags, Set<String> edges, Map<Integer, String> s) {
         this.validPOSTags = validPOSTags;
         this.semanticTypes = s;
-        this.frequentWordsToExclude = frequentWordsToExclude;
+        this.validEdges = edges;
     }
 
     @Override
@@ -93,7 +93,7 @@ public class NELNodeTemplate extends AbstractTemplate<AnnotatedDocument, State, 
 //            if(similarityScore == 1.0 && dudeName.equals("Individual")){
 //                features.put("NEL NODE - FEATURE: PERFECT MATCH Individual" + " SEM-TYPE: " + dudeName + ":" + headPOS + " dep-relation: " + depRelation + " ", 1.0);
 //            }
-            if (validPOSTags.contains(headPOS) && !frequentWordsToExclude.contains(headToken.toLowerCase())) {
+            if (validPOSTags.contains(headPOS)) {
                 if (headURI.equals("EMPTY_STRING")) {
                     features.put("NEL NODE - FEATURE: HAS EMPTY_URI " + " SEM-TYPE: " + dudeName + ":" + headPOS + " dep-relation: " + depRelation + " ", 1.0);
                 } else {
