@@ -30,3 +30,5 @@ copy.sh
 run.log
 states.txt
 statesTest.txt
+rankings.tar.gz
+w2v_output/

@@ -12,6 +12,7 @@ import de.citec.sc.query.ManualLexicon;
 
 import de.citec.sc.query.Search;
 import de.citec.sc.utils.DBpediaEndpoint;
+import de.citec.sc.utils.ProjectConfiguration;
 import de.citec.sc.utils.Stopwords;
 import de.citec.sc.variable.State;
 
@@ -291,7 +292,7 @@ public class L2KBEdgeExplorer implements Explorer<State> {
                 }
 
                 //retrieve manual lexicon even if it's in stop word list
-                if (ManualLexicon.useManualLexicon) {
+                if (ManualLexicon.useManualLexicon || ProjectConfiguration.getTrainingDatasetName().toLowerCase().contains("train")) {
                     Set<String> definedLexica = ManualLexicon.getProperties(queryTerm, Main.lang);
                     for (String d : definedLexica) {
                         uris.add(new Candidate(new Instance(d, 10000), 0, 1.0, 1.0));
@@ -312,7 +313,7 @@ public class L2KBEdgeExplorer implements Explorer<State> {
                 }
 
                 //retrieve manual lexicon even if it's in stop word list
-                if (ManualLexicon.useManualLexicon) {
+                if (ManualLexicon.useManualLexicon || ProjectConfiguration.getTrainingDatasetName().toLowerCase().contains("train")) {
                     Set<String> definedLexica = ManualLexicon.getClasses(queryTerm, Main.lang);
                     for (String d : definedLexica) {
                         uris.add(new Candidate(new Instance(d, 10000), 0, 1.0, 1.0));
@@ -333,7 +334,7 @@ public class L2KBEdgeExplorer implements Explorer<State> {
                 }
 
                 //check manual lexicon for Restriction Classes
-                if (ManualLexicon.useManualLexicon) {
+                if (ManualLexicon.useManualLexicon || ProjectConfiguration.getTrainingDatasetName().toLowerCase().contains("train")) {
                     Set<String> definedLexica = ManualLexicon.getRestrictionClasses(queryTerm, Main.lang);
                     for (String d : definedLexica) {
                         uris.add(new Candidate(new Instance(d, 10000), 0, 1.0, 1.0));
@@ -362,7 +363,7 @@ public class L2KBEdgeExplorer implements Explorer<State> {
                 }
 
                 //check manual lexicon for Resources => to make underspecified class
-                if (ManualLexicon.useManualLexicon) {
+                if (ManualLexicon.useManualLexicon || ProjectConfiguration.getTrainingDatasetName().toLowerCase().contains("train")) {
                     Set<String> definedLexica = ManualLexicon.getResources(queryTerm, Main.lang);
                     for (String d : definedLexica) {
                         uris.add(new Candidate(new Instance("p###" + d, 10000), 0, 1.0, 1.0));
@@ -383,7 +384,7 @@ public class L2KBEdgeExplorer implements Explorer<State> {
                 }
 
                 //check manual lexicon
-                if (ManualLexicon.useManualLexicon) {
+                if (ManualLexicon.useManualLexicon || ProjectConfiguration.getTrainingDatasetName().toLowerCase().contains("train")) {
                     Set<String> definedLexica = ManualLexicon.getResources(queryTerm, Main.lang);
                     for (String d : definedLexica) {
                         uris.add(new Candidate(new Instance(d, 10000), 0, 1.0, 1.0));
