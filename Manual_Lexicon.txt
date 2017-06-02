@@ -1459,7 +1459,7 @@
 75	Michael Jackson	http://dbpedia.org/resource/Michael_Jackson	EN	test
 81	Lance Bass	http://dbpedia.org/resource/Lance_Bass	EN	test
 81	marry	http://dbpedia.org/ontology/spouse	EN	test
-82	form of government	http://dbpedia.org/ontology/governmentType	EN	test
+82	government	http://dbpedia.org/ontology/governmentType	EN	test
 82	Russia	http://dbpedia.org/resource/Russia	EN	test
 83	movies	http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Film	EN	test
 83	Jesse Eisenberg	http://dbpedia.org/resource/Jesse_Eisenberg	EN	test
@@ -1626,6 +1626,7 @@
 53	EE.UU	http://dbpedia.org/resource/United_States	ES	test
 53	residen	http://dbpedia.org/ontology/residence	ES	test
 53	canadienses	http://dbpedia.org/ontology/birthPlace###http://dbpedia.org/resource/Canada	ES	test
+53	Canadians	http://dbpedia.org/ontology/birthPlace###http://dbpedia.org/resource/Canada	EN	test
 55	habla	http://dbpedia.org/ontology/language	ES	test
 55	japonés	http://dbpedia.org/resource/Japanese_language	ES	test
 55	países	http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Country	ES	test
@@ -1649,3 +1650,4 @@
 90	Hemingway	http://dbpedia.org/resource/Ernest_Hemingway	ES	test
 93	inspiro	http://dbpedia.org/ontology/influenced	ES	test
 93	Vincent van Gogh	http://dbpedia.org/resource/Vincent_van_Gogh	ES	test
+75	die	http://dbpedia.org/property/deathCause	EN	test

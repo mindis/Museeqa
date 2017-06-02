@@ -102,7 +102,7 @@ public class AnnotateManualLexicon {
                 String parseTree = d.getParse().toString();
                 String query = d.getGoldQueryString();
 
-                List<Triple> triples = SPARQLParser.extractTriplesFromQuery(query);
+                Set<Triple> triples = SPARQLParser.extractTriplesFromQuery(query);
                 Map<String, String> uriMap = new LinkedHashMap<>();
                 Map<String, String> tokenMap = new LinkedHashMap<>();
 

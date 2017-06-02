@@ -23,9 +23,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import learning.Vector;
 import net.ricecode.similarity.SimilarityStrategy;
 import net.ricecode.similarity.StringSimilarityMeasures;
+import org.eclipse.jetty.util.ConcurrentHashSet;
 import templates.AbstractTemplate;
 
 /**
@@ -40,10 +42,26 @@ public class QAEdgeAdvTemplate extends AbstractTemplate<AnnotatedDocument, State
     private Map<Integer, String> specialSemanticTypes;
 
     public QAEdgeAdvTemplate(Set<String> validPOSTags, Set<String> edges, Map<Integer, String> s, Map<Integer, String> sp) {
-        this.validPOSTags = validPOSTags;
-        this.semanticTypes = s;
-        this.specialSemanticTypes = sp;
-        this.validEdges = edges;
+        
+        semanticTypes = new ConcurrentHashMap<>();
+        for(Integer key : s.keySet()){
+            semanticTypes.put(key, s.get(key));
+        }
+        
+        specialSemanticTypes = new ConcurrentHashMap<>();
+        for(Integer key : sp.keySet()){
+            specialSemanticTypes.put(key, sp.get(key));
+        }
+        
+        this.validPOSTags = new ConcurrentHashSet<>();
+        for(String v : validPOSTags){
+            this.validPOSTags.add(v);
+        }
+        
+        this.validEdges = new ConcurrentHashSet<>();
+        for(String v : edges){
+            this.validEdges.add(v);
+        }
     }
 
     @Override

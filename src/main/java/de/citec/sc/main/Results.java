@@ -44,15 +44,15 @@ public class Results {
                             double value = Double.parseDouble(result);
 
                             if (langFile.getName().contains("Language_DE")) {
-                                String key = langFile.getName().substring(langFile.getName().indexOf("Epoch"));
+                                String key = langFile.getName().substring(langFile.getName().indexOf("Manual"));
 
                                 deNEL.put(key, value);
                             } else if (langFile.getName().contains("Language_EN")) {
-                                String key = langFile.getName().substring(langFile.getName().indexOf("Epoch"));
+                                String key = langFile.getName().substring(langFile.getName().indexOf("Manual"));
 
                                 enNEL.put(key, value);
                             } else if (langFile.getName().contains("Language_ES")) {
-                                String key = langFile.getName().substring(langFile.getName().indexOf("Epoch"));
+                                String key = langFile.getName().substring(langFile.getName().indexOf("Manual"));
 
                                 esNEL.put(key, value);
                             }
@@ -67,15 +67,15 @@ public class Results {
                             double value = Double.parseDouble(result);
 
                             if (langFile.getName().contains("Language_DE")) {
-                                String key = langFile.getName().substring(langFile.getName().indexOf("Epoch"));
+                                String key = langFile.getName().substring(langFile.getName().indexOf("Manual"));
 
                                 deQA.put(key, value);
                             } else if (langFile.getName().contains("Language_EN")) {
-                                String key = langFile.getName().substring(langFile.getName().indexOf("Epoch"));
+                                String key = langFile.getName().substring(langFile.getName().indexOf("Manual"));
 
                                 enQA.put(key, value);
                             } else if (langFile.getName().contains("Language_ES")) {
-                                String key = langFile.getName().substring(langFile.getName().indexOf("Epoch"));
+                                String key = langFile.getName().substring(langFile.getName().indexOf("Manual"));
 
                                 esQA.put(key, value);
                             }

@@ -17,6 +17,8 @@ import de.citec.sc.utils.Stopwords;
 import de.citec.sc.variable.State;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +44,7 @@ public class L2KBEdgeExplorer implements Explorer<State> {
 
     @Override
     public List getNextStates(State currentState) {
-        List<State> newStates = new ArrayList<>();
+        Set<State> newStates = new HashSet<>();
 
         for (int indexOfNode : currentState.getDocument().getParse().getNodes().keySet()) {
             String node = currentState.getDocument().getParse().getNodes().get(indexOfNode);
@@ -66,10 +68,6 @@ public class L2KBEdgeExplorer implements Explorer<State> {
 //                        }
 //                    }
                 Set<Candidate> headNodeCandidates = getDBpediaMatches(dudeName, node);
-                
-                if(node.equals("erfunden") && dudeName.equals("Property")){
-                    int z=2;
-                }
 
                 if (headNodeCandidates.isEmpty()) {
                     continue;
@@ -83,10 +81,9 @@ public class L2KBEdgeExplorer implements Explorer<State> {
                 for (Integer depNodeIndex : childNodes) {
 
                     //greedy exploring, skip nodes with assigned URI
-                    if (!currentState.getHiddenVariables().get(depNodeIndex).getCandidate().getUri().equals("EMPTY_STRING")) {
-                        continue;
-                    }
-
+//                    if (!currentState.getHiddenVariables().get(depNodeIndex).getCandidate().getUri().equals("EMPTY_STRING")) {
+//                        continue;
+//                    }
                     //consider certain edges, skip others
                     String depRelation = currentState.getDocument().getParse().getDependencyRelation(depNodeIndex);
 
@@ -112,10 +109,6 @@ public class L2KBEdgeExplorer implements Explorer<State> {
                                 boolean isSubject = DBpediaEndpoint.isSubjectTriple(headNodeCandidate.getUri(), depNodeCandidate.getUri());
                                 boolean isObject = DBpediaEndpoint.isObjectTriple(headNodeCandidate.getUri(), depNodeCandidate.getUri());
 
-                                if (headNodeCandidate.getUri().equals("http://dbpedia.org/ontology/creator") && depNodeCandidate.getUri().equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/TelevisionShow")) {
-                                    int z = 1;
-                                }
-
                                 if (isSubject) {
 
                                     //check if the slot 1 has been occupied before
@@ -127,7 +120,7 @@ public class L2KBEdgeExplorer implements Explorer<State> {
                                     s.addHiddenVariable(depNodeIndex, indexOfDepDude, depNodeCandidate);
 
                                     //Argument is 1 => subj
-                                    if (depDudeName.equals("RestrictionClass") || depDudeName.equals("Property") || dudeName.equals("Property") || dudeName.equals("RestrictionClass")) {
+                                    if (depDudeName.equals("RestrictionClass") || depDudeName.equals("UnderSpecifiedClass") || depDudeName.equals("Property") || dudeName.equals("Property") || dudeName.equals("RestrictionClass") || dudeName.equals("UnderSpecifiedClass")) {
 
                                         if (usedSlots.contains(1)) {
 
@@ -153,7 +146,7 @@ public class L2KBEdgeExplorer implements Explorer<State> {
                                     s.addHiddenVariable(depNodeIndex, indexOfDepDude, depNodeCandidate);
 
                                     //Argument number is 2 => obj
-                                    if (depDudeName.equals("RestrictionClass") || depDudeName.equals("Property") || dudeName.equals("Property") || dudeName.equals("RestrictionClass")) {
+                                    if (depDudeName.equals("RestrictionClass") || depDudeName.equals("UnderSpecifiedClass") || depDudeName.equals("Property") || dudeName.equals("Property") || dudeName.equals("RestrictionClass") || dudeName.equals("UnderSpecifiedClass")) {
 
                                         if (usedSlots.contains(2)) {
                                             s.addSlotVariable(depNodeIndex, indexOfNode, 1);
@@ -178,11 +171,10 @@ public class L2KBEdgeExplorer implements Explorer<State> {
 
                     for (Integer depNodeIndex : siblings) {
 
-                        //greedy exploring, skip nodes with assigned URI
-                        if (!currentState.getHiddenVariables().get(depNodeIndex).getCandidate().getUri().equals("EMPTY_STRING")) {
-                            continue;
-                        }
-
+//                        //greedy exploring, skip nodes with assigned URI
+//                        if (!currentState.getHiddenVariables().get(depNodeIndex).getCandidate().getUri().equals("EMPTY_STRING")) {
+//                            continue;
+//                        }
                         //consider certain edges, skip others
                         String depRelation = currentState.getDocument().getParse().getDependencyRelation(depNodeIndex);
 
@@ -205,21 +197,28 @@ public class L2KBEdgeExplorer implements Explorer<State> {
                             for (Candidate headNodeCandidate : headNodeCandidates) {
                                 for (Candidate depNodeCandidate : depNodeCandidates) {
 
-                                    if (headNodeCandidate.getUri().equals("http://dbpedia.org/ontology/field###http://dbpedia.org/resource/Oceanography") && depNodeCandidate.getUri().equals("http://dbpedia.org/ontology/birthPlace###http://dbpedia.org/resource/Sweden")) {
-                                        int z = 1;
-                                    }
                                     boolean isSubject = DBpediaEndpoint.isSubjectTriple(headNodeCandidate.getUri(), depNodeCandidate.getUri());
                                     boolean isObject = DBpediaEndpoint.isObjectTriple(headNodeCandidate.getUri(), depNodeCandidate.getUri());
 
                                     if (isSubject) {
+
+                                        List<Integer> usedSlots = currentState.getUsedSlots(indexOfNode);
+
                                         State s = new State(currentState);
 
                                         s.addHiddenVariable(indexOfNode, indexOfDude, headNodeCandidate);
                                         s.addHiddenVariable(depNodeIndex, indexOfDepDude, depNodeCandidate);
 
                                         //Argument is 1 => subj
-                                        if (depDudeName.equals("RestrictionClass") || depDudeName.equals("Property") || dudeName.equals("Property") || dudeName.equals("RestrictionClass")) {
-                                            s.addSlotVariable(depNodeIndex, indexOfNode, 1);
+                                        if (depDudeName.equals("RestrictionClass") || depDudeName.equals("UnderSpecifiedClass") || depDudeName.equals("Property") || dudeName.equals("Property") || dudeName.equals("RestrictionClass") || dudeName.equals("UnderSpecifiedClass")) {
+
+                                            if (usedSlots.contains(1)) {
+
+                                                s.addSlotVariable(depNodeIndex, indexOfNode, 2);
+
+                                            } else {
+                                                s.addSlotVariable(depNodeIndex, indexOfNode, 1);
+                                            }
                                         }
 
                                         if (!s.equals(currentState) && !newStates.contains(s)) {
@@ -229,14 +228,21 @@ public class L2KBEdgeExplorer implements Explorer<State> {
                                         hasValidDepNode = true;
                                     }
                                     if (isObject) {
+                                        List<Integer> usedSlots = currentState.getUsedSlots(indexOfNode);
+
                                         State s = new State(currentState);
 
                                         s.addHiddenVariable(indexOfNode, indexOfDude, headNodeCandidate);
                                         s.addHiddenVariable(depNodeIndex, indexOfDepDude, depNodeCandidate);
 
                                         //Argument number is 2 => obj
-                                        if (depDudeName.equals("Property") || dudeName.equals("Property")) {
-                                            s.addSlotVariable(depNodeIndex, indexOfNode, 2);
+                                        if (depDudeName.equals("RestrictionClass") || depDudeName.equals("UnderSpecifiedClass") || depDudeName.equals("Property") || dudeName.equals("Property") || dudeName.equals("RestrictionClass") || dudeName.equals("UnderSpecifiedClass")) {
+
+                                            if (usedSlots.contains(2)) {
+                                                s.addSlotVariable(depNodeIndex, indexOfNode, 1);
+                                            } else {
+                                                s.addSlotVariable(depNodeIndex, indexOfNode, 2);
+                                            }
                                         }
 
                                         if (!s.equals(currentState) && !newStates.contains(s)) {
@@ -253,7 +259,15 @@ public class L2KBEdgeExplorer implements Explorer<State> {
             }
         }
 
-        return newStates;
+//        Map<String, State> uniqueStates = new HashMap<>();
+//        for(State s1 : newStates){
+//            if(!uniqueStates.containsKey(s1.toString())){
+//                uniqueStates.put(s1.toString(), s1);
+//            }
+//        }
+        List<State> states = new ArrayList<>(newStates);
+
+        return states;
     }
 
     private Set<Candidate> getDBpediaMatches(String dude, String node) {
@@ -273,9 +287,11 @@ public class L2KBEdgeExplorer implements Explorer<State> {
         boolean useWordNet = false;
         boolean mergePartialMatches = false;
 
-        int topK = 100;
+        int topK = 80;
 
         String queryTerm = node.toLowerCase().trim();
+
+        Set<String> indexURIs = new HashSet<>();
 
         switch (dude) {
             case "Property":
@@ -285,8 +301,9 @@ public class L2KBEdgeExplorer implements Explorer<State> {
 
                 if (!Stopwords.isStopWord(queryTerm)) {
                     Set<Candidate> propertyURIs = Search.getPredicates(queryTerm, topK, useLemmatizer, mergePartialMatches, useWordNet, Main.lang);
-                    
-                    for(Candidate c : propertyURIs){
+
+                    for (Candidate c : propertyURIs) {
+                        indexURIs.add(c.getUri());
                         uris.add(c.clone());
                     }
                 }
@@ -295,7 +312,9 @@ public class L2KBEdgeExplorer implements Explorer<State> {
                 if (ManualLexicon.useManualLexicon || ProjectConfiguration.getTrainingDatasetName().toLowerCase().contains("train")) {
                     Set<String> definedLexica = ManualLexicon.getProperties(queryTerm, Main.lang);
                     for (String d : definedLexica) {
-                        uris.add(new Candidate(new Instance(d, 10000), 0, 1.0, 1.0));
+                        if (!indexURIs.contains(d)) {
+                            uris.add(new Candidate(new Instance(d, 10000), 0, 1.0, 1.0));
+                        }
                     }
                 }
                 break;
@@ -307,7 +326,8 @@ public class L2KBEdgeExplorer implements Explorer<State> {
                 if (!Stopwords.isStopWord(queryTerm)) {
                     Set<Candidate> classURIs = Search.getClasses(queryTerm, topK, useLemmatizer, mergePartialMatches, useWordNet, Main.lang);
 
-                    for(Candidate c : classURIs){
+                    for (Candidate c : classURIs) {
+                        indexURIs.add(c.getUri());
                         uris.add(c.clone());
                     }
                 }
@@ -316,7 +336,9 @@ public class L2KBEdgeExplorer implements Explorer<State> {
                 if (ManualLexicon.useManualLexicon || ProjectConfiguration.getTrainingDatasetName().toLowerCase().contains("train")) {
                     Set<String> definedLexica = ManualLexicon.getClasses(queryTerm, Main.lang);
                     for (String d : definedLexica) {
-                        uris.add(new Candidate(new Instance(d, 10000), 0, 1.0, 1.0));
+                        if (!indexURIs.contains(d)) {
+                            uris.add(new Candidate(new Instance(d, 10000), 0, 1.0, 1.0));
+                        }
                     }
                 }
                 break;
@@ -327,8 +349,9 @@ public class L2KBEdgeExplorer implements Explorer<State> {
 
                 if (!Stopwords.isStopWord(queryTerm)) {
                     Set<Candidate> restrictionClassURIs = Search.getRestrictionClasses(queryTerm, topK, useLemmatizer, mergePartialMatches, useWordNet, Main.lang);
-                    
-                    for(Candidate c : restrictionClassURIs){
+
+                    for (Candidate c : restrictionClassURIs) {
+                        indexURIs.add(c.getUri());
                         uris.add(c.clone());
                     }
                 }
@@ -337,7 +360,9 @@ public class L2KBEdgeExplorer implements Explorer<State> {
                 if (ManualLexicon.useManualLexicon || ProjectConfiguration.getTrainingDatasetName().toLowerCase().contains("train")) {
                     Set<String> definedLexica = ManualLexicon.getRestrictionClasses(queryTerm, Main.lang);
                     for (String d : definedLexica) {
-                        uris.add(new Candidate(new Instance(d, 10000), 0, 1.0, 1.0));
+                        if (!indexURIs.contains(d)) {
+                            uris.add(new Candidate(new Instance(d, 10000), 0, 1.0, 1.0));
+                        }
                     }
                 }
                 break;
@@ -350,23 +375,24 @@ public class L2KBEdgeExplorer implements Explorer<State> {
                 //extract resources
                 if (!Stopwords.isStopWord(queryTerm)) {
                     Set<Candidate> resourceURIs = Search.getResources(queryTerm, topK, useLemmatizer, mergePartialMatches, useWordNet, Main.lang);
-                    
+
                     //set some empty propertyy
                     for (Candidate c : resourceURIs) {
                         Candidate c2 = c.clone();
-                        c2.setUri("p###" + c2.getUri());
-                        
+
+                        indexURIs.add(c.getUri());
+
                         uris.add(c2);
                     }
-
-//                    uris.addAll(resourceURIs);
                 }
 
                 //check manual lexicon for Resources => to make underspecified class
                 if (ManualLexicon.useManualLexicon || ProjectConfiguration.getTrainingDatasetName().toLowerCase().contains("train")) {
                     Set<String> definedLexica = ManualLexicon.getResources(queryTerm, Main.lang);
                     for (String d : definedLexica) {
-                        uris.add(new Candidate(new Instance("p###" + d, 10000), 0, 1.0, 1.0));
+                        if (!indexURIs.contains(d)) {
+                            uris.add(new Candidate(new Instance(d, 10000), 0, 1.0, 1.0));
+                        }
                     }
                 }
                 break;
@@ -375,11 +401,13 @@ public class L2KBEdgeExplorer implements Explorer<State> {
                 useLemmatizer = false;
                 mergePartialMatches = false;
                 useWordNet = false;
+
                 if (!Stopwords.isStopWord(queryTerm)) {
-                    Set<Candidate> resourceURIs = Search.getResources(queryTerm, topK, useLemmatizer, mergePartialMatches, useWordNet, Main.lang);
-                    
-                    for(Candidate c : resourceURIs){
+                    Set<Candidate> resourceCandidates = Search.getResources(queryTerm, topK, useLemmatizer, mergePartialMatches, useWordNet, Main.lang);
+
+                    for (Candidate c : resourceCandidates) {
                         uris.add(c.clone());
+                        indexURIs.add(c.getUri());
                     }
                 }
 
@@ -387,7 +415,9 @@ public class L2KBEdgeExplorer implements Explorer<State> {
                 if (ManualLexicon.useManualLexicon || ProjectConfiguration.getTrainingDatasetName().toLowerCase().contains("train")) {
                     Set<String> definedLexica = ManualLexicon.getResources(queryTerm, Main.lang);
                     for (String d : definedLexica) {
-                        uris.add(new Candidate(new Instance(d, 10000), 0, 1.0, 1.0));
+                        if (!indexURIs.contains(d)) {
+                            uris.add(new Candidate(new Instance(d, 10000), 0, 1.0, 1.0));
+                        }
                     }
                 }
                 break;

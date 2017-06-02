@@ -74,6 +74,7 @@ public class DependencyParse {
         patterns.add("PROPN PROPN ADP NOUN");//Nobel (PROPN) 		9,Prize (PROPN) 		10,in (ADP) 		11,literature (NOUN)
         patterns.add("PROPN NUM");//7,Chile Route (NNP) 		8,68 (CD) 
         patterns.add("NOUN NOUN ADP NOUN");//nobel (NOUN) 		6,prize (NOUN) 		7,in (ADP) 		8,physics (NOUN) 
+        patterns.add("NOUN ADP PROPN");// Game (NOUN) 		5,of (ADP) 		6,Thrones (PROPN)
 //        patterns.add("DET PROPN");//The (DET) 		14,Sopranos (PROPN)
 
         List<String> edges = new ArrayList<>();

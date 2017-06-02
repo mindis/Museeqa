@@ -42,11 +42,11 @@ public class SearchTerms {
         System.out.println(ManualLexicon.getProperties("nacido", CandidateRetriever.Language.ES));
         System.out.println(ManualLexicon.getResources("michael jordan", CandidateRetriever.Language.ES));
         System.out.println(ManualLexicon.getClasses("filmen", CandidateRetriever.Language.DE));
-        System.out.println(ManualLexicon.getProperties("directed", CandidateRetriever.Language.EN));
+        System.out.println(ManualLexicon.getProperties("die", CandidateRetriever.Language.EN));
         
         
 
-        String word = "created";
+        String word = "die";
         int topK = 100;
         boolean lemmatize = true;
         boolean useWordNet = false;

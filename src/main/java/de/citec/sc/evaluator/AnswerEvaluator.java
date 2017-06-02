@@ -24,26 +24,26 @@ public class AnswerEvaluator {
             return 0;
         }
 
-        List<String> candidateAnswers = DBpediaEndpoint.runQuery(derived);
+        Set<String> candidateAnswers = DBpediaEndpoint.runQuery(derived, false);
 
-        List<String> goldAnswers = DBpediaEndpoint.runQuery(goldStandard);
+        Set<String> goldAnswers = DBpediaEndpoint.runQuery(goldStandard, false);
 
         double f1 = getF1(candidateAnswers, goldAnswers);
 
         return f1;
     }
 
-    private static double getF1(List<String> a, List<String> b) {
+    private static double getF1(Set<String> a, Set<String> b) {
         
-        Set<String> first = new HashSet<>();
-        first.addAll(a);
-        Set<String> second = new HashSet<>();
-        second.addAll(b);
+//        Set<String> first = new HashSet<>();
+//        first.addAll(a);
+//        Set<String> second = new HashSet<>();
+//        second.addAll(b);
 
         int r = 0;
 
-        for (String s : first) {
-            if (second.contains(s)) {
+        for (String s : a) {
+            if (b.contains(s)) {
                 r++;
             }
         }
@@ -52,8 +52,8 @@ public class AnswerEvaluator {
 //            return 1.0;
 //            
 //        }
-        double recall = (double) r / (double) second.size();
-        double precision = (double) r / (double) first.size();
+        double recall = (double) r / (double) b.size();
+        double precision = (double) r / (double) a.size();
 
         double f1 = (2 * precision * recall) / (precision + recall);
 

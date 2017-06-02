@@ -95,7 +95,7 @@ public class QCEdgeExplorer implements Explorer<State> {
             headNodes.add(headNode);
 
             boolean hasValidSpecialNode = false;
-            
+
             for (Integer depNodeIndex : depNodes) {
 
                 //greedy exploring, skip nodes with assigned URI
@@ -105,8 +105,8 @@ public class QCEdgeExplorer implements Explorer<State> {
 
                 String depNode = currentState.getDocument().getParse().getNodes().get(depNodeIndex);
                 String depPOS = currentState.getDocument().getParse().getPOSTag(depNodeIndex);
-                
-                if(!validPOSTags.contains(depPOS)){
+
+                if (!validPOSTags.contains(depPOS)) {
                     continue;
                 }
 
@@ -118,16 +118,36 @@ public class QCEdgeExplorer implements Explorer<State> {
 
                     List<Integer> usedSlots = currentState.getUsedSlots(indexOfNode);
 
+                    String depDudeName = specialSemanticTypes.get(indexOfDepDude);
+
                     if (usedSlots.contains(1) && usedSlots.contains(2)) {
-                        State s = new State(currentState);
 
-                        Candidate emptyInstance = new Candidate(new Instance("EMPTY_STRING", 0), 0, 0, 0);
+                        if (depDudeName.equals("Which")) {
+                            
+                            State s = new State(currentState);
 
-                        s.addHiddenVariable(depNodeIndex, indexOfDepDude, emptyInstance);
+                            Candidate emptyInstance = new Candidate(new Instance("EMPTY_STRING", 0), 0, 0, 0);
 
-                        if (!s.equals(currentState) && !newStates.contains(s)) {
-                            newStates.add(s);
+                            //add as slot 2 since 1 taken by another node
+                            s.addSlotVariable(depNodeIndex, indexOfNode, 1);
+                            s.addHiddenVariable(depNodeIndex, indexOfDepDude, emptyInstance);
+
+                            if (!s.equals(currentState) && !newStates.contains(s)) {
+                                newStates.add(s);
+                            }
+                        } else {
+                            
+                            State s = new State(currentState);
+
+                            Candidate emptyInstance = new Candidate(new Instance("EMPTY_STRING", 0), 0, 0, 0);
+
+                            s.addHiddenVariable(depNodeIndex, indexOfDepDude, emptyInstance);
+
+                            if (!s.equals(currentState) && !newStates.contains(s)) {
+                                newStates.add(s);
+                            }
                         }
+
                     } else if (usedSlots.contains(1) && !usedSlots.contains(2)) {
                         State s = new State(currentState);
 
@@ -187,28 +207,46 @@ public class QCEdgeExplorer implements Explorer<State> {
                 }
 
                 String hNodeToken = currentState.getDocument().getParse().getNodes().get(hNode);
-                
+
                 String depPOS = currentState.getDocument().getParse().getPOSTag(hNode);
-                
-                if(!validPOSTags.contains(depPOS)){
+
+                if (!validPOSTags.contains(depPOS)) {
                     continue;
                 }
 
                 //assign special semantic types to certain words  such as : who, which, where, when ...
                 hasValidSpecialNode = true;
                 for (Integer indexOfDepDude : specialSemanticTypes.keySet()) {
+                    
+                    String depDudeName = specialSemanticTypes.get(indexOfDepDude);
 
                     List<Integer> usedSlots = currentState.getUsedSlots(indexOfNode);
 
                     if (usedSlots.contains(1) && usedSlots.contains(2)) {
-                        State s = new State(currentState);
+                        if (depDudeName.equals("Which")) {
+                            
+                            State s = new State(currentState);
 
-                        Candidate emptyInstance = new Candidate(new Instance("EMPTY_STRING", 0), 0, 0, 0);
+                            Candidate emptyInstance = new Candidate(new Instance("EMPTY_STRING", 0), 0, 0, 0);
 
-                        s.addHiddenVariable(hNode, indexOfDepDude, emptyInstance);
+                            //add as slot 2 since 1 taken by another node
+                            s.addSlotVariable(hNode, indexOfNode, 1);
+                            s.addHiddenVariable(hNode, indexOfDepDude, emptyInstance);
 
-                        if (!s.equals(currentState) && !newStates.contains(s)) {
-                            newStates.add(s);
+                            if (!s.equals(currentState) && !newStates.contains(s)) {
+                                newStates.add(s);
+                            }
+                        } else {
+                            
+                            State s = new State(currentState);
+
+                            Candidate emptyInstance = new Candidate(new Instance("EMPTY_STRING", 0), 0, 0, 0);
+
+                            s.addHiddenVariable(hNode, indexOfDepDude, emptyInstance);
+
+                            if (!s.equals(currentState) && !newStates.contains(s)) {
+                                newStates.add(s);
+                            }
                         }
                     } else if (usedSlots.contains(1) && !usedSlots.contains(2)) {
                         State s = new State(currentState);
@@ -264,10 +302,27 @@ public class QCEdgeExplorer implements Explorer<State> {
                     hasValidSpecialNode = true;
 
                     for (Integer indexOfDepDude : specialSemanticTypes.keySet()) {
+                        
+                        String depDudeName = specialSemanticTypes.get(indexOfDepDude);
 
                         List<Integer> usedSlots = currentState.getUsedSlots(indexOfNode);
 
                         if (usedSlots.contains(1) && usedSlots.contains(2)) {
+                            if (depDudeName.equals("Which")) {
+                            
+                            State s = new State(currentState);
+
+                            Candidate emptyInstance = new Candidate(new Instance("EMPTY_STRING", 0), 0, 0, 0);
+
+                            //add as slot 2 since 1 taken by another node
+                            s.addSlotVariable(indexOfNode1, indexOfNode, 1);
+                            s.addHiddenVariable(indexOfNode1, indexOfDepDude, emptyInstance);
+
+                            if (!s.equals(currentState) && !newStates.contains(s)) {
+                                newStates.add(s);
+                            }
+                        } else {
+                            
                             State s = new State(currentState);
 
                             Candidate emptyInstance = new Candidate(new Instance("EMPTY_STRING", 0), 0, 0, 0);
@@ -277,6 +332,7 @@ public class QCEdgeExplorer implements Explorer<State> {
                             if (!s.equals(currentState) && !newStates.contains(s)) {
                                 newStates.add(s);
                             }
+                        }
                         } else if (usedSlots.contains(1) && !usedSlots.contains(2)) {
                             State s = new State(currentState);
 

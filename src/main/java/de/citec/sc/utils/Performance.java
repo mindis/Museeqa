@@ -7,18 +7,16 @@ package de.citec.sc.utils;
 
 import de.citec.sc.corpus.AnnotatedDocument;
 import de.citec.sc.corpus.SampledMultipleInstance;
-import de.citec.sc.learning.NELObjectiveFunction;
 import de.citec.sc.learning.QueryConstructor;
-import de.citec.sc.variable.HiddenVariable;
 import de.citec.sc.variable.State;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import learning.ObjectiveFunction;
-import static net.ricecode.similarity.StringSimilarityMeasures.score;
 
 /**
  *
@@ -31,7 +29,7 @@ public class Performance {
 
     public static void logNELTrain() {
 
-        String fileName = "NEL_Language_"+ProjectConfiguration.getLanguage()+"_Manual_" + ProjectConfiguration.useManualLexicon() + "_Matoll_" + ProjectConfiguration.useMatoll() + "_Dataset_" + ProjectConfiguration.getTrainingDatasetName() + "_Epoch_" + ProjectConfiguration.getNumberOfEpochs() + "_Word_" + ProjectConfiguration.getTrainMaxWordCount()+"_Language_"+ProjectConfiguration.getLanguage() + "_GROUP_"+ProjectConfiguration.getFeatureGroup();
+        String fileName = "NEL_Language_" + ProjectConfiguration.getLanguage() + "_Manual_" + ProjectConfiguration.useManualLexicon() + "_Matoll_" + ProjectConfiguration.useMatoll() + "_Dataset_" + ProjectConfiguration.getTrainingDatasetName() + "_Epoch_" + ProjectConfiguration.getNumberOfEpochs() + "_Word_" + ProjectConfiguration.getTrainMaxWordCount() + "_Language_" + ProjectConfiguration.getLanguage() + "_GROUP_" + ProjectConfiguration.getFeatureGroup();
 
         //log based on word count
         String p = parsedQuestions.size() + "/" + (parsedQuestions.size() + unParsedQuestions.size()) + "\n\n";
@@ -59,6 +57,34 @@ public class Performance {
 
         FileFactory.writeListToFile(parsedOutputsDirectory + "/unParsedInstances_" + fileName + ".txt", u, false);
         FileFactory.writeListToFile(parsedOutputsDirectory + "/parsedInstances_" + fileName + ".txt", p, false);
+
+        //general file
+        Set<String> oldLogs = FileFactory.readFile(parsedOutputsDirectory + "/logs_NEL_" + ProjectConfiguration.getLanguage() + ".txt");
+
+        Map<String, Double> map = new HashMap<>();
+        for (String s : oldLogs) {
+            String name = s.split("\t")[0];
+            double score = Double.parseDouble(s.split("\t")[1]);
+
+            map.put(name, score);
+        }
+
+        String n = "Manual_" + ProjectConfiguration.useManualLexicon() + "_Matoll_" + ProjectConfiguration.useMatoll() + "_Dataset_" + ProjectConfiguration.getTrainingDatasetName() + "_Epoch_" + ProjectConfiguration.getNumberOfEpochs();
+        double s = parsedQuestions.size() / (double) (parsedQuestions.size() + unParsedQuestions.size());
+        s = round(s,2);
+
+        map.put(n, s);
+
+        map = SortUtils.sortByDoubleValue((HashMap<String, Double>) map);
+        
+        String content = "";
+        for(String k : map.keySet()){
+            content+=k+"\t"+map.get(k)+"\n";
+        }
+        content = content.trim();
+        
+        FileFactory.writeListToFile(parsedOutputsDirectory + "/logs_NEL_" + ProjectConfiguration.getLanguage() + ".txt", content, false);
+        
 
         unParsedQuestions.clear();
         parsedQuestions.clear();
@@ -66,7 +92,7 @@ public class Performance {
 
     public static void logQATrain() {
 
-        String fileName = "QA_Language_"+ProjectConfiguration.getLanguage()+"_Manual_" + ProjectConfiguration.useManualLexicon() + "_Matoll_" + ProjectConfiguration.useMatoll() + "_Dataset_" + ProjectConfiguration.getTrainingDatasetName() + "_Epoch_" + ProjectConfiguration.getNumberOfEpochs() + "_Word_" + ProjectConfiguration.getTrainMaxWordCount()+"_Language_"+ProjectConfiguration.getLanguage()+"_Group_"+ProjectConfiguration.getFeatureGroup();
+        String fileName = "QA_Language_" + ProjectConfiguration.getLanguage() + "_Manual_" + ProjectConfiguration.useManualLexicon() + "_Matoll_" + ProjectConfiguration.useMatoll() + "_Dataset_" + ProjectConfiguration.getTrainingDatasetName() + "_Epoch_" + ProjectConfiguration.getNumberOfEpochs() + "_Word_" + ProjectConfiguration.getTrainMaxWordCount() + "_Language_" + ProjectConfiguration.getLanguage() + "_Group_" + ProjectConfiguration.getFeatureGroup();
 
         //log based on word count
         String p = parsedQuestions.size() + "/" + (parsedQuestions.size() + unParsedQuestions.size()) + "\n\n";
@@ -94,6 +120,33 @@ public class Performance {
 
         FileFactory.writeListToFile(parsedOutputsDirectory + "/unParsedInstances_" + fileName + ".txt", u, false);
         FileFactory.writeListToFile(parsedOutputsDirectory + "/parsedInstances_" + fileName + ".txt", p, false);
+        
+        //general file
+        Set<String> oldLogs = FileFactory.readFile(parsedOutputsDirectory + "/logs_QA_" + ProjectConfiguration.getLanguage() + ".txt");
+
+        Map<String, Double> map = new HashMap<>();
+        for (String s : oldLogs) {
+            String name = s.split("\t")[0];
+            double score = Double.parseDouble(s.split("\t")[1]);
+
+            map.put(name, score);
+        }
+
+        String n = "Manual_" + ProjectConfiguration.useManualLexicon() + "_Matoll_" + ProjectConfiguration.useMatoll() + "_Dataset_" + ProjectConfiguration.getTrainingDatasetName() + "_Epoch_" + ProjectConfiguration.getNumberOfEpochs();
+        double s = parsedQuestions.size() / (double) (parsedQuestions.size() + unParsedQuestions.size());
+        s = round(s,2);
+
+        map.put(n, s);
+
+        map = SortUtils.sortByDoubleValue((HashMap<String, Double>) map);
+        
+        String content = "";
+        for(String k : map.keySet()){
+            content+=k+"\t"+map.get(k)+"\n";
+        }
+        content = content.trim();
+        
+        FileFactory.writeListToFile(parsedOutputsDirectory + "/logs_QA_" + ProjectConfiguration.getLanguage() + ".txt", content, false);
 
         unParsedQuestions.clear();
         parsedQuestions.clear();
@@ -101,7 +154,7 @@ public class Performance {
 
     public static void logNELTest(List<SampledMultipleInstance<AnnotatedDocument, String, State>> testResults, ObjectiveFunction function) {
 
-        String fileName = "NEL_Manual_" + ProjectConfiguration.useManualLexicon() + "_Matoll_" + ProjectConfiguration.useMatoll() + "_Dataset_" + ProjectConfiguration.getTestDatasetName() + "_Epoch_" + ProjectConfiguration.getNumberOfEpochs() + "_Word_" + ProjectConfiguration.getTestMaxWordCount()+"_Language_"+ProjectConfiguration.getLanguage()+"_Group_"+ProjectConfiguration.getFeatureGroup();
+        String fileName = "NEL_Manual_" + ProjectConfiguration.useManualLexicon() + "_Matoll_" + ProjectConfiguration.useMatoll() + "_Dataset_" + ProjectConfiguration.getTestDatasetName() + "_Epoch_" + ProjectConfiguration.getNumberOfEpochs() + "_Word_" + ProjectConfiguration.getTestMaxWordCount() + "_Language_" + ProjectConfiguration.getLanguage() + "_Group_" + ProjectConfiguration.getFeatureGroup();
 
         String allStatesAsString = "";
 
@@ -169,28 +222,56 @@ public class Performance {
             }
         }
 
-        
-
         double correct = c / (double) testResults.size();
         double inCorrect = (testResults.size() - c) / (double) testResults.size();
-        
+
         FileFactory.writeListToFile(outputDir + "/parsedInstances_" + fileName + ".txt", correctInstances, false);
         FileFactory.writeListToFile(outputDir + "/unParsedInstances_" + fileName + ".txt", inCorrectInstances, false);
 
         FileFactory.writeListToFile(outputDir + "/states_" + fileName + ".txt", allStatesAsString, false);
-        
+
         String result = "Test results with Top-k: " + ProjectConfiguration.getNELTestBeamSize() + "\n\nCorrect predictions: " + c + "/" + testResults.size() + " = " + correct;
-        result +="\nIncorrect predictions: " + (testResults.size() - c) + "/" + testResults.size() + " = " + inCorrect;
+        result += "\nIncorrect predictions: " + (testResults.size() - c) + "/" + testResults.size() + " = " + inCorrect;
         result += "\nMACRO F1: " + MACROF1;
+
+        FileFactory.writeListToFile(outputDir + "/output_" + fileName + ".txt", result, false);
+
+        System.out.println("NEL-TEST:\n" + result);
         
-        FileFactory.writeListToFile(outputDir + "/result_" + fileName + ".txt", result, false);
+        ///////
+        //////////////////
+        //////////////////////
+        //general file
+        Set<String> oldLogs = FileFactory.readFile(outputDir + "/results_NEL_" + ProjectConfiguration.getLanguage() + ".txt");
+
+        Map<String, Double> map = new HashMap<>();
+        for (String s : oldLogs) {
+            String name = s.split("\t")[0];
+            double score = Double.parseDouble(s.split("\t")[1]);
+
+            map.put(name, score);
+        }
+
+        String n = "Manual_" + ProjectConfiguration.useManualLexicon() + "_Matoll_" + ProjectConfiguration.useMatoll() + "_Dataset_" + ProjectConfiguration.getTrainingDatasetName() + "_Epoch_" + ProjectConfiguration.getNumberOfEpochs()+ "_Group_" + ProjectConfiguration.getFeatureGroup();
+        double s = correct;
+        s = round(s,2);
+
+        map.put(n, s);
+
+        map = SortUtils.sortByDoubleValue((HashMap<String, Double>) map);
         
-        System.out.println("NEL-TEST:\n"+result);
+        String content = "";
+        for(String k : map.keySet()){
+            content+=k+"\t"+map.get(k)+"\n";
+        }
+        content = content.trim();
+        
+        FileFactory.writeListToFile(outputDir + "/results_NEL_" + ProjectConfiguration.getLanguage() + ".txt", content, false);
     }
 
     public static void logQATest(List<SampledMultipleInstance<AnnotatedDocument, String, State>> testResults, ObjectiveFunction function) {
 
-        String fileName = "QA_Manual_" + ProjectConfiguration.useManualLexicon() + "_Matoll_" + ProjectConfiguration.useMatoll() + "_Dataset_" + ProjectConfiguration.getTestDatasetName() + "_Epoch_" + ProjectConfiguration.getNumberOfEpochs() + "_Word_" + ProjectConfiguration.getTestMaxWordCount()+"_Language_"+ProjectConfiguration.getLanguage()+"_Group_"+ProjectConfiguration.getFeatureGroup();
+        String fileName = "QA_Manual_" + ProjectConfiguration.useManualLexicon() + "_Matoll_" + ProjectConfiguration.useMatoll() + "_Dataset_" + ProjectConfiguration.getTestDatasetName() + "_Epoch_" + ProjectConfiguration.getNumberOfEpochs() + "_Word_" + ProjectConfiguration.getTestMaxWordCount() + "_Language_" + ProjectConfiguration.getLanguage() + "_Group_" + ProjectConfiguration.getFeatureGroup();
 
         String allStatesAsString = "";
 
@@ -260,7 +341,7 @@ public class Performance {
         FileFactory.writeListToFile(outputDir + "/states_" + fileName + ".txt", allStatesAsString, false);
 
         String result = "Test results with Top-k: " + ProjectConfiguration.getQATestBeamSize() + "\n\n";
-        result+="\nMACRO F1: " + MACROF1 + "\n\n";
+        result += "\nMACRO F1: " + MACROF1 + "\n\n";
 
         int topKStateNumber = ProjectConfiguration.getQATestBeamSize();
 
@@ -270,14 +351,45 @@ public class Performance {
             double correct = z / (double) testResults.size();
             double inCorrect = (testResults.size() - z) / (double) testResults.size();
 
-            result +="\nTop " + i + " states";
-            result+="\nCorrect predictions: " + z + "/" + testResults.size() + " = " + correct;
-            result+="\nIncorrect predictions: " + (testResults.size() - z) + "/" + testResults.size() + " = " + inCorrect+"\n";
+            result += "\nTop " + i + " states";
+            result += "\nCorrect predictions: " + z + "/" + testResults.size() + " = " + correct;
+            result += "\nIncorrect predictions: " + (testResults.size() - z) + "/" + testResults.size() + " = " + inCorrect + "\n";
         }
-        
+
         //result
-        FileFactory.writeListToFile(outputDir + "/result_" + fileName + ".txt", result, false);
-        System.out.println("QA-TEST:\n"+result);
+        FileFactory.writeListToFile(outputDir + "/output_" + fileName + ".txt", result, false);
+        System.out.println("QA-TEST:\n" + result);
+        
+        
+        ///////
+        //////////////////
+        //////////////////////
+        //general file
+        Set<String> oldLogs = FileFactory.readFile(outputDir + "/results_QA_" + ProjectConfiguration.getLanguage() + ".txt");
+
+        Map<String, Double> map = new HashMap<>();
+        for (String s : oldLogs) {
+            String name = s.split("\t")[0];
+            double score = Double.parseDouble(s.split("\t")[1]);
+
+            map.put(name, score);
+        }
+
+        String n = "Manual_" + ProjectConfiguration.useManualLexicon() + "_Matoll_" + ProjectConfiguration.useMatoll() + "_Dataset_" + ProjectConfiguration.getTrainingDatasetName() + "_Epoch_" + ProjectConfiguration.getNumberOfEpochs()+ "_Group_" + ProjectConfiguration.getFeatureGroup();
+        double s = MACROF1;
+        s = round(s,2);
+
+        map.put(n, s);
+
+        map = SortUtils.sortByDoubleValue((HashMap<String, Double>) map);
+        
+        String content = "";
+        for(String k : map.keySet()){
+            content+=k+"\t"+map.get(k)+"\n";
+        }
+        content = content.trim();
+        
+        FileFactory.writeListToFile(outputDir + "/results_QA_" + ProjectConfiguration.getLanguage() + ".txt", content, false);
 
     }
 
@@ -318,5 +430,15 @@ public class Performance {
         if (!parsedQuestions.containsKey(s)) {
             unParsedQuestions.put(s, q);
         }
+    }
+
+    private static double round(double value, int places) {
+        if (places < 0) {
+            throw new IllegalArgumentException();
+        }
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 }

@@ -60,7 +60,8 @@ public class Pipeline {
     private static int BEAM_SIZE_NEL_TEST = 20;
     private static Logger log = LogManager.getFormatterLogger();
 
-    private static Set<String> validPOSTags;
+    private static Set<String> linkingValidPOSTags;
+    private static Set<String> qaValidPOSTags;
     private static Map<Integer, String> semanticTypes;
     private static Map<Integer, String> specialSemanticTypes;
     private static Set<String> validEdges;
@@ -68,8 +69,9 @@ public class Pipeline {
     public static List<AbstractTemplate<AnnotatedDocument, State, ?>> qaTemplates;
     public static Scorer scorer;
 
-    public static void initialize(Set<String> v, Map<Integer, String> s, Map<Integer, String> st, Set<String> edges) {
-        validPOSTags = v;
+    public static void initialize(Set<String> v1,Set<String> v2, Map<Integer, String> s, Map<Integer, String> st, Set<String> edges) {
+        linkingValidPOSTags = v1;
+        qaValidPOSTags = v2;
         semanticTypes = s;
         specialSemanticTypes = st;
         validEdges = edges;
@@ -85,13 +87,13 @@ public class Pipeline {
 
         nelTemplates = new ArrayList<>();
 //        nelTemplates.add(new NELLexicalTemplate(validPOSTags, validEdges, semanticTypes));
-        nelTemplates.add(new NELEdgeTemplate(validPOSTags, validEdges, semanticTypes));
+        nelTemplates.add(new NELEdgeTemplate(linkingValidPOSTags, validEdges, semanticTypes));
 //        nelTemplates.add(new NELNodeTemplate(validPOSTags, validEdges, semanticTypes));
 
         qaTemplates = new ArrayList<>();
-        qaTemplates.add(new QAEdgeAdvTemplate(validPOSTags, validEdges,semanticTypes, specialSemanticTypes));
+        qaTemplates.add(new QAEdgeAdvTemplate(qaValidPOSTags, validEdges,semanticTypes, specialSemanticTypes));
 
-        QATemplateFactory.initialize(validPOSTags, validEdges, semanticTypes, specialSemanticTypes);
+        QATemplateFactory.initialize(linkingValidPOSTags, qaValidPOSTags, validEdges, semanticTypes, specialSemanticTypes);
     }
 
     public static List<Model<AnnotatedDocument, State>> train(List<AnnotatedDocument> trainingDocuments) {
@@ -205,7 +207,7 @@ public class Pipeline {
          */
         List<Explorer<State>> explorers = new ArrayList<>();
 //        explorers.add(new SingleNodeExplorer(semanticTypes, frequentWordsToExclude, validPOSTags));
-        explorers.add(new L2KBEdgeExplorer(semanticTypes, validPOSTags, validEdges));
+        explorers.add(new L2KBEdgeExplorer(semanticTypes, linkingValidPOSTags, validEdges));
         /*
          * Create a sampler that generates sampling chains with which it will
          * trigger weight updates during training.
@@ -328,7 +330,7 @@ public class Pipeline {
          */
         List<Explorer<State>> explorers = new ArrayList<>();
 //        explorers.add(new SingleNodeExplorer(semanticTypes, frequentWordsToExclude, validPOSTags));
-        explorers.add(new QCEdgeExplorer(semanticTypes, specialSemanticTypes, validPOSTags, validEdges));
+        explorers.add(new QCEdgeExplorer(semanticTypes, specialSemanticTypes, qaValidPOSTags, validEdges));
         /*
          * Create a sampler that generates sampling chains with which it will
          * trigger weight updates during training.
@@ -464,7 +466,7 @@ public class Pipeline {
          */
         List<Explorer<State>> explorers = new ArrayList<>();
 //        explorers.add(new SingleNodeExplorer(semanticTypes, frequentWordsToExclude, validPOSTags));
-        explorers.add(new L2KBEdgeExplorer(semanticTypes, validPOSTags, validEdges));
+        explorers.add(new L2KBEdgeExplorer(semanticTypes, linkingValidPOSTags, validEdges));
         /*
          * Create a sampler that generates sampling chains with which it will
          * trigger weight updates during training.
@@ -557,7 +559,7 @@ public class Pipeline {
          */
         List<Explorer<State>> explorers = new ArrayList<>();
 //        explorers.add(new SingleNodeExplorer(semanticTypes, frequentWordsToExclude, validPOSTags));
-        explorers.add(new QCEdgeExplorer(semanticTypes, specialSemanticTypes, validPOSTags, validEdges));
+        explorers.add(new QCEdgeExplorer(semanticTypes, specialSemanticTypes, qaValidPOSTags, validEdges));
         /*
          * Create a sampler that generates sampling chains with which it will
          * trigger weight updates during training.

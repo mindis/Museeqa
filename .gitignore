@@ -25,6 +25,7 @@ luceneIndex/
 rawFiles/
 models
 trainResult
+testResult
 Train.sh
 copy.sh
 run.log

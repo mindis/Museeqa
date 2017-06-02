@@ -6,11 +6,16 @@
 package de.citec.sc.utils;
 
 import de.citec.sc.learning.QueryConstructor;
+import de.citec.sc.qald.SPARQLParser;
+import de.citec.sc.qald.Triple;
+import de.citec.sc.qald.Variable;
 import de.citec.sc.variable.State;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
@@ -20,6 +25,7 @@ import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.sparql.engine.http.QueryEngineHTTP;
+import org.apache.logging.log4j.message.StringFormattedMessage;
 
 /**
  *
@@ -29,12 +35,29 @@ public class DBpediaEndpoint {
 
     private static String endpointURL = "http://purpur-v11:8890/sparql";
     private static boolean isRemote = false;
-    private static HashMap<String, List<String>> cacheOfResults = new HashMap<>();
+    private static HashMap<String, Set<String>> cacheOfResults = new HashMap<>();
     private static HashMap<String, List<String>> cacheOfCanonicalForms = new HashMap<>();
     private static HashMap<String, Boolean> cacheOfQueries = new HashMap<>();
     private static HashMap<String, Boolean> cacheOfDomains = new HashMap<>();
     private static HashMap<String, Boolean> cacheOfRanges = new HashMap<>();
     private static HashMap<String, Boolean> cacheOfDependentNodes = new HashMap<>();
+
+    private static String rangeTemplateQuery = "PREFIX dbo: <http://dbpedia.org/ontology/>\n"
+            + "PREFIX res: <http://dbpedia.org/resource/>\n"
+            + "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+            + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
+            + "SELECT ?d \n"
+            + "WHERE {\n"
+            + "        <%s> rdfs:range ?d . \n"
+            + "}";
+    private static String domainTemplateQuery = "PREFIX dbo: <http://dbpedia.org/ontology/>\n"
+            + "PREFIX res: <http://dbpedia.org/resource/>\n"
+            + "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+            + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
+            + "SELECT ?d \n"
+            + "WHERE {\n"
+            + "        <%s> rdfs:domain ?d . \n"
+            + "}";
 
     public static enum AnswerType {
 
@@ -48,17 +71,59 @@ public class DBpediaEndpoint {
 
     public static String getCanonicalForm(String query) {
 
-        query = query.replaceAll("[?][v][0-9]+", "?z");
-        query = query.replace("?uri", "?z");
+        Set<Triple> triples = SPARQLParser.extractTriplesFromQuery(query);
 
-        //get body
-        String body = query.substring(query.indexOf("WHERE"));
-        String head = query.substring(0, query.indexOf("WHERE"));
+        Map<String, String> variableMap = new HashMap<>();
 
-//        query = query.replaceAll("\\s", "");
-        body = body.replaceAll("\\s", "");
-        query = head.trim() + " " + body;
+        for (Triple t : triples) {
 
+            if (t.getObject() instanceof Variable) {
+
+                Variable var = (Variable) t.getObject();
+
+                if (variableMap.containsKey(var.getVariableName())) {
+                    String newVarName = variableMap.get(var.getVariableName());
+
+                    var.setVariableName(newVarName);
+
+                } else {
+                    String newVarName = "z" + variableMap.size();
+                    variableMap.put(var.getVariableName(), newVarName);
+
+                    var.setVariableName(newVarName);
+                }
+
+            } else if (t.getSubject() instanceof Variable) {
+
+                Variable var = (Variable) t.getSubject();
+
+                if (variableMap.containsKey(var.getVariableName())) {
+                    String newVarName = variableMap.get(var.getVariableName());
+
+                    var.setVariableName(newVarName);
+
+                } else {
+                    String newVarName = "z" + variableMap.size();
+                    variableMap.put(var.getVariableName(), newVarName);
+
+                    var.setVariableName(newVarName);
+                }
+
+            }
+        }
+
+        query = SPARQLParser.getQuery(triples);
+
+//        query = query.replaceAll("[?][v][0-9]+", "?z");
+//        query = query.replace("?uri", "?z");
+//
+//        //get body
+//        String body = query.substring(query.indexOf("WHERE"));
+//        String head = query.substring(0, query.indexOf("WHERE"));
+//
+////        query = query.replaceAll("\\s", "");
+//        body = body.replaceAll("\\s", "");
+//        query = head.trim() + " " + body;
         return query;
     }
 
@@ -226,22 +291,34 @@ public class DBpediaEndpoint {
     }
 
     public static String getNormalizedQuery(String query) {
+        
+        if(query.trim().isEmpty()){
+            return query;
+        }
 
+        query = query.replace("\n", " ");
+
+//        try{
         //get body
         String body = query.substring(query.indexOf("WHERE"));
         String head = query.substring(0, query.indexOf("WHERE"));
 
         body = body.replaceAll("\\s+", " ");
         query = head.trim() + " " + body;
+//        }
+//        catch(Exception e){
+//            int z=1;
+//        }
 
         return query;
     }
 
     public static AnswerType getAnswertype(String query) {
-        List<String> result = runQuery(query);
+        Set<String> result = runQuery(query, false);
 
         if (!result.isEmpty()) {
-            return checkAnswerType(result.get(0));
+            List<String> list = new ArrayList<>(result);
+            return checkAnswerType(list.get(0));
         }
 
         return AnswerType.URI;
@@ -285,105 +362,121 @@ public class DBpediaEndpoint {
     }
 
     public static void loadCachedQueries() {
+        
+        System.out.println("Loading DBpedia query cache files ....");
+        
+        long start = System.currentTimeMillis();
 
-        //validCanonicalFormQueries
-        Set<String> setValidCanonicalFormQueries = FileFactory.readFile("validCanonicalFormQueries.txt");
+//        //validCanonicalFormQueries
+//        Set<String> setValidCanonicalFormQueries = FileFactory.readFile("validCanonicalFormQueries.txt");
+//
+//        for (String s : setValidCanonicalFormQueries) {
+//
+//            String seperator = "\tQUERY:";
+//
+//            String[] chunks = s.split(seperator);
+//
+//            List<String> q = Arrays.asList(chunks);
+//            ArrayList<String> queries = new ArrayList<>(q);
+//
+//            //the first element is canonicalForm
+//            String key = queries.get(0);
+//            queries.remove(key);
+//
+//            cacheOfCanonicalForms.put(key, queries);
+//
+//        }
+        Set<String> setQueryResults = FileFactory.readFile("queryResults.txt");
 
-        for (String s : setValidCanonicalFormQueries) {
+        for (String s : setQueryResults) {
+            Set<String> results = new HashSet<>();
 
-            String seperator = "\tQUERY:";
+            String[] data = s.split("\t");
+            if(data.length <2){
+                continue;
+            }
+            String query = data[0];
 
-            String[] chunks = s.split(seperator);
+            if (data.length != 1) {
+                for (int i = 1; i < data.length; i++) {
+                    results.add(data[i]);
+                }
+            }
 
-            List<String> q = Arrays.asList(chunks);
-            ArrayList<String> queries = new ArrayList<>(q);
-
-            //the first element is canonicalForm
-            String key = queries.get(0);
-            queries.remove(key);
-
-            cacheOfCanonicalForms.put(key, queries);
-
+            cacheOfResults.put(query, results);
         }
 
         Set<String> setValidQueries = FileFactory.readFile("validQueries.txt");
 
         for (String s : setValidQueries) {
 
-            String seperator = "\tVALID:";
-            String key = s.substring(0, s.indexOf(seperator));
-            String valueAsString = s.substring(s.indexOf(seperator) + seperator.length());
+            String[] data = s.split("\t");
 
-            boolean b = true ? valueAsString.equals("true") : false;
+            String query = "";
+            boolean b = false;
+            if(data.length == 1){
+                b = true ? s.split("\t")[0].equals("true") : false;
+            }
+            else{
+                query = s.split("\t")[0];
+                b = true ? s.split("\t")[1].equals("true") : false;
+            }
 
-            cacheOfQueries.put(key, b);
+            cacheOfQueries.put(query, b);
         }
 
-        Set<String> setvalidDomainQueries = FileFactory.readFile("validDomainQueries.txt");
-
-        for (String s : setvalidDomainQueries) {
-
-            String seperator = "\tVALID:";
-            String key = s.substring(0, s.indexOf(seperator));
-            String valueAsString = s.substring(s.indexOf(seperator) + seperator.length());
-
-            boolean b = true ? valueAsString.equals("true") : false;
-
-            cacheOfDomains.put(key, b);
-        }
-
-        Set<String> setvalidRangeQueries = FileFactory.readFile("validRangeQueries.txt");
-
-        for (String s : setvalidRangeQueries) {
-
-            String seperator = "\tVALID:";
-            String key = s.substring(0, s.indexOf(seperator));
-            String valueAsString = s.substring(s.indexOf(seperator) + seperator.length());
-
-            boolean b = true ? valueAsString.equals("true") : false;
-
-            cacheOfRanges.put(key, b);
-        }
-
+//        Set<String> setvalidDomainQueries = FileFactory.readFile("validDomainQueries.txt");
+//
+//        for (String s : setvalidDomainQueries) {
+//
+//            String seperator = "\tVALID:";
+//            String key = s.substring(0, s.indexOf(seperator));
+//            String valueAsString = s.substring(s.indexOf(seperator) + seperator.length());
+//
+//            boolean b = true ? valueAsString.equals("true") : false;
+//
+//            cacheOfDomains.put(key, b);
+//        }
+//
+//        Set<String> setvalidRangeQueries = FileFactory.readFile("validRangeQueries.txt");
+//
+//        for (String s : setvalidRangeQueries) {
+//
+//            String seperator = "\tVALID:";
+//            String key = s.substring(0, s.indexOf(seperator));
+//            String valueAsString = s.substring(s.indexOf(seperator) + seperator.length());
+//
+//            boolean b = true ? valueAsString.equals("true") : false;
+//
+//            cacheOfRanges.put(key, b);
+//        }
+        
+        long end = System.currentTimeMillis();
+        
+        System.out.println("Loading DBpedia cache files done : "+(end-start)+" ms");
     }
 
     public static void saveCachedQueries() {
-
-        //canonicalForms
-        String validCanonicalFormQueries = "";
-        for (String q : cacheOfCanonicalForms.keySet()) {
-
-            validCanonicalFormQueries += q;
-
-            List<String> queries = cacheOfCanonicalForms.get(q);
-
-            for (String query : queries) {
-                validCanonicalFormQueries += "\tQUERY:" + query;
-            }
-
-            validCanonicalFormQueries += "\n";
-        }
-
-        FileFactory.writeListToFile("validCanonicalFormQueries.txt", validCanonicalFormQueries, false);
-
-        //
         String validQueries = "";
         for (String q : cacheOfQueries.keySet()) {
-            validQueries += q + "\tVALID:" + cacheOfQueries.get(q) + "\n";
+            validQueries += q + "\t" + cacheOfQueries.get(q) + "\n";
         }
-        FileFactory.writeListToFile("validQueries.txt", validQueries, false);
+        FileFactory.writeListToFile("validQueries.txt", validQueries.trim(), false);
 
-        String validDomainQueries = "";
-        for (String q : cacheOfDomains.keySet()) {
-            validDomainQueries += q + "\tVALID:" + cacheOfDomains.get(q) + "\n";
-        }
-        FileFactory.writeListToFile("validDomainQueries.txt", validDomainQueries, false);
+        String queryResults = "";
+        for (String q : cacheOfResults.keySet()) {
+            Set<String> results = cacheOfResults.get(q);
 
-        String validRangeQueries = "";
-        for (String q : cacheOfRanges.keySet()) {
-            validRangeQueries += q + "\tVALID:" + cacheOfRanges.get(q) + "\n";
+            String r = "";
+            for (String r1 : results) {
+                r += r1 + "\t";
+            }
+
+            r = r.trim();
+
+            queryResults += q + "\t" + r + "\n";
         }
-        FileFactory.writeListToFile("validRangeQueries.txt", validRangeQueries, false);
+        FileFactory.writeListToFile("queryResults.txt", queryResults.trim(), false);
 
     }
 
@@ -446,13 +539,7 @@ public class DBpediaEndpoint {
             return false;
         }
 
-        if (cacheOfQueries.containsKey(query)) {
-            return cacheOfQueries.get(query);
-        }
-
-        String canonicalForm = getCanonicalForm(query);
-
-        //remove spaces from query
+        query = getCanonicalForm(query);
         query = getNormalizedQuery(query);
 
         if (isTraining) {
@@ -461,58 +548,58 @@ public class DBpediaEndpoint {
             }
         }
 
-        boolean isValid = false;
-
-        if (cacheOfCanonicalForms.containsKey(canonicalForm)) {
-            //get query, which is value from canonical map
-            //get value for the given query, key
-            List<String> queries = cacheOfCanonicalForms.get(canonicalForm);
-
-            if (queries.contains(query) && cacheOfQueries.containsKey(query)) {
-
-                isValid = cacheOfQueries.get(query);
-
-            } else {
-
-                List<String> results = runQuery(query);
-
-                if (!results.isEmpty()) {
-                    cacheOfQueries.put(query, true);
-
-                    isValid = true;
-
-                } else {
-                    cacheOfQueries.put(query, false);
-
-                    isValid = false;
-                }
-                //update canonicalForm Map
-                queries.add(query);
-                cacheOfCanonicalForms.put(canonicalForm, queries);
-            }
-
-        } else {
-
-            //add new entries to both Maps
-            List<String> results = runQuery(query);
-
-            if (!results.isEmpty()) {
-                cacheOfQueries.put(query, true);
-
-                isValid = true;
-            } else {
-                cacheOfQueries.put(query, false);
-
-                isValid = false;
-            }
-
-            List<String> queries = new ArrayList<>();
-            //update canonicalForm Map
-            queries.add(query);
-            cacheOfCanonicalForms.put(canonicalForm, queries);
-
+        if (cacheOfQueries.containsKey(query)) {
+            return cacheOfQueries.get(query);
         }
 
+        boolean isValid = false;
+
+//        if (cacheOfCanonicalForms.containsKey(canonicalForm)) {
+//            //get query, which is value from canonical map
+//            //get value for the given query, key
+//            List<String> queries = cacheOfCanonicalForms.get(canonicalForm);
+//
+//            if (queries.contains(query) && cacheOfQueries.containsKey(query)) {
+//
+//                isValid = cacheOfQueries.get(query);
+//
+//            } else {
+//
+//                List<String> results = runQuery(query);
+//
+//                if (!results.isEmpty()) {
+//                    cacheOfQueries.put(query, true);
+//
+//                    isValid = true;
+//
+//                } else {
+//                    cacheOfQueries.put(query, false);
+//
+//                    isValid = false;
+//                }
+//                //update canonicalForm Map
+//                queries.add(query);
+//                cacheOfCanonicalForms.put(canonicalForm, queries);
+//            }
+//        } else {
+        //add new entries to both Maps
+        Set<String> results = runQuery(query, true);
+
+        if (!results.isEmpty()) {
+            cacheOfQueries.put(query, true);
+
+            isValid = true;
+        } else {
+            cacheOfQueries.put(query, false);
+
+            isValid = false;
+        }
+
+//            List<String> queries = new ArrayList<>();
+//            //update canonicalForm Map
+//            queries.add(query);
+//            cacheOfCanonicalForms.put(canonicalForm, queries);
+//        }
         return isValid;
     }
 
@@ -581,67 +668,19 @@ public class DBpediaEndpoint {
      * @return true if there exists such property and resource with type and
      * domain restriction
      */
-    public static boolean rangeMatches(String property, String resource) {
-
-        String query = "PREFIX dbo: <http://dbpedia.org/ontology/>\n"
-                + "PREFIX res: <http://dbpedia.org/resource/>\n"
-                + "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
-                + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
-                + "ASK\n"
-                + "WHERE {\n"
-                + "        <" + property + "> rdfs:range ?d . \n"
-                + "        <" + resource + "> rdf:type ?d .\n"
-                + "FILTER (?d != <http://dbpedia.org/ontology/Agent>) \n"
-                + "}";
-
-        if (cacheOfRanges.containsKey(property + "###" + resource)) {
-            return cacheOfRanges.get(property + "###" + resource);
-        }
-
-        try {
-            Query sparqlQuery = QueryFactory.create(query);
-
-            //QueryExecution qq = QueryExecutionFactory.create(query);
-            QueryExecution qexec = QueryExecutionFactory.sparqlService(endpointURL, sparqlQuery);
-
-            // Set the DBpedia specific timeout.
-            ((QueryEngineHTTP) qexec).addParam("timeout", "10000");
-
-            boolean b = qexec.execAsk();
-
-            cacheOfRanges.put(property + "###" + resource, b);
-
-            qexec.close();
-
-            return b;
-        } catch (Exception e) {
-
-        }
-
-        return false;
-
-    }
-
     public static String getRange(String property) {
 
-        String query = "PREFIX dbo: <http://dbpedia.org/ontology/>\n"
-                + "PREFIX res: <http://dbpedia.org/resource/>\n"
-                + "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
-                + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
-                + "SELECT ?d \n"
-                + "WHERE {\n"
-                + "        <" + property + "> rdfs:range ?d . \n"
-                //                + "FILTER (?d != <http://dbpedia.org/ontology/Agent>) \n"
-                + "}";
+        String query = String.format(rangeTemplateQuery, property);
 
-        List<String> result = runQuery(query);
+        Set<String> result = runQuery(query, false);
 
         if (result == null) {
             return "UNKNOWN";
         }
 
         if (!result.isEmpty()) {
-            return result.get(0);
+            List<String> list = new ArrayList<>(result);
+            return list.get(0);
         }
 
         return "UNKNOWN";
@@ -650,33 +689,35 @@ public class DBpediaEndpoint {
 
     public static String getDomain(String property) {
 
-        String query = "PREFIX dbo: <http://dbpedia.org/ontology/>\n"
-                + "PREFIX res: <http://dbpedia.org/resource/>\n"
-                + "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
-                + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
-                + "SELECT ?d \n"
-                + "WHERE {\n"
-                + "        <" + property + "> rdfs:domain ?d . \n"
-                //                + "FILTER (?d != <http://dbpedia.org/ontology/Agent>) \n"
-                + "}";
+        String query = String.format(domainTemplateQuery, property);
 
-        List<String> result = runQuery(query);
+        Set<String> result = runQuery(query, false);
 
         if (result == null) {
             return "UNKNOWN";
         }
 
         if (!result.isEmpty()) {
-            return result.get(0);
+            List<String> list = new ArrayList<>(result);
+            return list.get(0);
         }
 
         return "UNKNOWN";
 
     }
 
-    public static List<String> runQuery(String query) {
+    public static Set<String> runQuery(String query, boolean normalized) {
 
-        List<String> results = new ArrayList<>();
+        if (query.equals("")) {
+            return new HashSet<>();
+        }
+        
+        if (!normalized) {
+            query = getCanonicalForm(query);
+            query = getNormalizedQuery(query);
+        }
+
+        Set<String> results = new HashSet<>();
 
         if (cacheOfResults.containsKey(query)) {
             return cacheOfResults.get(query);
@@ -739,7 +780,6 @@ public class DBpediaEndpoint {
         }
 
         cacheOfResults.put(query, results);
-
         return results;
     }
 

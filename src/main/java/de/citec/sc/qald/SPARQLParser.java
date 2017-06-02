@@ -6,6 +6,7 @@
 package de.citec.sc.qald;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -31,11 +32,11 @@ import org.apache.jena.sparql.syntax.ElementTriplesBlock;
  */
 public class SPARQLParser {
 
-    public static List<String> extractURIsFromQuery(String queryString) {
+    public static Set<String> extractURIsFromQuery(String queryString) {
 
-        List<String> uris = new ArrayList<>();
+        Set<String> uris = new HashSet<>();
 
-        List<Triple> triples = extractTriplesFromQuery(queryString);
+        Set<Triple> triples = extractTriplesFromQuery(queryString);
         for (Triple t : triples) {
 
             if (!t.IsReturnVariable()) {
@@ -73,7 +74,7 @@ public class SPARQLParser {
         return uris;
     }
 
-    public static String getQuery(List<Triple> triples) {
+    public static String getQuery(Set<Triple> triples) {
         String query = "";
 
         if (triples.isEmpty()) {
@@ -98,7 +99,7 @@ public class SPARQLParser {
         return query;
     }
 
-    public static List<Triple> extractTriplesFromQuery(String queryString) {
+    public static Set<Triple> extractTriplesFromQuery(String queryString) {
 
         try {
             //replaces SELECT COUNT ?x with SELECT (COUNT ?x AS ?count) => because jena can't parse the first one
@@ -120,7 +121,7 @@ public class SPARQLParser {
         } catch (Exception e) {
         }
 
-        return new ArrayList<>();
+        return new HashSet<>();
     }
 
     private static String preprocessQuery(String q) {
@@ -171,8 +172,8 @@ public class SPARQLParser {
         return q;
     }
 
-    private static List<Triple> countQuery(Query query) {
-        List<Triple> triples = new ArrayList<>();
+    private static Set<Triple> countQuery(Query query) {
+        Set<Triple> triples = new HashSet<>();
 
         try {
 
@@ -204,7 +205,7 @@ public class SPARQLParser {
                 triples.add(t);
             }
 
-            List<Triple> predicates = new ArrayList<>();
+            Set<Triple> predicates = new HashSet<>();
 
             predicates = getPredicates(query);
 
@@ -221,8 +222,8 @@ public class SPARQLParser {
         return triples;
     }
 
-    private static List<Triple> standardQuery(Query query) {
-        List<Triple> triples = new ArrayList<>();
+    private static Set<Triple> standardQuery(Query query) {
+        Set<Triple> triples = new HashSet<>();
 
         try {
 
@@ -248,7 +249,7 @@ public class SPARQLParser {
                 triples.add(t);
             }
 
-            List<Triple> predicates = new ArrayList<>();
+            Set<Triple> predicates = new HashSet<>();
 
             predicates = getPredicates(query);
 
@@ -269,8 +270,8 @@ public class SPARQLParser {
      * @return all triples as Atoms
      * @param SPARQL query
      */
-    private static List<Triple> getPredicates(Query query) {
-        List<Triple> triples = new ArrayList<>();
+    private static Set<Triple> getPredicates(Query query) {
+        Set<Triple> triples = new HashSet<>();
 
         if (query.getQueryPattern() instanceof ElementGroup) {
             triples.addAll(getPredicatesFromElementGroup(query));
@@ -288,8 +289,8 @@ public class SPARQLParser {
         return triples;
     }
 
-    private static List<Triple> getPredicatesFromElementGroup(Query query) {
-        List<Triple> triples = new ArrayList<>();
+    private static Set<Triple> getPredicatesFromElementGroup(Query query) {
+        Set<Triple> triples = new HashSet<>();
 
         ElementGroup body = (ElementGroup) query.getQueryPattern();
 

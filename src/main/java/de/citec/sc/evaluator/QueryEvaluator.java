@@ -15,6 +15,7 @@ import de.citec.sc.variable.State;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -24,18 +25,18 @@ public class QueryEvaluator {
 
     public static double evaluate(String derived, String goldStandard) {
 
-        List<Triple> constructedTriples = SPARQLParser.extractTriplesFromQuery(derived);
+        Set<Triple> constructedTriples = SPARQLParser.extractTriplesFromQuery(derived);
 
         if (constructedTriples.isEmpty()) {
             return 0;
         }
 
-        List<Triple> goldStandardTriples = SPARQLParser.extractTriplesFromQuery(goldStandard);
+        Set<Triple> goldStandardTriples = SPARQLParser.extractTriplesFromQuery(goldStandard);
 
         return similarity(constructedTriples, goldStandardTriples);
     }
 
-    private static double similarity(List<Triple> derived, List<Triple> goldStandard) {
+    private static double similarity(Set<Triple> derived, Set<Triple> goldStandard) {
         double sim = 0;
 
         double p = score(derived, goldStandard);
@@ -50,7 +51,7 @@ public class QueryEvaluator {
         return sim;
     }
 
-    private static double score(List<Triple> derived, List<Triple> goldStandard) {
+    private static double score(Set<Triple> derived, Set<Triple> goldStandard) {
         double score = 0;
 
         //remove sameAsVariables

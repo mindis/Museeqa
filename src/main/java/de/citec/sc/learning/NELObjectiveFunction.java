@@ -13,8 +13,8 @@ import de.citec.sc.variable.HiddenVariable;
 import de.citec.sc.variable.State;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import learning.ObjectiveFunction;
 
 /**
@@ -30,8 +30,8 @@ public class NELObjectiveFunction extends ObjectiveFunction<State, String> imple
 
     public double computeValue(String query, String goldState) {
 
-        List<String> uris1 = SPARQLParser.extractURIsFromQuery(query);
-        List<String> uris2 = SPARQLParser.extractURIsFromQuery(goldState);
+        Set<String> uris1 = SPARQLParser.extractURIsFromQuery(query);
+        Set<String> uris2 = SPARQLParser.extractURIsFromQuery(goldState);
 
         double value = BagOfLinksEvaluator.evaluate(uris1, uris2);
 
@@ -41,8 +41,7 @@ public class NELObjectiveFunction extends ObjectiveFunction<State, String> imple
     @Override
     protected double computeScore(State deptState, String goldState) {
 
-        List<String> derived = new ArrayList<String>();
-
+        Set<String> derived = new HashSet<>();
         for (HiddenVariable var : deptState.getHiddenVariables().values()) {
             if (!var.getCandidate().getUri().equals("EMPTY_STRING")) {
 
@@ -59,7 +58,7 @@ public class NELObjectiveFunction extends ObjectiveFunction<State, String> imple
             }
         }
 
-        List<String> uris = SPARQLParser.extractURIsFromQuery(goldState);
+        Set<String> uris = SPARQLParser.extractURIsFromQuery(goldState);
 
         double value = BagOfLinksEvaluator.evaluate(derived, uris);
 

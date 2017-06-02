@@ -72,7 +72,7 @@ public class ManualLexicon {
                 String uri = data[2];
                 String language = data[3];
                 String dataset = data[4];
-
+                
                 if (uri.split(",").length > 1) {
                     continue;
                 }
@@ -87,7 +87,7 @@ public class ManualLexicon {
                                 addLexicon(surfaceForm, uri, lexiconRestrictionClassesEN);
                             }
                         } else {
-                            if (uri.startsWith("http://dbpedia.org/ontology/")) {
+                            if (uri.startsWith("http://dbpedia.org/ontology/") || uri.startsWith("http://dbpedia.org/property/")) {
                                 addLexicon(surfaceForm, uri, lexiconPropertiesEN);
                             } else if (uri.startsWith("http://dbpedia.org/resource/")) {
                                 addLexicon(surfaceForm, uri, lexiconResourcesEN);
@@ -104,7 +104,7 @@ public class ManualLexicon {
                                 addLexicon(surfaceForm, uri, lexiconRestrictionClassesDE);
                             }
                         } else {
-                            if (uri.startsWith("http://dbpedia.org/ontology/")) {
+                            if (uri.startsWith("http://dbpedia.org/ontology/") || uri.startsWith("http://dbpedia.org/property/")) {
                                 addLexicon(surfaceForm, uri, lexiconPropertiesDE);
                             } else if (uri.startsWith("http://dbpedia.org/resource/")) {
                                 addLexicon(surfaceForm, uri, lexiconResourcesDE);
@@ -121,7 +121,7 @@ public class ManualLexicon {
                                 addLexicon(surfaceForm, uri, lexiconRestrictionClassesES);
                             }
                         } else {
-                            if (uri.startsWith("http://dbpedia.org/ontology/")) {
+                            if (uri.startsWith("http://dbpedia.org/ontology/") || uri.startsWith("http://dbpedia.org/property/")) {
                                 addLexicon(surfaceForm, uri, lexiconPropertiesES);
                             } else if (uri.startsWith("http://dbpedia.org/resource/")) {
                                 addLexicon(surfaceForm, uri, lexiconResourcesES);

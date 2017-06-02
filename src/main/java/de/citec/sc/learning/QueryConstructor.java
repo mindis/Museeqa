@@ -16,12 +16,10 @@ import de.citec.sc.utils.FreshVariable;
 import de.citec.sc.variable.State;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.apache.jena.query.Query;
 
 /**
  *
@@ -128,9 +126,9 @@ public class QueryConstructor {
         return query;
     }
 
-    public static List<Triple> getTriples(State state) {
+    public static Set<Triple> getTriples(State state) {
 
-        List<Triple> triples = new ArrayList<>();
+        Set<Triple> triples = new HashSet<>();
 
         try {
             String query = getSPARQLQuery(state);
@@ -209,7 +207,7 @@ public class QueryConstructor {
 
                     int nextNumber = FreshVariable.get();
 
-                    someUnderSpecifiedClass.instantiateProperty("p"+nextNumber);
+                    someUnderSpecifiedClass.instantiateProperty(nextNumber);
                     someUnderSpecifiedClass.instantiateObject(uri);
 
                     instantiatedDudes.put(nodeIndex, someUnderSpecifiedClass);
@@ -217,6 +215,11 @@ public class QueryConstructor {
                 case "What":
                     RDFDUDES what = expressions.what();
                     instantiatedDudes.put(nodeIndex, what);
+                    break;
+                case "Which":
+                    RDFDUDES which = expressions.which("1");
+                    instantiatedDudes.put(nodeIndex, which);
+                    break;
             }
         }
 

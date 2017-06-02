@@ -16,9 +16,21 @@ import org.junit.Test;
  * @author sherzod
  */
 public class DBpediaEndPointTest {
+    
+    public static void main(String[] args) {
+        while(true){
+            String range = DBpediaEndpoint.getRange("http://dbpedia.org/ontology/birthPlace");
+        }
+        
+        
+    }
 
     @Test
     public void test() {
+        
+        for(int i=0; i<=10000000; i++){
+        
+        }
         String range = DBpediaEndpoint.getRange("http://dbpedia.org/ontology/birthPlace");
         String domain = DBpediaEndpoint.getDomain("http://dbpedia.org/ontology/birthPlace");
 

@@ -61,9 +61,9 @@ public class Main {
             args[10] = "-s";//sampling steps
             args[11] = "" + 15;
             args[12] = "-k1";//top k samples to select from during training NEL
-            args[13] = "" + 4;
+            args[13] = "" + 10;
             args[14] = "-k2";//top k samples to select from during training for QA
-            args[15] = "" + 4;
+            args[15] = "" + 10;
             args[16] = "-l1";//top k samples to select from during testing for NEL
             args[17] = "" + 10;
             args[18] = "-l2";//top k samples to select from during testing for QA
@@ -75,7 +75,7 @@ public class Main {
             args[24] = "-i";//index
             args[25] = "lucene";//lucene, memory
             args[26] = "-l";//language
-            args[27] = "ES";//EN,DE,ES
+            args[27] = "EN";//EN,DE,ES
             args[28] = "-f";//language
             args[29] = "2,3,4,5,6";//1,2,3,4,5,6,7
         }
@@ -88,6 +88,7 @@ public class Main {
 
         System.out.println(ProjectConfiguration.getAllParameters());
         
+        DBpediaEndpoint.loadCachedQueries();
 
         //load index, initialize postag lists etc.        
         initialize();
@@ -139,6 +140,8 @@ public class Main {
                 java.util.logging.Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
+        DBpediaEndpoint.saveCachedQueries();
 
     }
 
@@ -177,14 +180,21 @@ public class Main {
         //semantic types with special meaning
         Map<Integer, String> specialSemanticTypes = new LinkedHashMap<>();
         specialSemanticTypes.put(semanticTypes.size() + 1, "What");//it should be higher than semantic type size
+        specialSemanticTypes.put(semanticTypes.size() + 2, "Which");//it should be higher than semantic type size
 
-        Set<String> validPOSTags = new HashSet<>();
-        validPOSTags.add("PROPN");
-        validPOSTags.add("VERB");
-        validPOSTags.add("NOUN");
-        validPOSTags.add("ADJ");
-        validPOSTags.add("PRON");
-        validPOSTags.add("DET");
+        Set<String> linkingValidPOSTags = new HashSet<>();
+        linkingValidPOSTags.add("PROPN");
+        linkingValidPOSTags.add("VERB");
+        linkingValidPOSTags.add("NOUN");
+        linkingValidPOSTags.add("ADJ");
+        
+        Set<String> qaValidPOSTags = new HashSet<>();
+        qaValidPOSTags.add("PRON");
+        qaValidPOSTags.add("DET");
+        qaValidPOSTags.add("PROPN");
+        qaValidPOSTags.add("VERB");
+        qaValidPOSTags.add("NOUN");
+        qaValidPOSTags.add("ADJ");
         
         Set<String> edges = new HashSet<>();
         edges.add("obj");
@@ -198,50 +208,27 @@ public class Main {
         edges.add("dobj");
         edges.add("iobj");
         edges.add("nsubjpass");
+        edges.add("nsubj:pass");
+        edges.add("acl:relcl");
         edges.add("csubj");
         edges.add("csubjpass");
+        edges.add("csubj:pass");
         edges.add("nmod:poss");
         edges.add("ccomp");
         edges.add("nmod");
         edges.add("amod");
         edges.add("xcomp");
         edges.add("vocative");
-
-//        Set<String> frequentWordsToExclude = new HashSet<>();
-//        //all of this words have a valid POSTAG , so they shouldn't be assigned any URI to these tokens
-//        frequentWordsToExclude.add("is");
-//        frequentWordsToExclude.add("was");
-//        frequentWordsToExclude.add("were");
-//        frequentWordsToExclude.add("are");
-//        frequentWordsToExclude.add("do");
-//        frequentWordsToExclude.add("does");
-//        frequentWordsToExclude.add("did");
-//        frequentWordsToExclude.add("give");
-//        frequentWordsToExclude.add("list");
-//        frequentWordsToExclude.add("show");
-//        frequentWordsToExclude.add("me");
-//        frequentWordsToExclude.add("many");
-//        frequentWordsToExclude.add("have");
-//        frequentWordsToExclude.add("belong");
-
-        //these words can have special semantic type
-//        Set<String> wordsWithSpecialSemanticTypes = new HashSet<>();
-//        wordsWithSpecialSemanticTypes.add("which");
-//        wordsWithSpecialSemanticTypes.add("what");
-//        wordsWithSpecialSemanticTypes.add("who");
-//        wordsWithSpecialSemanticTypes.add("whom");
-//        wordsWithSpecialSemanticTypes.add("how");
-//        wordsWithSpecialSemanticTypes.add("when");
-//        wordsWithSpecialSemanticTypes.add("where");
-//        wordsWithSpecialSemanticTypes.add("give");
-//        wordsWithSpecialSemanticTypes.add("what");
-//        wordsWithSpecialSemanticTypes.add("show a list");
+        edges.add("discourse");
+        edges.add("parataxis");
+        edges.add("advmod");
+        edges.add("flat");
 
         DBpediaLabelRetriever.load(Main.lang);
         
-        Pipeline.initialize(validPOSTags, semanticTypes, specialSemanticTypes, edges);
+        Pipeline.initialize(linkingValidPOSTags, qaValidPOSTags, semanticTypes, specialSemanticTypes, edges);
 
-        QueryConstructor.initialize(specialSemanticTypes, semanticTypes, validPOSTags, edges);
+        QueryConstructor.initialize(specialSemanticTypes, semanticTypes, linkingValidPOSTags, edges);
 
         System.out.println("Initialization process has ended ....");
     }
