@@ -26,7 +26,7 @@ public class StartService {
         Spark.port(port);
 
         System.out.println("Starting the annotate with port :" + port);
-
+        
         Spark.post("/", "application/json", (request, response) -> {
             //get input from client
             String input = request.queryParams("query");
@@ -36,8 +36,6 @@ public class StartService {
             } catch (UnsupportedEncodingException ex) {
 
             }
-
-            JSONArray questions = new JSONArray();
 
             System.out.println("Input : " + input);
             return input;

@@ -35,9 +35,9 @@ public class BagOfLinksEvaluator {
         int c = 0;
         for (String d : derived) {
             if (goldStandard.contains(d)) {
-                c++;
+                    c++;
+                }
             }
-        }
 
         score = c / (double) derived.size();
 

@@ -193,6 +193,7 @@ public class Pipeline {
          * Define a model and provide it with the necessary templates.
          */
         Model<AnnotatedDocument, State> model = new Model<>(scorer, nelTemplates);
+        model.setMultiThreaded(false);
 
         /*
          * Create an Initializer that is responsible for providing an initial
@@ -321,6 +322,7 @@ public class Pipeline {
          * Define a model and provide it with the necessary templates.
          */
         Model<AnnotatedDocument, State> model = new Model<>(scorer, qaTemplates);
+        model.setMultiThreaded(false);
 
 
         /*
@@ -507,7 +509,7 @@ public class Pipeline {
          */
         MyBeamSearchSampler<AnnotatedDocument, State, String> sampler = new MyBeamSearchSampler<>(model, objective, explorers,
                 scoreStoppingCriterion);
-        sampler.setTestSamplingStrategy(BeamSearchSamplingStrategies.greedyBeamSearchSamplingStrategyByModel(BEAM_SIZE_NEL_TEST, s -> s.getModelScore()));
+        sampler.setTestSamplingStrategy(SamplingStrategies.greedyBeamSearchSamplingStrategyByModel(BEAM_SIZE_NEL_TEST, s -> s.getModelScore()));
         sampler.setTestAcceptStrategy(AcceptStrategies.strictModelAccept());
 
         log.info("####################");

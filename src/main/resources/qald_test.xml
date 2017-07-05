@@ -13,7 +13,7 @@
                 "question": [
                 {
                 "language": "en",
-                        "string": "Give me all ESA astronauts.",
+                        "string": "Who created Goofy?",
                         "keywords": "created, Goofy"
                 },
                 {
@@ -23,7 +23,7 @@
                 },
                 {
                 "language": "de",
-                        "string": "Wieviele Studenten hat die Freie Universität in Amsterdam?",
+                        "string": "Hat Abraham Lincolns Sterbeort eine Webseite?",
                         "keywords": "erfinden, Goofy"
                 },
                 {
@@ -53,7 +53,7 @@
                 }
                 ],
                 "query": {
-                "sparql": "SELECT DISTINCT ?uri WHERE {  ?uri <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Astronaut> .  ?uri <http://dbpedia.org/ontology/type> <http://dbpedia.org/resource/European_Space_Agency> . }"
+                "sparql": "SELECT DISTINCT ?uri WHERE {  <http://dbpedia.org/resource/Goofy> <http://dbpedia.org/ontology/creator> ?uri . }  "
                 },
                 "answers": [
                 {

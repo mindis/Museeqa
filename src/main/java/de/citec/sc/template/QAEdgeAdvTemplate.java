@@ -11,6 +11,7 @@ import de.citec.sc.query.CandidateRetriever;
 import de.citec.sc.query.DBpediaLabelRetriever;
 import de.citec.sc.utils.DBpediaEndpoint;
 import de.citec.sc.utils.ProjectConfiguration;
+import de.citec.sc.utils.StringSimilarityUtils;
 import de.citec.sc.variable.HiddenVariable;
 
 import de.citec.sc.variable.State;
@@ -85,15 +86,15 @@ public class QAEdgeAdvTemplate extends AbstractTemplate<AnnotatedDocument, State
         Vector featureVector = factor.getFeatureVector();
 
         Map<String, Double> depFeatures = getDependencyFeatures(state, ProjectConfiguration.getFeatureGroup());
-        Map<String, Double> siblingFeatures = getSiblingFeatures(state, ProjectConfiguration.getFeatureGroup());
+//        Map<String, Double> siblingFeatures = getSiblingFeatures(state, ProjectConfiguration.getFeatureGroup());
 
         for (String k : depFeatures.keySet()) {
             featureVector.addToValue(k, depFeatures.get(k));
         }
 
-        for (String k : siblingFeatures.keySet()) {
-            featureVector.addToValue(k, siblingFeatures.get(k));
-        }
+//        for (String k : siblingFeatures.keySet()) {
+//            featureVector.addToValue(k, siblingFeatures.get(k));
+//        }
 
     }
 
@@ -128,7 +129,13 @@ public class QAEdgeAdvTemplate extends AbstractTemplate<AnnotatedDocument, State
                     String depURI = state.getHiddenVariables().get(depNodeID).getCandidate().getUri();
                     String depPOS = state.getDocument().getParse().getPOSTag(depNodeID);
                     Integer depDudeID = state.getHiddenVariables().get(depNodeID).getDudeId();
-                    String depRelation = state.getDocument().getParse().getDependencyRelation(depNodeID);
+                    String depRelation = "";
+                    //if it's parent-child relation, if not then it's sibling relation
+                    if (state.getDocument().getParse().getHeadNode() == tokenID) {
+                        depRelation = state.getDocument().getParse().getDependencyRelation(depNodeID);
+                    } else {
+                        depRelation = state.getDocument().getParse().getSiblingDependencyRelation(depNodeID, tokenID);
+                    }
                     String depDudeName = "EMPTY";
                     String slotNumber = state.getSlot(depNodeID, tokenID);
 
@@ -142,81 +149,43 @@ public class QAEdgeAdvTemplate extends AbstractTemplate<AnnotatedDocument, State
 
                     //GROUP 1
                     if (featureGroup.contains("1")) {
-                        features.put("QA  GROUP 1 PARENT : Lemma & URI : " + headToken + " & " + headURI, 1.0);
-                        features.put("QA  GROUP 1 PARENT : Lemma & SEM-TYPE : " + headToken + " & " + dudeName, 1.0);
-                        features.put("QA  GROUP 1 PARENT : POS & SEM-TYPE : " + headPOS + " & " + dudeName, 1.0);
+                        // features.put("NEL  GROUP 1 PARENT : Lemma & URI : " + headToken + " & " + headURI, 1.0);
+//                        features.put("NEL  GROUP 1 PARENT : POS & SEM-TYPE : " + headPOS + " & " + dudeName, 1.0);
 
-                        features.put("QA  GROUP 1 CHILD : Lemma & URI : " + depToken + " & " + depURI, 1.0);
-                        features.put("QA  GROUP 1 CHILD : Lemma & SEM-TYPE : " + depToken + " & " + depDudeName, 1.0);
-                        features.put("QA  GROUP 1 CHILD : POS & SEM-TYPE : " + depPOS + " & " + depDudeName, 1.0);
-                        features.put("QA  GROUP 1 DEP-REL & SLOT : " + depRelation + " & " + slotNumber, 1.0);
+                        // features.put("NEL  GROUP 1 CHILD : Lemma & URI : " + depToken + " & " + depURI, 1.0);
+//                        features.put("NEL  GROUP 1 CHILD : POS & SEM-TYPE : " + depPOS + " & " + depDudeName, 1.0);
+//                        features.put("NEL  GROUP 1 DEP-REL & SLOT : " + depRelation + " & " + slotNumber, 1.0);
+//                        features.put("QA  GROUP 1 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & DEP-REL : " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + depRelation, 1.0);
+//                        features.put("QA  GROUP 1 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & SLOT : " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + slotNumber, 1.0);
+                        features.put("QA  GROUP 1 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & DEP-REL & SLOT : " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + depRelation + " & " + slotNumber, 1.0);
+                        features.put("QA  GROUP 1 PARENT POS & PARENT SEM-TYPE & CHILD LEMMA & CHILD POS & CHILD SEM-TYPE & DEP-REL & SLOT : " + headPOS + " & " + dudeName + " & "+depToken+ " & " + depPOS + " & " + depDudeName + " & " + depRelation + " & " + slotNumber, 1.0);
 
-                    }
-
-                    //GROUP 2
-                    if (featureGroup.contains("2")) {
-                        features.put("QA  GROUP 2 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE : " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName, 1.0);
-                        features.put("QA  GROUP 2 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & DEP-REL : " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + depRelation, 1.0);
-                        features.put("QA  GROUP 2 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & SLOT : " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + slotNumber, 1.0);
-                        features.put("QA  GROUP 2 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & DEP-REL & SLOT : " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + depRelation + " & " + slotNumber, 1.0);
-                        features.put("QA  GROUP 2 PARENT POS & PARENT SEM-TYPE & CHILD LEMMA & CHILD POS & CHILD SEM-TYPE & DEP-REL & SLOT : " + headPOS + " & " + dudeName + " & " + depToken+" & "+ depPOS + " & " + depDudeName + " & " + depRelation + " & " + slotNumber, 1.0);
                     }
 
                     //GROUP 3
-                    if (featureGroup.contains("3")) {
-                        features.put("QA  GROUP 3 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & PARENT URI: " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + headURI, 1.0);
-                        features.put("QA  GROUP 3 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & CHILD URI: " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + depURI, 1.0);
-                        features.put("QA  GROUP 3 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & PARENT URI & CHILD URI: " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + headURI + " & " + depURI, 1.0);
-                    }
+                    if (featureGroup.contains("2")) {
 
-                    //GROUP 4
-                    if (featureGroup.contains("4")) {
-                        double headSimilarityScore = getSimilarityScore(headToken, headURI);
-                        double depSimilarityScore = getSimilarityScore(depToken, depURI);
-
-                        features.put("QA  GROUP 4 SIM (PARENT URI, PARENT LEMMA) : ", headSimilarityScore);
-                        features.put("QA  GROUP 4 SIM (CHILD URI, CHILD LEMMA) : ", depSimilarityScore);
-                    }
-
-                    //GROUP 5
-                    if (featureGroup.contains("5")) {
-                        
                         if (dudeName.equals("Property")) {
                             String range = DBpediaEndpoint.getRange(headURI);
                             String domain = DBpediaEndpoint.getDomain(headURI);
-                            
-                            if(slotNumber.equals("1")){
-                                features.put("QA  GROUP 5 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & SLOT & DOMAIN: " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + slotNumber +" & "+ domain, 1.0);
+
+                            if (slotNumber.equals("1")) {
+                                features.put("QA  GROUP 2 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & SLOT & DOMAIN: " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + slotNumber + " & " + domain, 1.0);
+                            } else if (slotNumber.equals("2")) {
+                                features.put("QA  GROUP 2 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & SLOT & RANGE: " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + slotNumber + " & " + range, 1.0);
                             }
-                            else if(slotNumber.equals("2")){
-                                features.put("QA  GROUP 5 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & SLOT & RANGE: " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + slotNumber +" & "+ range, 1.0);
+                        }
+
+                        if (depDudeName.equals("Property")) {
+                            String range = DBpediaEndpoint.getRange(depURI);
+                            String domain = DBpediaEndpoint.getDomain(depURI);
+
+                            if (slotNumber.equals("1")) {
+                                features.put("QA  GROUP 2 CHILD POS & CHILD SEM-TYPE & PARENT POS & PARENT SEM-TYPE & SLOT & DOMAIN: " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + slotNumber + " & " + domain, 1.0);
+                            } else if (slotNumber.equals("2")) {
+                                features.put("QA  GROUP 2 CHILD POS & CHILD SEM-TYPE & PARENT POS & PARENT SEM-TYPE & SLOT & RANGE: " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + slotNumber + " & " + range, 1.0);
                             }
-                        }                        
-                    }
-                    
-                    //GROUP 6
-                    if (featureGroup.contains("6")) {
-                        double depFrequencyScore = 0;
-                        double headFrequency = 0;
-                        
-                        
-                        if(depDudeName.equals("Individual")){
-                            depFrequencyScore = state.getHiddenVariables().get(depNodeID).getCandidate().getDbpediaScore();
                         }
-                        else if(depDudeName.equals("Property")){
-                            depFrequencyScore = state.getHiddenVariables().get(depNodeID).getCandidate().getMatollScore();
-                        }
-                        
-                        if(depDudeName.equals("Individual")){
-                            headFrequency = state.getHiddenVariables().get(tokenID).getCandidate().getDbpediaScore();
-                        }
-                        else if(depDudeName.equals("Property")){
-                            headFrequency = state.getHiddenVariables().get(tokenID).getCandidate().getMatollScore();
-                        }
-                        
-                        
-                        features.put("QA  GROUP 6 PARENT FREQUENCY SCORE : ", headFrequency);
-                        features.put("QA  GROUP 6 CHILD FREQUENCY SCORE : ", depFrequencyScore);
                     }
 
 //                    Set<String> mergedIntervalPOSTAGs = state.getDocument().getParse().getIntervalPOSTagsMerged(tokenID, depNodeID);

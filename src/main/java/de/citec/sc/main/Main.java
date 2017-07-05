@@ -47,11 +47,11 @@ public class Main {
 
         } else {
 
-            args = new String[30];
+            args = new String[32];
             args[0] = "-d1";//query dataset
-            args[1] = "qaldSubset";//qald6Train  qald6Test   qaldSubset
+            args[1] = "qald6Train";//qald6Train  qald6Test   qaldSubset
             args[2] = "-d2";  //test dataset
-            args[3] = "qaldSubset";//qald6Train  qald6Test   qaldSubset
+            args[3] = "qald6Test";//qald6Train  qald6Test   qaldSubset
             args[4] = "-m1";//manual lexicon
             args[5] = "true";//true, false
             args[6] = "-m2";//matoll
@@ -69,16 +69,21 @@ public class Main {
             args[18] = "-l2";//top k samples to select from during testing for QA
             args[19] = "" + 10;
             args[20] = "-w1";//max word count - train
-            args[21] = "" + 30;
+            args[21] = "" + 5;
             args[22] = "-w2";//max word count - test
-            args[23] = "" + 30;
+            args[23] = "" + 5;
             args[24] = "-i";//index
             args[25] = "lucene";//lucene, memory
             args[26] = "-l";//language
             args[27] = "EN";//EN,DE,ES
             args[28] = "-f";//language
-            args[29] = "2,3,4,5,6";//1,2,3,4,5,6,7
+            args[29] = "1,2,3,4,5";//1,2,3,4,5,6,7
+            args[30] = "-b";// use embedding
+            args[31] = "true"; // true, false
         }
+        
+//        int cores = Runtime.getRuntime().availableProcessors();
+//        System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", (cores - 5) + "");
 
         ProjectConfiguration.loadConfigurations(args);
 
@@ -88,7 +93,7 @@ public class Main {
 
         System.out.println(ProjectConfiguration.getAllParameters());
         
-        DBpediaEndpoint.loadCachedQueries();
+//        DBpediaEndpoint.loadCachedQueries();
 
         //load index, initialize postag lists etc.        
         initialize();
@@ -141,7 +146,7 @@ public class Main {
             }
         }
         
-        DBpediaEndpoint.saveCachedQueries();
+//        DBpediaEndpoint.saveCachedQueries();
 
     }
 
@@ -175,26 +180,32 @@ public class Main {
         semanticTypes.put(2, "Individual");
         semanticTypes.put(3, "Class");
         semanticTypes.put(4, "RestrictionClass");
-        semanticTypes.put(5, "UnderSpecifiedClass");
+//        semanticTypes.put(5, "UnderSpecifiedClass");
 
         //semantic types with special meaning
         Map<Integer, String> specialSemanticTypes = new LinkedHashMap<>();
         specialSemanticTypes.put(semanticTypes.size() + 1, "What");//it should be higher than semantic type size
         specialSemanticTypes.put(semanticTypes.size() + 2, "Which");//it should be higher than semantic type size
+//        specialSemanticTypes.put(semanticTypes.size() + 3, "When");//it should be higher than semantic type size
+        specialSemanticTypes.put(semanticTypes.size() + 4, "Who");//it should be higher than semantic type size
 
         Set<String> linkingValidPOSTags = new HashSet<>();
         linkingValidPOSTags.add("PROPN");
         linkingValidPOSTags.add("VERB");
         linkingValidPOSTags.add("NOUN");
         linkingValidPOSTags.add("ADJ");
+        linkingValidPOSTags.add("ADV");
+        linkingValidPOSTags.add("ADP");
         
         Set<String> qaValidPOSTags = new HashSet<>();
         qaValidPOSTags.add("PRON");
         qaValidPOSTags.add("DET");
-        qaValidPOSTags.add("PROPN");
+//        qaValidPOSTags.add("PROPN");
         qaValidPOSTags.add("VERB");
         qaValidPOSTags.add("NOUN");
         qaValidPOSTags.add("ADJ");
+//        qaValidPOSTags.add("ADV");
+//        qaValidPOSTags.add("ADP");
         
         Set<String> edges = new HashSet<>();
         edges.add("obj");
@@ -218,11 +229,13 @@ public class Main {
         edges.add("nmod");
         edges.add("amod");
         edges.add("xcomp");
-        edges.add("vocative");
-        edges.add("discourse");
-        edges.add("parataxis");
-        edges.add("advmod");
-        edges.add("flat");
+//        edges.add("vocative");
+//        edges.add("discourse");
+//        edges.add("parataxis");
+//        edges.add("advmod");
+//        edges.add("flat");
+//        edges.add("name");
+//        edges.add("discourse");
 
         DBpediaLabelRetriever.load(Main.lang);
         

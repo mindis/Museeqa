@@ -39,13 +39,13 @@ public class StringSimilarityTest {
 
         //scores get higher with mixing different similarity measures
         System.out.println(s1 + " --> " + s2 + " LevenshteinDistanceStrategy sim score: " + l1);
-        System.out.println(s3 + " --> " + s3 + " LevenshteinDistanceStrategy sim score: " + l2);
+        System.out.println(s3 + " --> " + s4 + " LevenshteinDistanceStrategy sim score: " + l2);
 
         System.out.println(s1 + " --> " + s2 + " DiceCoefficientStrategy sim score: " + d1);
-        System.out.println(s3 + " --> " + s3 + " DiceCoefficientStrategy sim score: " + d2);
+        System.out.println(s3 + " --> " + s4 + " DiceCoefficientStrategy sim score: " + d2);
 
         System.out.println(s1 + " --> " + s2 + " Mixed sim score: " + a1);
-        System.out.println(s3 + " --> " + s3 + " Mixed sim score: " + a2);
+        System.out.println(s3 + " --> " + s4 + " Mixed sim score: " + a2);
 
         Assert.assertEquals(true, a1 > 0.56);
         Assert.assertEquals(true, a2 > 0.66);

@@ -8,6 +8,7 @@ package de.citec.sc.learning;
 import de.citec.sc.evaluator.BagOfLinksEvaluator;
 
 import de.citec.sc.qald.SPARQLParser;
+import de.citec.sc.utils.FreshVariable;
 import de.citec.sc.variable.HiddenVariable;
 
 import de.citec.sc.variable.State;
@@ -51,7 +52,16 @@ public class NELObjectiveFunction extends ObjectiveFunction<State, String> imple
 
                     derived.add(resource);
                     derived.add(property);
-                } else {
+                }
+                //Underspecified property
+                else if(var.getDudeId() == 5){
+                    String property = "p" + FreshVariable.get();
+                    String resource = var.getCandidate().getUri();
+
+                    derived.add(resource);
+                    derived.add(property);
+                }
+                else {
                     derived.add(var.getCandidate().getUri());
                 }
 

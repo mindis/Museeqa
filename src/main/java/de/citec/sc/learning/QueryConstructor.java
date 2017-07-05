@@ -91,7 +91,7 @@ public class QueryConstructor {
 
             isSELECTQuery = hasReturnVariable;
 
-            query = headDUDE.convertToSPARQL(isSELECTQuery).toString();
+            query = headDUDE.convertToSPARQL().toString();
 
             //remove double dots from the query
             if (query.contains(" . . ")) {
@@ -219,6 +219,22 @@ public class QueryConstructor {
                 case "Which":
                     RDFDUDES which = expressions.which("1");
                     instantiatedDudes.put(nodeIndex, which);
+                    break;
+                case "When":
+                    RDFDUDES whenAsProperty = new RDFDUDES(RDFDUDES.Type.PROPERTY, "1", "2");
+
+                    whenAsProperty.instantiateProperty("http://dbpedia.org/ontology/date");
+                    
+                    RDFDUDES what2 = expressions.what();
+                    //merge the return variable in the slot position 1
+                    whenAsProperty = whenAsProperty.merge(what2, "2");
+                    
+                    instantiatedDudes.put(nodeIndex, whenAsProperty);
+                    break;
+                case "Who":
+                    RDFDUDES who = expressions.wh("http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "http://dbpedia.org/ontology/Agent");
+
+                    instantiatedDudes.put(nodeIndex, who);
                     break;
             }
         }

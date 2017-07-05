@@ -218,6 +218,11 @@ public class UDPipe {
     }
 
     public static void main(String[] args) throws UnsupportedEncodingException {
+        
+                DependencyParse p1 = UDPipe.parse("what is the name of justin bieber brother?", Language.EN);
+        System.out.println(p1);
+        
+        System.exit(0);
 
         CandidateRetriever retriever = new CandidateRetrieverOnLucene(false, "luceneIndex");
 

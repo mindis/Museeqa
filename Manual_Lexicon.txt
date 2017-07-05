@@ -351,7 +351,7 @@
 226	Berlin	http://dbpedia.org/resource/Berlin	DE	train
 226	Schauspieler	http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Actor	DE	train
 248	steht	http://dbpedia.org/ontology/abbreviation	DE	train
-248	ICRO	"ICRO"	DE	train
+248	ICRO	'ICRO'^^<http://www.w3.org/2001/XMLSchema#string>	DE	train
 213	Zutaten	http://dbpedia.org/ontology/ingredient	DE	train
 213	Möhrenkuchen	http://dbpedia.org/resource/Carrot_cake	DE	train
 219	Cola	http://dbpedia.org/resource/Cola	DE	train
@@ -779,7 +779,7 @@
 211	extintos	http://dbpedia.org/ontology/conservationStatus###"EX"	ES	train
 223	muerte	http://dbpedia.org/ontology/deathPlace	ES	train
 223	página web	http://dbpedia.org/property/website	ES	train
-223	Abraham Lincol	http://dbpedia.org/resource/Abraham_Lincoln	ES	train
+223	Abraham Lincoln	http://dbpedia.org/resource/Abraham_Lincoln	ES	train
 244	hondo	http://dbpedia.org/ontology/depth	ES	train
 244	Chiemsee	http://dbpedia.org/resource/Chiemsee	ES	train
 240	Elvis Presley	http://dbpedia.org/resource/Elvis_Presley	ES	train
@@ -814,7 +814,7 @@
 226	nacidos	http://dbpedia.org/ontology/birthPlace	ES	train
 226	Berlin	http://dbpedia.org/resource/Berlin	ES	train
 248	abrevia	http://dbpedia.org/ontology/abbreviation	ES	train
-248	ICRO	"ICRO"	ES	train
+248	ICRO	'ICRO'^^<http://www.w3.org/2001/XMLSchema#string>	ES	train
 213	tarta de zanahorias	http://dbpedia.org/resource/Carrot_cake	ES	train
 213	ingredientes	http://dbpedia.org/ontology/ingredient	ES	train
 219	bebida	http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Beverage	ES	train
@@ -901,7 +901,7 @@
 301	ESA	http://dbpedia.org/resource/European_Space_Agency	ES	train
 302	días festivos	http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Holiday	ES	train
 302	Suecia	http://dbpedia.org/resource/Sweden	ES	train
-304	peligro de extinción	http://dbpedia.org/ontology/conservationStatus###"CR"	ES	train
+304	peligro de extinción	http://dbpedia.org/ontology/conservationStatus###'CR'^^<http://www.w3.org/2001/XMLSchema#string>	ES	train
 304	animales	http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Animal	ES	train
 305	jugadores	http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/SoccerPlayer	ES	train
 305	Malta	http://dbpedia.org/resource/Malta	ES	train
@@ -1207,7 +1207,7 @@
 226	actors	http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Actor	EN	train
 226	born	http://dbpedia.org/ontology/birthPlace	EN	train
 226	Berlin	http://dbpedia.org/resource/Berlin	EN	train
-248	ICRO	"ICRO"	EN	train
+248	ICRO	'ICRO'^^<http://www.w3.org/2001/XMLSchema#string>	EN	train
 248	stand	http://dbpedia.org/ontology/abbreviation	EN	train
 213	ingredients	http://dbpedia.org/ontology/ingredient	EN	train
 213	carrot cake	http://dbpedia.org/resource/Carrot_cake	EN	train
@@ -1296,7 +1296,7 @@
 302	Swedish	http://dbpedia.org/ontology/country###http://dbpedia.org/resource/Sweden	EN	train
 302	holidays	http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Holiday	EN	train
 304	animals	http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Animal	EN	train
-304	critically endangered	http://dbpedia.org/ontology/conservationStatus###"CR"	EN	train
+304	endangered	http://dbpedia.org/ontology/conservationStatus###'CR'^^<http://www.w3.org/2001/XMLSchema#string>	EN	train
 305	soccer players	http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/SoccerPlayer	EN	train
 305	born	http://dbpedia.org/ontology/birthPlace	EN	train
 305	Malta	http://dbpedia.org/resource/Malta	EN	train
@@ -1426,6 +1426,7 @@
 44	full name	http://dbpedia.org/ontology/alias	EN	test
 44	Prince Charles	http://dbpedia.org/resource/Charles,_Prince_of_Wales	EN	test
 46	discovered	http://dbpedia.org/ontology/discoverer	EN	test
+93	inspired	http://dbpedia.org/ontology/influenced	EN	test
 46	Ceres	http://dbpedia.org/resource/Ceres_(dwarf_planet)	EN	test
 47	die	http://dbpedia.org/ontology/deathDate	EN	test
 47	princess Diana	http://dbpedia.org/resource/Diana,_Princess_of_Wales	EN	test

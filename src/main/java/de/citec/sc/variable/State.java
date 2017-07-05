@@ -6,6 +6,7 @@
 package de.citec.sc.variable;
 
 import de.citec.sc.corpus.AnnotatedDocument;
+import de.citec.sc.learning.QueryConstructor;
 import de.citec.sc.query.Candidate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -133,6 +134,10 @@ public class State extends AbstractState<AnnotatedDocument> {
 
         state += "\nObjectiveScore: " + getObjectiveScore();
         state += "\nModelScore: " + getModelScore() + "\n";
+        
+        String query = QueryConstructor.getSPARQLQuery(this);
+        
+        state+="\nConstructed Query: \n\n"+query+"\n";
 
         return state;
     }

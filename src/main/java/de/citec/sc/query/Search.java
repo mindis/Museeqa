@@ -9,6 +9,7 @@ import de.citec.sc.main.Main;
 import de.citec.sc.parser.StanfordParser;
 import de.citec.sc.query.CandidateRetriever.Language;
 import de.citec.sc.utils.FileFactory;
+import de.citec.sc.utils.StringSimilarityUtils;
 import de.citec.sc.wordNet.WordNetAnalyzer;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,6 +19,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import net.ricecode.similarity.StringSimilarityMeasures;
 
 /**
  *
@@ -145,11 +147,28 @@ public class Search {
             return true;
         }
 
-        Set<Candidate> r1 = getResources(mergedTokens, 10, false, false, false, lang);
-        Set<Candidate> r2 = getResources(mergedTokens, 10, false, false, false, CandidateRetriever.Language.EN);
+        Set<Candidate> r1 = getResources(mergedTokens, 1, false, false, false, lang);
+        Set<Candidate> r2 = getResources(mergedTokens, 1, false, false, false, CandidateRetriever.Language.EN);
 
-        if (!r1.isEmpty() || !r2.isEmpty()) {
-            return true;
+        //check substrings, if the string similiarity is lower than 0,6. then don't merge
+        if (!r1.isEmpty()) {
+            
+            for(Candidate c : r1){
+                double simScore = StringSimilarityUtils.getSimilarityScore(mergedTokens, c.getUri());
+                if(simScore > 0.6){
+                    return true;
+                }
+            }
+        }
+        
+        if (!r2.isEmpty()) {
+            
+            for(Candidate c : r2){
+                double simScore = StringSimilarityUtils.getSimilarityScore(mergedTokens, c.getUri());
+                if(simScore > 0.6){
+                    return true;
+                }
+            }
         }
 
         Set<Candidate> p = getPredicates(mergedTokens, 10, true, false, false, lang);
@@ -232,6 +251,11 @@ public class Search {
             List<Instance> matches = retriever.getPredicatesInDBpedia(queryTerm, topK, partialMatch, lang);
 
             for (Instance i : matches) {
+                
+                if(i.getUri().startsWith("http://dbpedia.org/property/")){
+                    continue;
+                }
+                
                 if (!resultDBpedia.contains(i)) {
                     resultDBpedia.add(i);
                 }
@@ -255,6 +279,11 @@ public class Search {
             List<Instance> matches = retriever.getPredicatesInMatoll(queryTerm, topK, CandidateRetriever.Language.EN);
 
             for (Instance i : matches) {
+                
+                if(i.getUri().startsWith("http://dbpedia.org/property/")){
+                    continue;
+                }
+                
                 if (!resultMATOLL.contains(i)) {
                     resultMATOLL.add(i);
                 }

@@ -229,7 +229,7 @@ public class DependencyParse {
     private void mergeAmodEdges() {
         //do another merging on amod - Give me all Australian nonprofit organizations. --> merges nonprofit organizations
         int counter = 0;
-        
+
         List<String> edges = new ArrayList<>();
         edges.add("obj");
         edges.add("obl");
@@ -418,20 +418,19 @@ public class DependencyParse {
             }
         }
     }
-    
+
     public void removePunctuations() {
         HashMap<Integer, String> tempEdgeStrings = (HashMap<Integer, String>) edgeStrings.clone();
-        
-        for(Integer node : tempEdgeStrings.keySet()){
+
+        for (Integer node : tempEdgeStrings.keySet()) {
             String edgeString = tempEdgeStrings.get(node);
-            
-            if(edgeString.equals("punct")){
+
+            if (edgeString.equals("punct")) {
                 relations.remove(node);
                 edgeStrings.remove(node);
                 nodes.remove(node);
                 POSTAG.remove(node);
-                
-                
+
             }
         }
     }
@@ -568,7 +567,7 @@ public class DependencyParse {
      */
     public List<Integer> getDependentEdges(int headNode, Set<String> acceptedPOSTAGs) {
 
-        List<Integer> list = new ArrayList<>();
+        Set<Integer> set = new HashSet<>();
         for (Integer k : relations.keySet()) {
             Integer v = relations.get(k);
 
@@ -579,11 +578,46 @@ public class DependencyParse {
                     continue;
                 }
 
-                list.add(k);
+                set.add(k);
 
             }
         }
+        List<Integer> list = new ArrayList<>(set);
+        return list;
+    }
 
+    /**
+     * returns dependent edges given the headNode that have a valid postag based
+     * on the dependency level it can return dependent nodes of dependent nodes
+     * given the head node
+     *
+     * @param headNode
+     * @param dependencyLevel
+     * @param acceptedPOSTAGs set of postags
+     * @return List of dependent nodes
+     */
+    public List<Integer> getDependentEdges(int headNode, Set<String> acceptedPOSTAGs, Integer dependencyLevel) {
+
+        Set<Integer> set = new HashSet<>();
+        for (Integer k : relations.keySet()) {
+            Integer v = relations.get(k);
+
+            if (v == headNode) {
+                String postag = getPOSTag(k);
+
+                if (acceptedPOSTAGs.contains(postag)) {
+                    set.add(k);
+                }
+
+                if (dependencyLevel > 1) {
+                    //decrease the dependency level
+                    List<Integer> dependentNodeOfK = getDependentEdges(k, acceptedPOSTAGs, dependencyLevel - 1);
+                    set.addAll(dependentNodeOfK);
+                }
+            }
+        }
+
+        List<Integer> list = new ArrayList<>(set);
         return list;
     }
 
@@ -711,6 +745,64 @@ public class DependencyParse {
      */
     public String getPOSTag(Integer nodeId) {
         return POSTAG.get(nodeId);
+    }
+
+    /**
+     * returns previous postag for the given node
+     *
+     * @param dependentNodeId
+     * @return String POSTag
+     */
+    public String getPreviousPOSTag(Integer nodeId) {
+        List<Integer> nodeIDs = new ArrayList<>(nodes.keySet());
+        Collections.sort(nodeIDs);
+
+        Integer prevNodeID = -1;
+
+        for (int i = 0; i < nodeIDs.size(); i++) {
+            if (nodeIDs.get(i).equals(nodeId)) {
+
+                if (i > 0) {
+                    prevNodeID = nodeIDs.get(i - 1);
+                    break;
+                }
+            }
+        }
+
+        if (prevNodeID != -1) {
+            return POSTAG.get(prevNodeID);
+        }
+
+        return "NO-PREV-TOKEN-POS";
+    }
+
+    /**
+     * returns next postag for the given node
+     *
+     * @param dependentNodeId
+     * @return String POSTag
+     */
+    public String getNextPOSTag(Integer nodeId) {
+        List<Integer> nodeIDs = new ArrayList<>(nodes.keySet());
+        Collections.sort(nodeIDs);
+
+        Integer nextNodeID = -1;
+
+        for (int i = 0; i < nodeIDs.size(); i++) {
+            if (nodeIDs.get(i).equals(nodeId)) {
+                
+                if (i + 1 < nodeIDs.size()) {
+                    nextNodeID = nodeIDs.get(i + 1);
+                    break;
+                }
+            }
+        }
+
+        if (nextNodeID != -1) {
+            return POSTAG.get(nextNodeID);
+        }
+
+        return "NO-NEXT-TOKEN-POS";
     }
 
     /**
@@ -874,7 +966,7 @@ public class DependencyParse {
             return s1 + "-" + headPOS + "-" + s2;
         }
 
-        return "ThisNodeIsRoot";
+        return "NOT-DIRECT-SIBLING";
     }
 
     /**

@@ -40,7 +40,15 @@ public class ProjectConfiguration {
     private static final String PARAM_SETTING_TEST_MAX_WORD_COUNT = "-w2";
     private static final String PARAM_SETTING_LANGUAGE = "-l";
     private static final String PARAM_SETTING_FEATURE_GROUP = "-f";
+    private static final String PARAM_SETTING_WORD_EMBEDDING = "-b";
 
+    public static boolean useEmbeddingLexicon() {
+
+        boolean useEmbeddingLexicon = "true".equals(PARAMETERS.get(PARAM_SETTING_WORD_EMBEDDING));
+
+        return useEmbeddingLexicon;
+    }
+    
     public static String getIndex() {
 
         return PARAMETERS.get(PARAM_SETTING_INDEX);

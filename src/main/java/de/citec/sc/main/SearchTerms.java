@@ -46,7 +46,7 @@ public class SearchTerms {
         
         
 
-        String word = "die";
+        String word = "founded";
         int topK = 100;
         boolean lemmatize = true;
         boolean useWordNet = false;

@@ -10,13 +10,20 @@ import de.citec.sc.qald.SPARQLParser;
 import de.citec.sc.qald.Triple;
 import de.citec.sc.qald.Variable;
 import de.citec.sc.variable.State;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Stream;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
@@ -25,7 +32,6 @@ import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.sparql.engine.http.QueryEngineHTTP;
-import org.apache.logging.log4j.message.StringFormattedMessage;
 
 /**
  *
@@ -35,9 +41,9 @@ public class DBpediaEndpoint {
 
     private static String endpointURL = "http://purpur-v11:8890/sparql";
     private static boolean isRemote = false;
-    private static HashMap<String, Set<String>> cacheOfResults = new HashMap<>();
+    private static Map<String, Set<String>> cacheOfResults = new ConcurrentHashMap<>();
     private static HashMap<String, List<String>> cacheOfCanonicalForms = new HashMap<>();
-    private static HashMap<String, Boolean> cacheOfQueries = new HashMap<>();
+    private static Map<String, Boolean> cacheOfQueries = new ConcurrentHashMap<>();
     private static HashMap<String, Boolean> cacheOfDomains = new HashMap<>();
     private static HashMap<String, Boolean> cacheOfRanges = new HashMap<>();
     private static HashMap<String, Boolean> cacheOfDependentNodes = new HashMap<>();
@@ -291,8 +297,8 @@ public class DBpediaEndpoint {
     }
 
     public static String getNormalizedQuery(String query) {
-        
-        if(query.trim().isEmpty()){
+
+        if (query.trim().isEmpty()) {
             return query;
         }
 
@@ -362,69 +368,99 @@ public class DBpediaEndpoint {
     }
 
     public static void loadCachedQueries() {
-        
+
         System.out.println("Loading DBpedia query cache files ....");
-        
+
         long start = System.currentTimeMillis();
 
-//        //validCanonicalFormQueries
-//        Set<String> setValidCanonicalFormQueries = FileFactory.readFile("validCanonicalFormQueries.txt");
-//
-//        for (String s : setValidCanonicalFormQueries) {
-//
-//            String seperator = "\tQUERY:";
-//
-//            String[] chunks = s.split(seperator);
-//
-//            List<String> q = Arrays.asList(chunks);
-//            ArrayList<String> queries = new ArrayList<>(q);
-//
-//            //the first element is canonicalForm
-//            String key = queries.get(0);
-//            queries.remove(key);
-//
-//            cacheOfCanonicalForms.put(key, queries);
-//
-//        }
-        Set<String> setQueryResults = FileFactory.readFile("queryResults.txt");
+        String path = "queryResults.txt";
+        try (Stream<String> stream = Files.lines(Paths.get(path))) {
+            stream.parallel().forEach(item -> {
 
-        for (String s : setQueryResults) {
-            Set<String> results = new HashSet<>();
+                String line = item.toString();
 
-            String[] data = s.split("\t");
-            if(data.length <2){
-                continue;
-            }
-            String query = data[0];
+                Set<String> results = new HashSet<>();
 
-            if (data.length != 1) {
-                for (int i = 1; i < data.length; i++) {
-                    results.add(data[i]);
+                String[] data = line.split("\t");
+                if (data.length > 1) {
+                    String query = data[0];
+
+                    if (data.length != 1) {
+                        for (int i = 1; i < data.length; i++) {
+                            results.add(data[i]);
+                        }
+                    }
+
+                    cacheOfResults.put(query, results);
                 }
-            }
 
-            cacheOfResults.put(query, results);
+            });
+
+        } catch (IOException e) {
+
+        }
+        path = "validQueries.txt";
+        try (Stream<String> stream = Files.lines(Paths.get(path))) {
+            stream.parallel().forEach(item -> {
+
+                String line = item.toString();
+
+                String[] data = line.split("\t");
+
+                String query = "";
+                boolean b = false;
+                if (data.length == 1) {
+                    b = true ? line.split("\t")[0].equals("true") : false;
+                } else {
+                    query = line.split("\t")[0];
+                    b = true ? line.split("\t")[1].equals("true") : false;
+                }
+
+                cacheOfQueries.put(query, b);
+
+            });
+
+        } catch (IOException e) {
+
         }
 
-        Set<String> setValidQueries = FileFactory.readFile("validQueries.txt");
-
-        for (String s : setValidQueries) {
-
-            String[] data = s.split("\t");
-
-            String query = "";
-            boolean b = false;
-            if(data.length == 1){
-                b = true ? s.split("\t")[0].equals("true") : false;
-            }
-            else{
-                query = s.split("\t")[0];
-                b = true ? s.split("\t")[1].equals("true") : false;
-            }
-
-            cacheOfQueries.put(query, b);
-        }
-
+//        Set<String> setQueryResults = FileFactory.readFile("queryResults.txt");
+//
+//        for (String s : setQueryResults) {
+//            Set<String> results = new HashSet<>();
+//
+//            String[] data = s.split("\t");
+//            if (data.length < 2) {
+//                continue;
+//            }
+//            String query = data[0];
+//
+//            if (data.length != 1) {
+//                for (int i = 1; i < data.length; i++) {
+//                    results.add(data[i]);
+//                }
+//            }
+//
+//            cacheOfResults.put(query, results);
+//        }
+//
+//        Set<String> setValidQueries = FileFactory.readFile("validQueries.txt");
+//
+//        for (String s : setValidQueries) {
+//
+//            String[] data = s.split("\t");
+//
+//            String query = "";
+//            boolean b = false;
+//            if (data.length == 1) {
+//                b = true ? s.split("\t")[0].equals("true") : false;
+//            } else {
+//                query = s.split("\t")[0];
+//                b = true ? s.split("\t")[1].equals("true") : false;
+//            }
+//
+//            cacheOfQueries.put(query, b);
+//        }
 //        Set<String> setvalidDomainQueries = FileFactory.readFile("validDomainQueries.txt");
 //
 //        for (String s : setvalidDomainQueries) {
@@ -450,34 +486,88 @@ public class DBpediaEndpoint {
 //
 //            cacheOfRanges.put(key, b);
 //        }
-        
         long end = System.currentTimeMillis();
-        
-        System.out.println("Loading DBpedia cache files done : "+(end-start)+" ms");
+
+        System.out.println("Loading DBpedia cache files done : " + (end - start) + " ms");
     }
 
     public static void saveCachedQueries() {
-        String validQueries = "";
-        for (String q : cacheOfQueries.keySet()) {
-            validQueries += q + "\t" + cacheOfQueries.get(q) + "\n";
+
+        System.out.println("Saving cached queries to files .... ");
+
+        long start = System.currentTimeMillis();
+
+        String fileName1 = "validQueries.txt";
+        String fileName2 = "queryResults.txt";
+
+        File file1 = new File(fileName1);
+        File file2 = new File(fileName2);
+
+        if (file1.exists()) {
+            boolean delete = file1.delete();
         }
-        FileFactory.writeListToFile("validQueries.txt", validQueries.trim(), false);
+        if (file2.exists()) {
+            boolean delete = file2.delete();
+        }
 
-        String queryResults = "";
-        for (String q : cacheOfResults.keySet()) {
-            Set<String> results = cacheOfResults.get(q);
+        try {
+            System.out.println("Starting with "+fileName1 + " with "+cacheOfQueries.size()+" entries");
+            PrintStream p = new PrintStream(new File(fileName1));
 
-            String r = "";
-            for (String r1 : results) {
-                r += r1 + "\t";
+            int counter = 0;
+            for (String q : cacheOfQueries.keySet()) {
+                String s = q + "\t" + cacheOfQueries.get(q) + "\n";
+                p.println(s);
+
+                counter++;
+
+                if (counter % 100000 == 0) {
+                    System.out.println(counter + "/" + cacheOfQueries.size() + " " + (counter / (double) cacheOfQueries.size()) + " are saved.");
+                }
             }
 
-            r = r.trim();
+            System.out.println("\nFile saved.");
 
-            queryResults += q + "\t" + r + "\n";
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
         }
-        FileFactory.writeListToFile("queryResults.txt", queryResults.trim(), false);
 
+        try {
+            PrintStream p = new PrintStream(new File(fileName2));
+
+            System.out.println("Starting with "+fileName2 + " with "+cacheOfResults.size()+" entries");
+            int counter = 0;
+            for (String q : cacheOfResults.keySet()) {
+
+                Set<String> results = cacheOfResults.get(q);
+
+                String r = "";
+                for (String r1 : results) {
+                    r += r1 + "\t";
+                }
+
+                r = r.trim();
+
+                String s = q + "\t" + r + "\n";
+                
+                p.println(s);
+
+                counter++;
+
+                if (counter % 100000 == 0) {
+                    System.out.println(counter + "/" + cacheOfResults.size() + " " + (counter / (double) cacheOfResults.size()) + " are saved.");
+                }
+            }
+
+            System.out.println("\nFile saved.");
+
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        }
+
+        long end = System.currentTimeMillis();
+
+        System.out.println("Saving cached files done : " + (end - start) + " ms. ");
     }
 
     private static boolean isEndPointAvailable() {
@@ -711,7 +801,7 @@ public class DBpediaEndpoint {
         if (query.equals("")) {
             return new HashSet<>();
         }
-        
+
         if (!normalized) {
             query = getCanonicalForm(query);
             query = getNormalizedQuery(query);

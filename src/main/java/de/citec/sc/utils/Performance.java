@@ -7,11 +7,14 @@ package de.citec.sc.utils;
 
 import de.citec.sc.corpus.AnnotatedDocument;
 import de.citec.sc.corpus.SampledMultipleInstance;
+import de.citec.sc.learning.QAObjectiveFunction;
 import de.citec.sc.learning.QueryConstructor;
 import de.citec.sc.variable.State;
 import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -296,18 +299,26 @@ public class Performance {
         for (SampledMultipleInstance<AnnotatedDocument, String, State> triple : testResults) {
 
             double maxScore = 0;
+            
             State maxState = null;
             for (State state : triple.getStates()) {
-
-                double s = function.score(state, triple.getGoldResult());
-                maxScore = s;
-                maxState = state;
-                break;
+                
+                boolean isValidState = isValidState(state);
+                
+                if(isValidState){
+                    maxState = state;
+                    break;
+                }
             }
-
-            overAllScore += maxScore;
-
-            String query = QueryConstructor.getSPARQLQuery(maxState);
+            String query = "";
+            if(maxState !=null){
+                
+                query = QueryConstructor.getSPARQLQuery(maxState);
+                
+                maxScore = QAObjectiveFunction.computeValue(query, triple.getGoldResult());
+                
+                overAllScore += maxScore;
+            }
 
             if (maxScore == 1.0) {
                 correctInstances += maxState + "\nScore: " + maxScore + "\nConstructed Query: \n" + query + "\n========================================================================\n";
@@ -392,6 +403,29 @@ public class Performance {
         FileFactory.writeListToFile(outputDir + "/results_QA_" + ProjectConfiguration.getLanguage() + ".txt", content, false);
 
     }
+    
+    private static boolean isValidState(State state){
+        String s = state.toString();
+        
+        String query = QueryConstructor.getSPARQLQuery(state);
+        
+        List<Integer> tokenIDs = new ArrayList<>(state.getDocument().getParse().getNodes().keySet());
+        Collections.sort(tokenIDs);
+        
+        Integer firstToken = tokenIDs.get(0);
+        String firstPOS = state.getDocument().getParse().getPOSTag(firstToken);
+        
+        if(query.contains("ASK") && firstPOS.equals("PRON")){
+            return false;
+        }
+        
+        Set<String> answers = DBpediaEndpoint.runQuery(query, false);
+        if(answers.isEmpty()){
+            return false;
+        }
+        
+        return true;
+    }
 
     private static int getCorrectInstanceNumber(List<SampledMultipleInstance<AnnotatedDocument, String, State>> testResults, ObjectiveFunction function, int topK) {
 
@@ -404,7 +438,10 @@ public class Performance {
 
             for (State state : states) {
 
-                double s = function.score(state, triple.getGoldResult());
+                String query = QueryConstructor.getSPARQLQuery(state);
+                
+                double s = QAObjectiveFunction.computeValue(query, triple.getGoldResult());
+                
                 if (s == 1.0) {
                     c++;
                     break;
