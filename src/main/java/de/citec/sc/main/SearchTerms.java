@@ -35,7 +35,7 @@ public class SearchTerms {
 
         ManualLexicon.useManualLexicon(true);
         
-        CandidateRetriever.Language lang = CandidateRetriever.Language.EN;
+        CandidateRetriever.Language lang = CandidateRetriever.Language.DE;
         
         System.out.println(ManualLexicon.getProperties("fließt", CandidateRetriever.Language.DE));
         System.out.println(ManualLexicon.getProperties("gestorben", CandidateRetriever.Language.DE));
@@ -43,10 +43,10 @@ public class SearchTerms {
         System.out.println(ManualLexicon.getResources("michael jordan", CandidateRetriever.Language.ES));
         System.out.println(ManualLexicon.getClasses("filmen", CandidateRetriever.Language.DE));
         System.out.println(ManualLexicon.getProperties("die", CandidateRetriever.Language.EN));
-        
+        System.out.println(ManualLexicon.getResources("nordsee", CandidateRetriever.Language.DE));
         
 
-        String word = "founded";
+        String word = "nordsee";
         int topK = 100;
         boolean lemmatize = true;
         boolean useWordNet = false;

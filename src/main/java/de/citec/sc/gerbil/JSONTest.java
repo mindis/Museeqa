@@ -137,9 +137,9 @@ public class JSONTest {
         if(map.containsKey(question)){
             query = map.get(question).getQueryText();
         }
-        else{
-            return output;
-        }
+//        else{
+//            return output;
+//        }
         
 
         JSONObject obj = new JSONObject();
@@ -178,7 +178,8 @@ public class JSONTest {
         JSONArray bindingsArray = new JSONArray();
 
         Set<String> queryResults = DBpediaEndpoint.runQuery(query, false);
-        for (String qResult : queryResults) {
+        
+        for (String qResult : queryResults) {   
             JSONObject binding1 = getBinding("uri", qResult);
 
             bindingsArray.add(binding1);
@@ -209,18 +210,27 @@ public class JSONTest {
     private static JSONObject getBinding(String type, String uri) {
         JSONObject o = new JSONObject();
 
+        if(uri.startsWith("http://")){
+            type = "uri";
+        }
+        else{
+            type = "literal";
+        }
+        
         JSONObject t = new JSONObject();
         t.put("type", type);
+        t.put("value", uri);
 
-        JSONObject u = new JSONObject();
-        u.put("value", uri);
+//        JSONObject u = new JSONObject();
+//        u.put("value", uri);
 
-        JSONArray a = new JSONArray();
-        a.add(t);
-        a.add(u);
+//        JSONArray a = new JSONArray();
+//        a.add(t);
+//        a.add(u);
 
-        o.put("uri", a);
+        o.put(type, t);
 
+        String s = o.toJSONString();
         return o;
     }
 

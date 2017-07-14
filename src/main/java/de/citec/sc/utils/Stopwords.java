@@ -1,5 +1,7 @@
 package de.citec.sc.utils;
 
+import de.citec.sc.main.Main;
+import de.citec.sc.query.CandidateRetriever;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -19,16 +21,18 @@ public class Stopwords {
     /**
      * A set of English stopwords.
      */
-    private static final Set<String> ENGLISH_STOP_WORDS = readLines();
+    private static final Set<String> ENGLISH_STOP_WORDS = readLines("EN");
+    private static final Set<String> GERMAN_STOP_WORDS = readLines("DE");
+    private static final Set<String> SPANISH_STOP_WORDS = readLines("ES");
 
     /**
      * Read stopwords from file.
      *
      * @return
      */
-    private static Set<String> readLines() {
+    private static Set<String> readLines(String lang) {
         try {
-            return new HashSet<String>(Files.readAllLines(Paths.get("src/main/resources/stopwords.txt")));
+            return new HashSet<String>(Files.readAllLines(Paths.get("src/main/resources/stopwords_"+lang+".txt")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -37,7 +41,13 @@ public class Stopwords {
 
     public static boolean isStopWord(String word) {
 
-        if (ENGLISH_STOP_WORDS.contains(word)) {
+        if (Main.lang.equals(CandidateRetriever.Language.EN) && ENGLISH_STOP_WORDS.contains(word)) {
+            return true;
+        }
+        if (Main.lang.equals(CandidateRetriever.Language.DE) && GERMAN_STOP_WORDS.contains(word)) {
+            return true;
+        }
+        if (Main.lang.equals(CandidateRetriever.Language.ES) && SPANISH_STOP_WORDS.contains(word)) {
             return true;
         }
 

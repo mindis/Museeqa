@@ -8,7 +8,6 @@ package de.citec.sc.query;
 import de.citec.sc.query.CandidateRetriever.Language;
 import de.citec.sc.utils.FileFactory;
 import de.citec.sc.utils.ProjectConfiguration;
-import edu.stanford.nlp.util.ArraySet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -70,8 +69,8 @@ public class EmbeddingLexicon {
             languages[2] = "ES";
 
             for (String language : languages) {
-                
-                Set<String> content = FileFactory.readFile("w2v_output/w2v-" + language.toLowerCase() + "-100-plain-exclude-stopwords=True-ranking.txt");
+                //w2v+matoll-de-100-plain-exclude-stopwords=True-ranking.txt
+                Set<String> content = FileFactory.readFile("w2v_output/w2v+matoll-" + language.toLowerCase() + "-100-plain-exclude-stopwords=True-ranking.txt");
 
                 for (String c : content) {
                     //calories	http://dbpedia.org/ontology/totalPopulation	0.548456	datatype_original
@@ -82,7 +81,13 @@ public class EmbeddingLexicon {
                     double similarity = Double.parseDouble(data[2]);
                     String source = data[3];
 
-                    if (similarity <= 0.7) {
+                    if (similarity <= 0.7 && language.equals("EN")) {
+                        continue;
+                    }
+                    if (similarity <= 0.5 && language.equals("DE")) {
+                        continue;
+                    }
+                    if (similarity <= 0.5 && language.equals("ES")) {
                         continue;
                     }
 

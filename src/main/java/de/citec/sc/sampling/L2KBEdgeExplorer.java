@@ -382,11 +382,8 @@ public class L2KBEdgeExplorer implements Explorer<State> {
 
         int topK = 80;
 
-        String queryTerm = node.toLowerCase().trim();
-        //very stupid reason to do it here :-[
-        queryTerm = queryTerm.replace("- ", "-");
-        queryTerm = queryTerm.replace(" - ", "-");
-        queryTerm = queryTerm.replace(" -", "-");
+        String queryTerm = node;
+        
 
         Set<String> indexURIs = new HashSet<>();
 

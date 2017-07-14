@@ -7,7 +7,6 @@ package de.citec.sc.query;
 
 import de.citec.sc.query.CandidateRetriever.Language;
 import de.citec.sc.utils.FileFactory;
-import edu.stanford.nlp.util.ArraySet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;

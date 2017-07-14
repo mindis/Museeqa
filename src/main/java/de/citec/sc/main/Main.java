@@ -51,9 +51,9 @@ public class Main {
             args[0] = "-d1";//query dataset
             args[1] = "qald6Train";//qald6Train  qald6Test   qaldSubset
             args[2] = "-d2";  //test dataset
-            args[3] = "qald6Test";//qald6Train  qald6Test   qaldSubset
+            args[3] = "qaldSubset";//qald6Train  qald6Test   qaldSubset
             args[4] = "-m1";//manual lexicon
-            args[5] = "true";//true, false
+            args[5] = "false";//true, false
             args[6] = "-m2";//matoll
             args[7] = "true";//true, false
             args[8] = "-e";//epochs
@@ -69,13 +69,13 @@ public class Main {
             args[18] = "-l2";//top k samples to select from during testing for QA
             args[19] = "" + 10;
             args[20] = "-w1";//max word count - train
-            args[21] = "" + 5;
+            args[21] = "" + 30;
             args[22] = "-w2";//max word count - test
-            args[23] = "" + 5;
+            args[23] = "" + 3;
             args[24] = "-i";//index
             args[25] = "lucene";//lucene, memory
             args[26] = "-l";//language
-            args[27] = "EN";//EN,DE,ES
+            args[27] = "DE";//EN,DE,ES
             args[28] = "-f";//language
             args[29] = "1,2,3,4,5";//1,2,3,4,5,6,7
             args[30] = "-b";// use embedding
@@ -159,7 +159,7 @@ public class Main {
         if (ProjectConfiguration.getIndex().equals("lucene")) {
             retriever = new CandidateRetrieverOnLucene(false, "luceneIndex");
         } else {
-            retriever = new CandidateRetrieverOnMemory("rawIndexFiles");
+            retriever = new CandidateRetrieverOnMemory("rawFiles");
         }
 
         WordNetAnalyzer wordNet = new WordNetAnalyzer("src/main/resources/WordNet-3.0/dict");
@@ -229,13 +229,13 @@ public class Main {
         edges.add("nmod");
         edges.add("amod");
         edges.add("xcomp");
-//        edges.add("vocative");
-//        edges.add("discourse");
-//        edges.add("parataxis");
-//        edges.add("advmod");
-//        edges.add("flat");
-//        edges.add("name");
-//        edges.add("discourse");
+        edges.add("vocative");
+        edges.add("discourse");
+        edges.add("parataxis");
+        edges.add("advmod");
+        edges.add("flat");
+        edges.add("name");
+        edges.add("discourse");
 
         DBpediaLabelRetriever.load(Main.lang);
         

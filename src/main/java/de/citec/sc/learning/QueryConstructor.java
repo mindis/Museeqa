@@ -15,6 +15,7 @@ import de.citec.sc.qald.Variable;
 import de.citec.sc.utils.FreshVariable;
 import de.citec.sc.variable.State;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -71,8 +72,18 @@ public class QueryConstructor {
             headDUDE.postprocess();
 
             boolean isSELECTQuery = true;
+            
+            List<Integer> tokenIDs = new ArrayList<>(state.getDocument().getParse().getNodes().keySet());
+            Collections.sort(tokenIDs);
+        
+            Integer firstToken = tokenIDs.get(0);
+            String firstPOS = state.getDocument().getParse().getPOSTag(firstToken);
 
             String questionString = state.getDocument().getQuestionString();
+            
+            if(firstPOS.equals("PRON")){
+                isSELECTQuery = false;
+            }
 
             if (questionString.startsWith("Did") || questionString.startsWith("Does") || questionString.startsWith("Do") || questionString.startsWith("Is") || questionString.startsWith("Were") || questionString.startsWith("Was") || questionString.startsWith("Are")) {
                 isSELECTQuery = false;
@@ -91,7 +102,7 @@ public class QueryConstructor {
 
             isSELECTQuery = hasReturnVariable;
 
-            query = headDUDE.convertToSPARQL().toString();
+            query = headDUDE.convertToSPARQL(isSELECTQuery).toString();
 
             //remove double dots from the query
             if (query.contains(" . . ")) {

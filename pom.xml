@@ -27,7 +27,7 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         
-        <dependency>
+<!--        <dependency>
             <groupId>edu.stanford.nlp</groupId>
             <artifactId>stanford-corenlp</artifactId>
             <version>3.7.0</version>
@@ -59,7 +59,7 @@
             <artifactId>stanford-parser</artifactId>
             <version>3.7.0</version>
             <classifier>models</classifier>
-        </dependency>
+        </dependency>-->
         
         <dependency>
             <groupId>edu.smu.tspell</groupId>
@@ -116,6 +116,21 @@
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-analyzers-common</artifactId>
             <version>6.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.languagetool</groupId>
+            <artifactId>language-de</artifactId>
+            <version>3.9-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.languagetool</groupId>
+            <artifactId>language-en</artifactId>
+            <version>3.9-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.languagetool</groupId>
+            <artifactId>language-es</artifactId>
+            <version>3.9-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <build>

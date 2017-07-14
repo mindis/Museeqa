@@ -23,7 +23,7 @@
                 },
                 {
                 "language": "de",
-                        "string": "Hat Abraham Lincolns Sterbeort eine Webseite?",
+                        "string": "Welche Fluss fließen in die Nordsee?",
                         "keywords": "erfinden, Goofy"
                 },
                 {
@@ -53,7 +53,7 @@
                 }
                 ],
                 "query": {
-                "sparql": "SELECT DISTINCT ?uri WHERE {  <http://dbpedia.org/resource/Goofy> <http://dbpedia.org/ontology/creator> ?uri . }  "
+                "sparql": "SELECT DISTINCT ?uri WHERE { ?uri a <http://dbpedia.org/ontology/River> . ?uri <http://dbpedia.org/ontology/riverMouth> <http://dbpedia.org/resource/North_Sea> . }  "
                 },
                 "answers": [
                 {

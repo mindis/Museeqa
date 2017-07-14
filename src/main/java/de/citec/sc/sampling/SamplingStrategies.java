@@ -67,18 +67,18 @@ public class SamplingStrategies {
                 candidates.sort((s1, s2) -> -Double.compare(getScore.apply(s1.getCandidateState()),
                         getScore.apply(s2.getCandidateState())));
 
-//                String s = "";
-//                int c = 0;
-//                for (StatePair<StateT> pair : candidates) {
-//                    s += pair.getCandidateState() + "\n\n" + QueryConstructor.getSPARQLQuery((State) pair.getCandidateState()) + "\n\n======================================================================\n";
-//                    c++;
-//
-//                    if (candidates.size() > 1000 && c == 200) {
-//                        break;
-//                    }
-//                }
-//
-//                FileFactory.writeListToFile("states.txt", s, false);
+                String s = "";
+                int c = 0;
+                for (StatePair<StateT> pair : candidates) {
+                    s += pair.getCandidateState() + "\n\n" + "======================================================================\n";
+                    c++;
+
+                    if (candidates.size() > 1000 && c == 200) {
+                        break;
+                    }
+                }
+
+                FileFactory.writeListToFile("states.txt", s, false);
                 return candidates.subList(0, Math.min(k, candidates.size()));
             }
 

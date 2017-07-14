@@ -45,11 +45,13 @@ public class DependencyParse {
 //        System.out.println("Before\n\n" + toString()+"\n");
 //        mergeCompountEdges();
         mergePatterns();
-
+        
+//        System.out.println("After mergePatterns\n\n" + toString()+"\n");
+        
         mergeAmodEdges();
 //
-////        System.out.println("After mergeAmodEdges\n\n" + toString()+"\n");
-//        mergeDepEdges();
+//        System.out.println("After mergeAmodEdges\n\n" + toString()+"\n");
+//        int stop=1;
 //
 ////        System.out.println("After mergeDepEdges\n\n" + toString()+"\n");
 //        mergeDetEdges();
@@ -97,6 +99,7 @@ public class DependencyParse {
         edges.add("amod");
         edges.add("xcomp");
         edges.add("vocative");
+        edges.add("det");
 
         int counter = 0;
         int max = nodes.size();

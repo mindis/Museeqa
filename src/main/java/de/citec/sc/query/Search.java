@@ -9,6 +9,8 @@ import de.citec.sc.main.Main;
 import de.citec.sc.parser.StanfordParser;
 import de.citec.sc.query.CandidateRetriever.Language;
 import de.citec.sc.utils.FileFactory;
+import de.citec.sc.utils.Lemmatizer;
+import de.citec.sc.utils.StringPreprocessor;
 import de.citec.sc.utils.StringSimilarityUtils;
 import de.citec.sc.wordNet.WordNetAnalyzer;
 import java.util.ArrayList;
@@ -441,18 +443,21 @@ public class Search {
     private static Set<String> getQueryTerms(String searchTerm, boolean lemmatize, boolean useWordNet, Language lang) {
 
         Set<String> queryTerms = new LinkedHashSet<>();
+        searchTerm = StringPreprocessor.preprocess(searchTerm, lang);
+        
         queryTerms.add(searchTerm);
         queryTerms.add(searchTerm + "~");
 
         //lemmatize 
         if (lemmatize) {
             try {
-                String lemmatized = StanfordParser.lemmatize(searchTerm, lang);
-
-                if (!queryTerms.contains(lemmatized)) {
-                    queryTerms.add(lemmatized);
-                    queryTerms.add(lemmatized + "~");
+                Set<String> lemmas = Lemmatizer.lemmatize(searchTerm, lang);
+                for(String l : lemmas){
+                    queryTerms.add(l);
+                    queryTerms.add(l + "~");
                 }
+                
+                
             } catch (Exception e) {
 
             }

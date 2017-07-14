@@ -470,6 +470,13 @@ public class Performance {
     }
 
     private static double round(double value, int places) {
+        
+        if(Double.isNaN(value)){
+            return 0;
+        }
+        if(Double.isInfinite(value)){
+            return 0;
+        }
         if (places < 0) {
             throw new IllegalArgumentException();
         }
