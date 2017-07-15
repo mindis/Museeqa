@@ -142,6 +142,18 @@ public class SPARQLParser {
 
     private static String preprocessQuery(String q) {
 
+        q = q.replace("\n", " ");
+        
+        if(q.contains("COUNT")){
+            if(q.contains("SELECT DISTINCT")){
+                q = q.replace("DISTINCT", "");
+                
+                if(q.contains("(COUNT")){
+                    q = q.replaceAll("[)]\\s+WHERE", " AS ?count) WHERE");
+                }
+            }
+        }
+        
         String p1 = "^[S][E][L][E][C][T]\\s*\\w*\\s*[C][O][U][N][T]\\s*[(](.*)";
 
         //remove namespaces
@@ -183,8 +195,9 @@ public class SPARQLParser {
 //        }
 
         //add all namespaces
-        q = getNamespaces() + "\n" + q;
+//        q = getNamespaces() + "\n" + q;
 
+        
         return q;
     }
 
