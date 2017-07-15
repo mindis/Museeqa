@@ -118,7 +118,7 @@ public class DBpediaEndpoint {
             }
         }
 
-        query = SPARQLParser.getQuery(triples);
+        query = SPARQLParser.getQuery(triples, false);
 
 //        query = query.replaceAll("[?][v][0-9]+", "?z");
 //        query = query.replace("?uri", "?z");
@@ -811,6 +811,11 @@ public class DBpediaEndpoint {
 
         if (cacheOfResults.containsKey(query)) {
             return cacheOfResults.get(query);
+        }
+        
+        if(query.contains("COUNT")){
+            Set<Triple> triples = SPARQLParser.extractTriplesFromQuery(query);
+            query = SPARQLParser.getQuery(triples, true);
         }
 
         try {
