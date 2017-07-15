@@ -862,8 +862,11 @@ public class DBpediaEndpoint {
                 String r = "";
                 for (String v : returnVars) {
                     RDFNode node = s.get(v);
-
-                    r += node.toString() + "\t";
+                    
+                    if(node != null){
+                        r += node.toString() + "\t";
+                    }
+                    
                 }
 
                 results.add(r.trim());
