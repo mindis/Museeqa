@@ -39,7 +39,7 @@ import org.apache.jena.sparql.engine.http.QueryEngineHTTP;
  */
 public class DBpediaEndpoint {
 
-    private static String endpointURL = "http://purpur-v11:8890/sparql";
+    private static String endpointURL = "http://dbpedia.org/sparql";
     private static boolean isRemote = false;
     private static Map<String, Set<String>> cacheOfResults = new ConcurrentHashMap<>();
     private static HashMap<String, List<String>> cacheOfCanonicalForms = new HashMap<>();
@@ -813,9 +813,12 @@ public class DBpediaEndpoint {
             return cacheOfResults.get(query);
         }
         
+        boolean hasCount = false;
         if(query.contains("COUNT")){
             Set<Triple> triples = SPARQLParser.extractTriplesFromQuery(query);
             query = SPARQLParser.getQuery(triples, true);
+            
+            hasCount = true;
         }
 
         try {
@@ -865,12 +868,20 @@ public class DBpediaEndpoint {
 
                 results.add(r.trim());
             }
+            
+            if(hasCount){
+                int count = results.size();
+                
+                results.clear();
+                
+                results.add(count+"");
+            }
 
             qexec.close();
 
         } catch (Exception e) {
 //            System.out.println("Exception while querying endpoint : " + query + "\n\n");
-//            e.printStackTrace();
+            e.printStackTrace();
 
         }
 

@@ -76,7 +76,7 @@ public class SPARQLParser {
         return uris;
     }
     
-    public static String getQuery(Set<Triple> triples, boolean isRun) {
+    public static String getQuery(Set<Triple> triples, boolean removeCountPart) {
         String query = "";
 
         if (triples.isEmpty()) {
@@ -86,7 +86,15 @@ public class SPARQLParser {
 
         for (Triple t : triples) {
             if (t.IsReturnVariable()) {
-                returnVariables += t.toString();
+                
+                if(removeCountPart){
+                   returnVariables += "?"+t.getSubject().toString();
+                }
+                else{
+                    returnVariables += t.toString();
+                }
+                
+                
             } else {
                 query += t.toString() + "\n";
             }
@@ -94,13 +102,7 @@ public class SPARQLParser {
 
         if (!returnVariables.equals("")) {
             if(returnVariables.contains("COUNT")){
-                if(isRun){
-                    query = "SELECT (" + returnVariables + ") AS ?returnVar WHERE {\n " + query + " }";
-                }
-                else{
-                    query = "SELECT " + returnVariables + " WHERE {\n " + query + " }";
-                }
-                
+                query = "SELECT " + returnVariables + " WHERE {\n " + query + " }";
             }
             else{
                 query = "SELECT DISTINCT " + returnVariables + " WHERE {\n " + query + " }";
