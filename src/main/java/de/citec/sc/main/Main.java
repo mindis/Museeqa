@@ -75,7 +75,7 @@ public class Main {
             args[24] = "-i";//index
             args[25] = "lucene";//lucene, memory
             args[26] = "-l";//language
-            args[27] = "DE";//EN,DE,ES
+            args[27] = "EN";//EN,DE,ES
             args[28] = "-f";//language
             args[29] = "1,2,3,4,5";//1,2,3,4,5,6,7
             args[30] = "-b";// use embedding
