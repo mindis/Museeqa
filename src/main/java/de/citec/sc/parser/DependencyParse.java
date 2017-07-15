@@ -45,9 +45,8 @@ public class DependencyParse {
 //        System.out.println("Before\n\n" + toString()+"\n");
 //        mergeCompountEdges();
         mergePatterns();
-        
+
 //        System.out.println("After mergePatterns\n\n" + toString()+"\n");
-        
         mergeAmodEdges();
 //
 //        System.out.println("After mergeAmodEdges\n\n" + toString()+"\n");
@@ -77,8 +76,9 @@ public class DependencyParse {
         patterns.add("PROPN NUM");//7,Chile Route (NNP) 		8,68 (CD) 
         patterns.add("NOUN NOUN ADP NOUN");//nobel (NOUN) 		6,prize (NOUN) 		7,in (ADP) 		8,physics (NOUN) 
         patterns.add("NOUN ADP PROPN");// Game (NOUN) 		5,of (ADP) 		6,Thrones (PROPN)
-//        patterns.add("DET PROPN");//The (DET) 		14,Sopranos (PROPN)
+        patterns.add("PROPN PROPN PUNCT NOUN");//5,Park (PROPN) 		6,Chan (PROPN) 		7,- (PUNCT) 		8,wook (NOUN)
 
+//        patterns.add("DET PROPN");//The (DET) 		14,Sopranos (PROPN)
         List<String> edges = new ArrayList<>();
         edges.add("obj");
         edges.add("obl");
@@ -133,7 +133,16 @@ public class DependencyParse {
                             if (POSTAG.get(m).equals("PUNCT")) {
                                 mergedTokens += getToken(m);
                             } else {
-                                mergedTokens += " " + getToken(m);
+                                if (POSTAG.containsKey(m-1)) {
+                                    if (POSTAG.get(m - 1).equals("PUNCT")) {
+                                        mergedTokens += getToken(m);
+                                    } else {
+                                        mergedTokens += " " + getToken(m);
+                                    }
+                                } else {
+                                    mergedTokens += " " + getToken(m);
+                                }
+
                             }
 
                         }
@@ -793,7 +802,7 @@ public class DependencyParse {
 
         for (int i = 0; i < nodeIDs.size(); i++) {
             if (nodeIDs.get(i).equals(nodeId)) {
-                
+
                 if (i + 1 < nodeIDs.size()) {
                     nextNodeID = nodeIDs.get(i + 1);
                     break;

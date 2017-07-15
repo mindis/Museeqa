@@ -285,9 +285,6 @@
 72	gesprochen	http://dbpedia.org/ontology/spokenIn	DE	train
 73	Aldi	http://dbpedia.org/resource/Aldi	DE	train
 73	Filialen	http://dbpedia.org/ontology/numberOfLocations	DE	train
-78	Bücher	http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Book	DE	train
-78	Danielle Steel	http://dbpedia.org/resource/Danielle_Steel	DE	train
-78	geschrieben	http://dbpedia.org/ontology/author	DE	train
 80	Grunge - Plattenfirmen	http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/RecordLabel, http://dbpedia.org/ontology/genre###http://dbpedia.org/resource/Grunge	DE	train
 80	kanadischen	http://dbpedia.org/ontology/country###http://dbpedia.org/resource/Canada	DE	train
 82	Programmiersprache	http://dbpedia.org/ontology/programmingLanguage	DE	train
@@ -741,9 +738,6 @@
 72	Estonia	http://dbpedia.org/resource/Estonia	ES	train
 73	Aldi	http://dbpedia.org/resource/Aldi	ES	train
 73	tiendas	http://dbpedia.org/ontology/numberOfLocations	ES	train
-78	libros	http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Book	ES	train
-78	escritos	http://dbpedia.org/ontology/author	ES	train
-78	Danielle Steel	http://dbpedia.org/resource/Danielle_Steel	ES	train
 79	aeropuertos	http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Airport	ES	train
 79	California	http://dbpedia.org/ontology/location###http://dbpedia.org/resource/California	ES	train
 80	canadienses	http://dbpedia.org/ontology/country###http://dbpedia.org/resource/Canada	ES	train
@@ -1137,9 +1131,6 @@
 73	stores	http://dbpedia.org/ontology/numberOfLocations	EN	train
 75	16th	http://dbpedia.org/ontology/orderInOffice###"16th"	EN	train
 75	president of the United States	http://dbpedia.org/ontology/office###"President of the United States"	EN	train
-78	books	http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Book	EN	train
-78	written	http://dbpedia.org/ontology/author	EN	train
-78	Danielle Steel	http://dbpedia.org/resource/Danielle_Steel	EN	train
 79	California, USA	http://dbpedia.org/resource/California	EN	train
 79	airports	http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Airport	EN	train
 79	located	http://dbpedia.org/ontology/location	EN	train
@@ -1651,4 +1642,49 @@
 90	Hemingway	http://dbpedia.org/resource/Ernest_Hemingway	ES	test
 93	inspiro	http://dbpedia.org/ontology/influenced	ES	test
 93	Vincent van Gogh	http://dbpedia.org/resource/Vincent_van_Gogh	ES	test
-75	die	http://dbpedia.org/property/deathCause	EN	test
+7	Moon	http://dbpedia.org/resource/Moon	EN	test
+7	atmosphere	http://dbpedia.org/property/atmosphereComposition	EN	test
+8	Park Chan-wook	http://dbpedia.org/resource/Park_Chan-wook	EN	test
+8	direct	http://dbpedia.org/ontology/director	EN	test
+10	Indian	http://dbpedia.org/ontology/location##http://dbpedia.org/resource/India	EN	test
+10	company	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Company	EN	test
+10	employees	http://dbpedia.org/ontology/numberOfEmployees	EN	test
+11	wife	http://dbpedia.org/property/spouse	EN	test
+11	studied	http://dbpedia.org/property/almaMater	EN	test
+11	Obama	http://dbpedia.org/resource/Barack_Obama	EN	test
+16	wrote	http://dbpedia.org/property/author	EN	test
+16	Harry Potter	http://dbpedia.org/resource/Harry_Potter	EN	test
+18	country	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Country	EN	test
+18	largest	http://dbpedia.org/ontology/areaTotal	EN	test
+26	voice	http://dbpedia.org/property/voiceactor	EN	test
+26	Bart Simpson	http://dbpedia.org/resource/Bart_Simpson	EN	test
+41	president of Montenegro	http://dbpedia.org/property/office##http://dbpedia.org/resource/President_of_Montenegro	EN	test
+41	city	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/City	EN	test
+41	born	http://dbpedia.org/ontology/birthPlace	EN	test
+45	longest	http://dbpedia.org/property/length	EN	test
+45	China	http://dbpedia.org/resource/China	EN	test
+45	river	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/River	EN	test
+50	moons	http://dbpedia.org/property/satellites	EN	test
+50	Mars	http://dbpedia.org/resource/Mars	EN	test
+55	speak	http://dbpedia.org/ontology/language	EN	test
+55	Japanese	http://dbpedia.org/resource/Japanese_language	EN	test
+55	countries	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Country	EN	test
+57	extinct	http://dbpedia.org/property/extinct	EN	test
+57	Dodo	http://dbpedia.org/resource/Dodo	EN	test
+61	Red Sox	http://dbpedia.org/resource/Boston_Red_Sox	EN	test
+61	play	http://dbpedia.org/property/ballpark	EN	test
+62	time zone	http://dbpedia.org/ontology/timeZone	EN	test
+62	Rome	http://dbpedia.org/resource/Rome	EN	test
+63	birds	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Bird	EN	test
+63	endangered	http://dbpedia.org/ontology/conservationStatus##"CR"	EN	test
+65	inventor	http://dbpedia.org/property/inventor	EN	test
+65	Lego	http://dbpedia.org/resource/Lego	EN	test
+65	occupation	http://dbpedia.org/property/occupation	EN	test
+77	invented	http://dbpedia.org/property/introduced	EN	test
+77	Coca Cola	http://dbpedia.org/resource/Coca-Cola	EN	test
+78	stadium	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Stadium	EN	test
+78	Spain	http://dbpedia.org/ontology/location##http://dbpedia.org/resource/Spain	EN	test
+78	biggest	http://dbpedia.org/ontology/seatingCapacity	EN	test
+79	Columbus Day	http://dbpedia.org/resource/Columbus_Day	EN	test
+79	day	http://dbpedia.org/property/date	EN	test
+86	South American countries	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/class/yago/SouthAmericanCountries	EN	test
