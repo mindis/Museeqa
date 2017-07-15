@@ -195,7 +195,7 @@ public class SPARQLParser {
 //        }
 
         //add all namespaces
-//        q = getNamespaces() + "\n" + q;
+        q = getNamespaces() + "\n" + q;
 
         
         return q;
