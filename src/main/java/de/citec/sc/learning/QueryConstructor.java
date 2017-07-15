@@ -247,6 +247,11 @@ public class QueryConstructor {
 
                     instantiatedDudes.put(nodeIndex, who);
                     break;
+                case "HowMany":
+                    RDFDUDES howmany = expressions.howmany("1");
+
+                    instantiatedDudes.put(nodeIndex, howmany);
+                    break;    
             }
         }
 
