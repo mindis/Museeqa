@@ -19,6 +19,8 @@ import org.apache.jena.sparql.core.TriplePath;
 import org.apache.jena.sparql.core.Var;
 import org.apache.jena.sparql.expr.Expr;
 import org.apache.jena.sparql.expr.ExprAggregator;
+import org.apache.jena.sparql.expr.ExprList;
+import org.apache.jena.sparql.expr.ExprVar;
 import org.apache.jena.sparql.syntax.Element;
 import org.apache.jena.sparql.syntax.ElementFilter;
 import org.apache.jena.sparql.syntax.ElementGroup;
@@ -91,7 +93,13 @@ public class SPARQLParser {
         }
 
         if (!returnVariables.equals("")) {
-            query = "SELECT DISTINCT " + returnVariables + " WHERE {\n " + query + " }";
+            if(returnVariables.contains("COUNT")){
+                query = "SELECT " + returnVariables + " WHERE {\n " + query + " }";
+            }
+            else{
+                query = "SELECT DISTINCT " + returnVariables + " WHERE {\n " + query + " }";
+            }
+            
         } else {
             query = "ASK WHERE { " + query + " }";
         }
@@ -179,31 +187,36 @@ public class SPARQLParser {
 
             String returnVariable = "";
 
-            Triple count = new Triple();
-
-            count.setPredicate(new Predicate("type", false));
-            count.setSubject(new Variable("?VAR_COUNT"));
-            count.setObject(new Constant("COUNT"));
-
-            count.setIsReturnVariable(true);
-
-            triples.add(count);
+            
 
             List<ExprAggregator> aggregators = query.getAggregators();
             for (ExprAggregator a : aggregators) {
-                returnVariable = a.getAggVar().getVarName();
-//                returnVariable = a.getAggregator()..getExpr().getVarName();
+                Set<Var> varList = a.getAggregator().getExprList().getVarsMentioned();
 
-                Triple t = new Triple();
-
-                t.setPredicate(new Predicate("type", false));
-                t.setSubject(new Variable(returnVariable));
-                t.setObject(new Constant("RETURN_VARIABLE"));
-
-                t.setIsReturnVariable(true);
-
-                triples.add(t);
+                for (Var v : varList) {
+                    returnVariable = v.getVarName();
+                }
             }
+
+            Triple t = new Triple();
+
+            t.setPredicate(new Predicate("type", false));
+            t.setSubject(new Variable(returnVariable));
+            t.setObject(new Constant("COUNT"));
+
+            t.setIsReturnVariable(true);
+
+            triples.add(t);
+            
+//            Triple count = new Triple();
+//
+//            count.setPredicate(new Predicate("type", false));
+//            count.setSubject(new Variable("?VAR_COUNT"));
+//            count.setObject(new Constant("COUNT"));
+//
+//            count.setIsReturnVariable(true);
+//
+//            triples.add(count);
 
             Set<Triple> predicates = new HashSet<>();
 

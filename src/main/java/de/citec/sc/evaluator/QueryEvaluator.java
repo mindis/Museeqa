@@ -130,6 +130,8 @@ public class QueryEvaluator {
         try {
             for (Triple t1 : triples1) {
                 Term var1 = t1.getSubject();
+                
+                Term object1 = t1.getObject();
 
                 //retrieve from mapping
                 Variable mappedVar = (Variable) map.get(var1);
@@ -142,8 +144,10 @@ public class QueryEvaluator {
                 for (Triple t2 : triples2) {
 
                     Variable var2 = (Variable) t2.getSubject();
+                    
+                    Term object2 = t2.getObject();
 
-                    if (var2.equals(mappedVar)) {
+                    if (var2.equals(mappedVar) && object1.equals(object2)) {
                         contains = true;
                         break;
                     }
