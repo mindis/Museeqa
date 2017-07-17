@@ -11,6 +11,8 @@ import de.citec.sc.utils.ProjectConfiguration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -20,20 +22,20 @@ import java.util.Set;
  */
 public class EmbeddingLexicon {
 
-    private static HashMap<String, Set<String>> lexiconPropertiesEN;
-    private static HashMap<String, Set<String>> lexiconClassesEN;
-    private static HashMap<String, Set<String>> lexiconRestrictionClassesEN;
-    private static HashMap<String, Set<String>> lexiconResourcesEN;
+    private static HashMap<String, LinkedHashSet<String>> lexiconPropertiesEN;
+    private static HashMap<String, LinkedHashSet<String>> lexiconClassesEN;
+    private static HashMap<String, LinkedHashSet<String>> lexiconRestrictionClassesEN;
+    private static HashMap<String, LinkedHashSet<String>> lexiconResourcesEN;
 
-    private static HashMap<String, Set<String>> lexiconPropertiesDE;
-    private static HashMap<String, Set<String>> lexiconClassesDE;
-    private static HashMap<String, Set<String>> lexiconRestrictionClassesDE;
-    private static HashMap<String, Set<String>> lexiconResourcesDE;
+    private static HashMap<String, LinkedHashSet<String>> lexiconPropertiesDE;
+    private static HashMap<String, LinkedHashSet<String>> lexiconClassesDE;
+    private static HashMap<String, LinkedHashSet<String>> lexiconRestrictionClassesDE;
+    private static HashMap<String, LinkedHashSet<String>> lexiconResourcesDE;
 
-    private static HashMap<String, Set<String>> lexiconPropertiesES;
-    private static HashMap<String, Set<String>> lexiconClassesES;
-    private static HashMap<String, Set<String>> lexiconRestrictionClassesES;
-    private static HashMap<String, Set<String>> lexiconResourcesES;
+    private static HashMap<String, LinkedHashSet<String>> lexiconPropertiesES;
+    private static HashMap<String, LinkedHashSet<String>> lexiconClassesES;
+    private static HashMap<String, LinkedHashSet<String>> lexiconRestrictionClassesES;
+    private static HashMap<String, LinkedHashSet<String>> lexiconResourcesES;
 
     public static boolean useEmbedding = false;
 
@@ -47,20 +49,20 @@ public class EmbeddingLexicon {
     }
 
     public static void load() {
-        lexiconPropertiesEN = new HashMap<>();
-        lexiconClassesEN = new HashMap<>();
-        lexiconRestrictionClassesEN = new HashMap<>();
-        lexiconResourcesEN = new HashMap<>();
+        lexiconPropertiesEN = new LinkedHashMap<>();
+        lexiconClassesEN = new LinkedHashMap<>();
+        lexiconRestrictionClassesEN = new LinkedHashMap<>();
+        lexiconResourcesEN = new LinkedHashMap<>();
 
-        lexiconPropertiesDE = new HashMap<>();
-        lexiconClassesDE = new HashMap<>();
-        lexiconRestrictionClassesDE = new HashMap<>();
-        lexiconResourcesDE = new HashMap<>();
+        lexiconPropertiesDE = new LinkedHashMap<>();
+        lexiconClassesDE = new LinkedHashMap<>();
+        lexiconRestrictionClassesDE = new LinkedHashMap<>();
+        lexiconResourcesDE = new LinkedHashMap<>();
 
-        lexiconPropertiesES = new HashMap<>();
-        lexiconClassesES = new HashMap<>();
-        lexiconRestrictionClassesES = new HashMap<>();
-        lexiconResourcesES = new HashMap<>();
+        lexiconPropertiesES = new LinkedHashMap<>();
+        lexiconClassesES = new LinkedHashMap<>();
+        lexiconRestrictionClassesES = new LinkedHashMap<>();
+        lexiconResourcesES = new LinkedHashMap<>();
 
         if (ProjectConfiguration.useEmbeddingLexicon() || useEmbedding) {
 
@@ -82,9 +84,9 @@ public class EmbeddingLexicon {
                     double similarity = Double.parseDouble(data[2]);
                     String source = data[3];
 
-//                    if (similarity <= 0.4 && language.equals("EN")) {
-//                        continue;
-//                    }
+                    if (similarity <= 0.4) {
+                        continue;
+                    }
 //                    if (similarity <= 0.4 && language.equals("DE")) {
 //                        continue;
 //                    }
@@ -159,17 +161,17 @@ public class EmbeddingLexicon {
 
     }
 
-    private static void addLexicon(String key, String value, HashMap<String, Set<String>> map) {
+    private static void addLexicon(String key, String value, HashMap<String, LinkedHashSet<String>> map) {
 
         key = key.toLowerCase().trim();
         value = value.trim();
 
         if (map.containsKey(key)) {
-            Set<String> set = map.get(key);
+            LinkedHashSet<String> set = map.get(key);
             set.add(value);
             map.put(key, set);
         } else {
-            Set<String> set = new HashSet<>();
+            LinkedHashSet<String> set = new LinkedHashSet<>();
             set.add(value);
             map.put(key, set);
         }
@@ -205,7 +207,7 @@ public class EmbeddingLexicon {
     }
     
     private static Set<String> getResult(List<String> list, Language lang){
-        Set<String> result = new HashSet<>();
+        Set<String> result = new LinkedHashSet<>();
         
         switch (lang) {
             case EN:
