@@ -39,7 +39,7 @@ import org.apache.jena.sparql.engine.http.QueryEngineHTTP;
  */
 public class DBpediaEndpoint {
 
-    private static String endpointURL = "http://dbpedia.org/sparql";
+    private static String endpointURL = "http://purpur-v11:8890/sparql";
     private static boolean isRemote = false;
     private static Map<String, Set<String>> cacheOfResults = new ConcurrentHashMap<>();
     private static HashMap<String, List<String>> cacheOfCanonicalForms = new HashMap<>();

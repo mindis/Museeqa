@@ -429,7 +429,7 @@ public class L2KBEdgeExplorer implements Explorer<State> {
             case "Class":
                 useLemmatizer = true;
                 mergePartialMatches = false;
-                useWordNet = false;
+                useWordNet = true;
                 if (!Stopwords.isStopWord(queryTerm)) {
                     Set<Candidate> classURIs = Search.getClasses(queryTerm, topK, useLemmatizer, mergePartialMatches, useWordNet, Main.lang);
 
@@ -453,6 +453,8 @@ public class L2KBEdgeExplorer implements Explorer<State> {
                 useLemmatizer = true;
                 useWordNet = false;
                 mergePartialMatches = false;
+                
+                topK = 20;
 
                 if (!Stopwords.isStopWord(queryTerm)) {
                     Set<Candidate> restrictionClassURIs = Search.getRestrictionClasses(queryTerm, topK, useLemmatizer, mergePartialMatches, useWordNet, Main.lang);

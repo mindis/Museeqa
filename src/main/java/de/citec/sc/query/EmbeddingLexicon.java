@@ -8,9 +8,10 @@ package de.citec.sc.query;
 import de.citec.sc.query.CandidateRetriever.Language;
 import de.citec.sc.utils.FileFactory;
 import de.citec.sc.utils.ProjectConfiguration;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -81,15 +82,15 @@ public class EmbeddingLexicon {
                     double similarity = Double.parseDouble(data[2]);
                     String source = data[3];
 
-                    if (similarity <= 0.7 && language.equals("EN")) {
-                        continue;
-                    }
-                    if (similarity <= 0.5 && language.equals("DE")) {
-                        continue;
-                    }
-                    if (similarity <= 0.5 && language.equals("ES")) {
-                        continue;
-                    }
+//                    if (similarity <= 0.4 && language.equals("EN")) {
+//                        continue;
+//                    }
+//                    if (similarity <= 0.4 && language.equals("DE")) {
+//                        continue;
+//                    }
+//                    if (similarity <= 0.4 && language.equals("ES")) {
+//                        continue;
+//                    }
 
                     if (uri.split(",").length > 1) {
                         continue;
@@ -177,7 +178,7 @@ public class EmbeddingLexicon {
     public static Set<String> getProperties(String term, Language lang) {
 
         term = term.toLowerCase();
-        Set<String> result = new HashSet<>();
+        List<String> list = new ArrayList<>();
 
         if (!loaded) {
             load();
@@ -186,27 +187,55 @@ public class EmbeddingLexicon {
         switch (lang) {
             case EN:
                 if (lexiconPropertiesEN.containsKey(term)) {
-                    result.addAll(lexiconPropertiesEN.get(term));
+                    list.addAll(lexiconPropertiesEN.get(term));
                 }
                 break;
             case DE:
                 if (lexiconPropertiesDE.containsKey(term)) {
-                    result.addAll(lexiconPropertiesDE.get(term));
+                    list.addAll(lexiconPropertiesDE.get(term));
                 }
                 break;
             case ES:
                 if (lexiconPropertiesES.containsKey(term)) {
-                    result.addAll(lexiconPropertiesES.get(term));
+                    list.addAll(lexiconPropertiesES.get(term));
                 }
                 break;
         }
+        return getResult(list, lang);
+    }
+    
+    private static Set<String> getResult(List<String> list, Language lang){
+        Set<String> result = new HashSet<>();
+        
+        switch (lang) {
+            case EN:
+                if (list.size() > 20) {
+                    result.addAll(list.subList(0, 20));
+                }
+                break;
+            case DE:
+                if (list.size() > 10) {
+                    result.addAll(list.subList(0, 10));
+                }
+                break;
+            case ES:
+                if (list.size() > 10) {
+                    result.addAll(list.subList(0, 10));
+                }
+                break;
+        }
+        
+        if(result.isEmpty()){
+            result.addAll(list);
+        }
+        
         return result;
     }
 
     public static Set<String> getRestrictionClasses(String term, Language lang) {
 
         term = term.toLowerCase();
-        Set<String> result = new HashSet<>();
+        List<String> list = new ArrayList<>();
 
         if (!loaded) {
             load();
@@ -215,27 +244,27 @@ public class EmbeddingLexicon {
         switch (lang) {
             case EN:
                 if (lexiconRestrictionClassesEN.containsKey(term)) {
-                    result.addAll(lexiconRestrictionClassesEN.get(term));
+                    list.addAll(lexiconRestrictionClassesEN.get(term));
                 }
                 break;
             case DE:
                 if (lexiconRestrictionClassesDE.containsKey(term)) {
-                    result.addAll(lexiconRestrictionClassesDE.get(term));
+                    list.addAll(lexiconRestrictionClassesDE.get(term));
                 }
                 break;
             case ES:
                 if (lexiconRestrictionClassesES.containsKey(term)) {
-                    result.addAll(lexiconRestrictionClassesES.get(term));
+                    list.addAll(lexiconRestrictionClassesES.get(term));
                 }
                 break;
         }
-        return result;
+        return getResult(list, lang);
     }
 
     public static Set<String> getClasses(String term, Language lang) {
 
         term = term.toLowerCase();
-        Set<String> result = new HashSet<>();
+        List<String> list = new ArrayList<>();
 
         if (!loaded) {
             load();
@@ -244,28 +273,28 @@ public class EmbeddingLexicon {
         switch (lang) {
             case EN:
                 if (lexiconClassesEN.containsKey(term)) {
-                    result.addAll(lexiconClassesEN.get(term));
+                    list.addAll(lexiconClassesEN.get(term));
                 }
                 break;
             case DE:
                 if (lexiconClassesDE.containsKey(term)) {
-                    result.addAll(lexiconClassesDE.get(term));
+                    list.addAll(lexiconClassesDE.get(term));
                 }
                 break;
             case ES:
                 if (lexiconClassesES.containsKey(term)) {
-                    result.addAll(lexiconClassesES.get(term));
+                    list.addAll(lexiconClassesES.get(term));
                 }
                 break;
         }
 
-        return result;
+        return getResult(list, lang);
     }
 
     public static Set<String> getResources(String term, Language lang) {
 
         term = term.toLowerCase();
-        Set<String> result = new HashSet<>();
+        List<String> list = new ArrayList<>();
 
         if (!loaded) {
             load();
@@ -274,21 +303,21 @@ public class EmbeddingLexicon {
         switch (lang) {
             case EN:
                 if (lexiconResourcesEN.containsKey(term)) {
-                    result.addAll(lexiconResourcesEN.get(term));
+                    list.addAll(lexiconResourcesEN.get(term));
                 }
                 break;
             case DE:
                 if (lexiconResourcesDE.containsKey(term)) {
-                    result.addAll(lexiconResourcesDE.get(term));
+                    list.addAll(lexiconResourcesDE.get(term));
                 }
                 break;
             case ES:
                 if (lexiconResourcesES.containsKey(term)) {
-                    result.addAll(lexiconResourcesES.get(term));
+                    list.addAll(lexiconResourcesES.get(term));
                 }
                 break;
         }
 
-        return result;
+        return getResult(list, lang);
     }
 }
