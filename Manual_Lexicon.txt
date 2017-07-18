@@ -272,9 +272,6 @@
 64	Unternehmen	http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Company	DE	train
 64	Softwareprodukte	http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Software	DE	train
 64	entwickelt	http://dbpedia.org/ontology/developer	DE	train
-66	Christian Bale	http://dbpedia.org/resource/Christian_Bale	DE	train
-66	Velvet Goldmine	http://dbpedia.org/resource/Velvet_Goldmine	DE	train
-66	Spielt	http://dbpedia.org/ontology/starring	DE	train
 68	Schauspieler	http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Actor	DE	train
 68	geboren	http://dbpedia.org/ontology/birthPlace	DE	train
 68	Deutschland	http://dbpedia.org/resource/Germany	DE	train
@@ -728,9 +725,6 @@
 64	California	http://dbpedia.org/resource/California	ES	train
 64	fundadas	http://dbpedia.org/ontology/foundationPlace	ES	train
 64	software	http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Software	ES	train
-66	Actúa	http://dbpedia.org/ontology/starring	ES	train
-66	Christian Bale	http://dbpedia.org/resource/Christian_Bale	ES	train
-66	Velvet Goldmine	http://dbpedia.org/resource/Velvet_Goldmine	ES	train
 68	actores	http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Actor	ES	train
 68	nacieron	http://dbpedia.org/ontology/birthPlace	ES	train
 68	Alemania	http://dbpedia.org/resource/Germany	ES	train
@@ -1116,9 +1110,6 @@
 64	organizations	http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Company	EN	train
 64	developed	http://dbpedia.org/ontology/developer	EN	train
 64	software	http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Software	EN	train
-66	Christian Bale	http://dbpedia.org/resource/Christian_Bale	EN	train
-66	Velvet Goldmine	http://dbpedia.org/resource/Velvet_Goldmine	EN	train
-66	starring	http://dbpedia.org/ontology/starring	EN	train
 68	actors	http://www.w3.org/1999/02/22-rdf-syntax-ns#type###http://dbpedia.org/ontology/Actor	EN	train
 68	born	http://dbpedia.org/ontology/birthPlace	EN	train
 68	Germany	http://dbpedia.org/resource/Germany	EN	train
@@ -1688,3 +1679,313 @@
 79	Columbus Day	http://dbpedia.org/resource/Columbus_Day	EN	test
 79	day	http://dbpedia.org/property/date	EN	test
 86	South American countries	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/class/yago/SouthAmericanCountries	EN	test
+107	Alberta	http://dbpedia.org/resource/Alberta	DE	train
+107	gegründet	http://dbpedia.org/property/admittancedate	DE	train
+108	Himalaya	http://dbpedia.org/resource/Himalayas	DE	train
+108	Länder	http://dbpedia.org/property/country	DE	train
+110	New Yorker Berufsfeuerwehr	http://dbpedia.org/resource/New_York_City_Fire_Department	DE	train
+110	Männer und Frauen arbeiten	http://dbpedia.org/property/employees	DE	train
+113	jüngste	http://dbpedia.org/ontology/birthDate	DE	train
+113	Premier League	http://dbpedia.org/resource/Premier_League	DE	train
+113	Spieler	http://dbpedia.org/ontology/league, http://dbpedia.org/ontology/team	DE	train
+115	Fluss	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/River	DE	train
+115	längste	http://dbpedia.org/ontology/length	DE	train
+116	Breaking Bad	http://dbpedia.org/resource/Breaking_Bad	DE	train
+116	Game of Thrones	http://dbpedia.org/resource/Game_of_Thrones	DE	train
+116	Episoden	http://dbpedia.org/ontology/numberOfEpisodes	DE	train
+122	Gouverneur	http://dbpedia.org/property/governor	DE	train
+122	Wyoming	http://dbpedia.org/resource/Wyoming	DE	train
+123	Prinz Harry	http://dbpedia.org/resource/Prince_Harry	DE	train
+123	Prinz William	http://dbpedia.org/resource/Prince_William,_Duke_of_Cambridge	DE	train
+123	Eltern	http://dbpedia.org/ontology/parent	DE	train
+124	Vater	http://dbpedia.org/property/father	DE	train
+124	Königin Elizabeth II	http://dbpedia.org/resource/Elizabeth_II	DE	train
+125	aufgenommen	http://dbpedia.org/property/admittancedate	DE	train
+125	US - Bundesstaat	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/class/yago/StatesOfTheUnitedStates	DE	train
+127	US - Bundesstaat	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/class/yago/StatesOfTheUnitedStates	DE	train
+127	Butch Otter	http://dbpedia.org/resource/Butch_Otter	DE	train
+127	Gouverneur	http://dbpedia.org/property/governor	DE	train
+131	Politiker	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Politician	DE	train
+131	Methodisten	http://dbpedia.org/ontology/religion##http://dbpedia.org/resource/Methodism	DE	train
+132	Jane Fonda	http://dbpedia.org/resource/Jane_Fonda	DE	train
+132	geheiratet	http://dbpedia.org/ontology/spouse	DE	train
+142	Amanda Palmer	http://dbpedia.org/resource/Amanda_Palmer	DE	train
+142	Mann	http://dbpedia.org/property/spouse	DE	train
+143	Schäferhundrassen	http://dbpedia.org/property/breed##http://dbpedia.org/resource/German_Shepherd	DE	train
+149	Waffen	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Weapon	DE	train
+149	Heckler & Koch	http://dbpedia.org/resource/Heckler_&_Koch	DE	train
+149	entwickelt	http://dbpedia.org/property/designer	DE	train
+150	Kubakrise	http://dbpedia.org/resource/Cuban_missile_crisis	DE	train
+150	Schweinebuchtinvasion	http://dbpedia.org/resource/Bay_of_Pigs_Invasion	DE	train
+153	Lissabon	http://dbpedia.org/resource/Lisbon	DE	train
+153	regiert	http://dbpedia.org/property/leaderParty	DE	train
+154	Spitznamen	http://dbpedia.org/property/nickname	DE	train
+154	San Francisco	http://dbpedia.org/resource/San_Francisco	DE	train
+155	Olymp	http://dbpedia.org/resource/Mount_Olympus	DE	train
+155	griechischen Göttinnen	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/class/yago/GreekGoddesses	DE	train
+155	bewohnten	http://dbpedia.org/property/abode	DE	train
+156	Hells Angels	http://dbpedia.org/resource/Hells_Angels	DE	train
+156	gegründet	http://dbpedia.org/property/founded	DE	train
+158	Salt Lake City	http://dbpedia.org/resource/Salt_Lake_City	DE	train
+158	Zeitzone	http://dbpedia.org/property/timezone	DE	train
+159	Utah	http://dbpedia.org/resource/Utah	DE	train
+159	US - Bundesstaaten	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/class/yago/StatesOfTheUnitedStates	DE	train
+159	Zeitzone	http://dbpedia.org/property/timezone	DE	train
+16	Ländern in Afrika	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/class/yago/AfricanCountries	DE	train
+16	Haupstädte	http://dbpedia.org/ontology/capital	DE	train
+160	Dänemark	http://dbpedia.org/resource/Denmark	DE	train
+160	Seen	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Lake	DE	train
+161	Missionen	http://dbpedia.org/property/programme	DE	train
+161	Soyuz - Programm	http://dbpedia.org/resource/Soyuz_programme	DE	train
+166	benannt	http://dbpedia.org/property/shipNamesake	DE	train
+166	Benjamin Franklin	http://dbpedia.org/resource/Benjamin_Franklin	DE	train
+171	erbaut	http://dbpedia.org/property/beginningDate	DE	train
+171	Freiheitsstatue	http://dbpedia.org/resource/Statue_of_Liberty	DE	train
+172	Fort Knox	http://dbpedia.org/resource/Fort_Knox	DE	train
+172	liegt	http://dbpedia.org/property/location	DE	train
+173	Kinder	http://dbpedia.org/ontology/child	DE	train
+173	Benjamin Franklin	http://dbpedia.org/resource/Benjamin_Franklin	DE	train
+177	genannt	http://dbpedia.org/property/nickname	DE	train
+177	Frank The Tank	"Frank The Tank"@en	DE	train
+179	Marc Chagall	http://dbpedia.org/resource/Marc_Chagall	DE	train
+179	Jude	http://dbpedia.org/property/ethnicity##"Jewish"@en	DE	train
+182	amerikanischen Erfindungen	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/class/yago/AmericanInventions	DE	train
+188	Clint Eastwood	http://dbpedia.org/resource/Clint_Eastwood	DE	train
+188	Regie geführt	http://dbpedia.org/ontology/director	DE	train
+188	Filmen	http://dbpedia.org/ontology/starring	DE	train
+19	Hauptstadt	http://dbpedia.org/ontology/capital	DE	train
+19	Ägyptens	http://dbpedia.org/resource/Egypt	DE	train
+19	größte Stadt	http://dbpedia.org/ontology/largestCity	DE	train
+190	wohnt	http://dbpedia.org/property/residence	DE	train
+190	Premierminister von Spanien	http://dbpedia.org/resource/Prime_Minister_of_Spain	DE	train
+191	MN	"MN"@en	DE	train
+191	US - Bundesstaat	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/class/yago/StatesOfTheUnitedStates	DE	train
+191	Abkürzung	http://dbpedia.org/property/postalabbreviation	DE	train
+193	gedreht	http://dbpedia.org/ontology/director	DE	train
+193	Filme	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Film	DE	train
+193	Kurosawa	http://dbpedia.org/resource/Akira_Kurosawa	DE	train
+194	herstellt	http://dbpedia.org/property/foundation	DE	train
+194	Brauerei	http://dbpedia.org/property/brewery	DE	train
+194	Pilsner Urquell	http://dbpedia.org/resource/Pilsner_Urquell	DE	train
+195	polnische	http://dbpedia.org/resource/Poland	DE	train
+195	schrieb	http://dbpedia.org/property/author	DE	train
+195	Nationalhymne	http://dbpedia.org/ontology/anthem	DE	train
+21	Staaten grenzen	http://dbpedia.org/property/borderingstates	DE	train
+21	Illinois	http://dbpedia.org/resource/Illinois	DE	train
+28	Länder	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Country	DE	train
+28	kommunistischen	http://dbpedia.org/property/ideology##http://dbpedia.org/resource/Communism	DE	train
+30	Staat in den USA	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/class/yago/StatesOfTheUnitedStates	DE	train
+30	Bevölkerungsdichte	http://dbpedia.org/property/densityrank	DE	train
+32	Länder	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Country	DE	train
+32	Euro	http://dbpedia.org/resource/Euro	DE	train
+32	übernommen	http://dbpedia.org/ontology/currency	DE	train
+37	Lettland	http://dbpedia.org/resource/Latvia	DE	train
+37	EU beigetreten	http://dbpedia.org/property/accessioneudate	DE	train
+40	Berg	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Mountain	DE	train
+40	höchste	http://dbpedia.org/ontology/elevation	DE	train
+40	Australien	http://dbpedia.org/resource/Australia	DE	train
+41	Fußballvereine	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/SoccerClub	DE	train
+41	Spanien	http://dbpedia.org/resource/Spain	DE	train
+47	höhchste Stelle	http://dbpedia.org/property/highest	DE	train
+47	Ural	http://dbpedia.org/resource/Ural_Mountains	DE	train
+49	Unternehmen	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Company	DE	train
+49	Werbebranche	http://dbpedia.org/ontology/industry##http://dbpedia.org/resource/Advertising	DE	train
+53	Bundeskanzler	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Person	DE	train
+55	World of Warcraft	http://dbpedia.org/resource/World_of_Warcraft	DE	train
+55	entwickelt	http://dbpedia.org/ontology/developer	DE	train
+56	Tom Cruise	http://dbpedia.org/resource/Tom_Cruise	DE	train
+56	offizielle Website	http://dbpedia.org/property/website	DE	train
+59	Jimmy	"Jimmy"@en	DE	train
+59	Personen	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://xmlns.com/foaf/0.1/Person	DE	train
+59	Vornamen	http://xmlns.com/foaf/0.1/givenName	DE	train
+62	Wikipedia	http://dbpedia.org/resource/Wikipedia	DE	train
+62	gegründet	http://dbpedia.org/ontology/author	DE	train
+71	Videospiele	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/VideoGame	DE	train
+71	Mean Hamster Software	http://dbpedia.org/resource/Mean_Hamster_Software	DE	train
+74	europäischen Hauptstädten	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/class/yago/CapitalsInEurope	DE	train
+74	olympische Sommerspiele	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/class/yago/HostCitiesOfTheSummerOlympicGames	DE	train
+76	Hal Roach	http://dbpedia.org/resource/Hal_Roach	DE	train
+76	produziert	http://dbpedia.org/ontology/producer	DE	train
+78	Danielle Steel	http://dbpedia.org/resource/Danielle_Steel	DE	train
+78	geschrieben	http://dbpedia.org/ontology/author	DE	train
+78	Bücher	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Book	DE	train
+8	SPD	http://dbpedia.org/resource/Social_Democratic_Party_of_Germany	DE	train
+8	regiert	http://dbpedia.org/ontology/leaderParty##http://dbpedia.org/resource/Social_Democratic_Party_of_Germany	DE	train
+8	Bundesländer in Deutschland	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/class/yago/StatesOfGermany	DE	train
+86	weiblichen	http://dbpedia.org/ontology/gender##http://dbpedia.org/resource/Female	DE	train
+86	Vornamen	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/GivenName	DE	train
+87	Die Säulen der Erde	http://dbpedia.org/resource/The_Pillars_of_the_Earth	DE	train
+87	schrieb	http://dbpedia.org/ontology/author	DE	train
+88	Filmen	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Film	DE	train
+88	Leonardo DiCaprio	http://dbpedia.org/resource/Leonardo_DiCaprio	DE	train
+88	mitgespielt	http://dbpedia.org/ontology/starring	DE	train
+9	US - Bundesstaat	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/class/yago/StatesOfTheUnitedStates	DE	train
+9	Mount McKinley	http://dbpedia.org/resource/Mount_McKinley	DE	train
+9	befindet	http://dbpedia.org/ontology/locatedInArea	DE	train
+92	höchste	http://dbpedia.org/ontology/elevation	DE	train
+92	Berg	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Mountain	DE	train
+93	Natalie Portman	http://dbpedia.org/resource/Natalie_Portman	DE	train
+93	Vereinigten Staaten	http://dbpedia.org/resource/United_States	DE	train
+93	geboren	http://dbpedia.org/ontology/birthPlace	DE	train
+204	Programmiersprachen	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/ProgrammingLanguage	DE	train
+210	Dartspieler	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/DartsPlayer	DE	train
+210	jüngste	http://dbpedia.org/ontology/birthDate	DE	train
+217	Spannweite	http://dbpedia.org/ontology/mainspan	DE	train
+217	Brücke	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Bridge	DE	train
+247	Schauspieler	http://dbpedia.org/ontology/occupation##http://dbpedia.org/resource/Actor	DE	train
+247	Baldwin	"Baldwin"@en	DE	train
+247	heißen	http://xmlns.com/foaf/0.1/surname	DE	train
+216	Atlanta Falcons	http://dbpedia.org/resource/Atlanta_Falcons	DE	train
+216	Spieler	http://dbpedia.org/ontology/team	DE	train
+216	größte	http://dbpedia.org/ontology/height	DE	train
+238	James - Bond - Filme	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/class/yago/JamesBondFilms	DE	train
+230	Halloween	http://dbpedia.org/resource/Halloween	DE	train
+202	Sprachen	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Language	DE	train
+202	Kolumbien	http://dbpedia.org/resource/Colombia	DE	train
+202	gesprochen	http://dbpedia.org/ontology/language	DE	train
+233	Haupstädte	http://dbpedia.org/ontology/capital	DE	train
+233	Himalaya	http://dbpedia.org/resource/Himalayas	DE	train
+233	Länder	http://dbpedia.org/property/country	DE	train
+239	gespielt	http://dbpedia.org/property/portrayer	DE	train
+239	Chewbacca	http://dbpedia.org/resource/Chewbacca	DE	train
+222	Budget	http://dbpedia.org/ontology/budget	DE	train
+222	Tim Burtons	http://dbpedia.org/resource/Tim_Burton	DE	train
+209	Mond	http://dbpedia.org/property/satelliteOf	DE	train
+209	schwer	http://dbpedia.org/ontology/mass	DE	train
+253	genannt	http://dbpedia.org/property/nickname	DE	train
+253	Rodzilla	"Rodzilla"@en	DE	train
+255	Paris	http://dbpedia.org/resource/Paris	DE	train
+255	Museen	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Museum	DE	train
+256	Stadt	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/City	DE	train
+256	Einwohner	http://dbpedia.org/ontology/populationTotal	DE	train
+257	Einwohner	http://dbpedia.org/ontology/populationTotal	DE	train
+257	Stadt	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/City	DE	train
+259	Die Tribute von Panem	http://dbpedia.org/resource/The_Hunger_Games	DE	train
+259	geschrieben	http://dbpedia.org/property/creator	DE	train
+261	Mount Everest	http://dbpedia.org/resource/Mount_Everest	DE	train
+261	Land	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Country	DE	train
+269	Fluggesellschaften	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Airline	DE	train
+270	Agent Smith	http://dbpedia.org/resource/Agent_Smith	DE	train
+270	gespielt	http://dbpedia.org/property/portrayer	DE	train
+271	Kohlenhydrate	http://dbpedia.org/property/carbs	DE	train
+271	Erdnussbutter	http://dbpedia.org/resource/Peanut_butter	DE	train
+272	Seiten	http://dbpedia.org/ontology/numberOfPages	DE	train
+272	Buch	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Book	DE	train
+279	Fluggesellschaften	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Airline	DE	train
+279	Teil	http://dbpedia.org/property/alliance	DE	train
+279	SkyTeam - Allianz	http://dbpedia.org/resource/SkyTeam	DE	train
+284	Politiker	http://dbpedia.org/ontology/profession##http://dbpedia.org/resource/Politician	DE	train
+284	Abschluss	http://dbpedia.org/ontology/almaMater	DE	train
+284	Columbia University	http://dbpedia.org/resource/Columbia_University	DE	train
+285	Friedensnobelpreis	http://dbpedia.org/resource/Nobel_Peace_Prize	DE	train
+285	Manhattan - Projekt	http://dbpedia.org/resource/Manhattan_Project	DE	train
+285	Wissenschaftler	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Scientist	DE	train
+285	bekannt	http://dbpedia.org/ontology/knownFor	DE	train
+286	Vulkan	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Volcano	DE	train
+286	höchste	http://dbpedia.org/ontology/elevation	DE	train
+286	Afrika	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/class/yago/AfricanCountries	DE	train
+287	Bier	http://dbpedia.org/resource/Beer	DE	train
+287	Irland	"Ireland"@en	DE	train
+287	kommt aus	http://dbpedia.org/property/origin	DE	train
+288	UNC Health Care	http://dbpedia.org/resource/UNC_Health_Care	DE	train
+288	spezialisiert	http://dbpedia.org/property/speciality	DE	train
+7	Atmosphäre	http://dbpedia.org/property/atmosphereComposition	DE	test
+7	Mondes	http://dbpedia.org/resource/Moon	DE	test
+8	Park Chan -	http://dbpedia.org/resource/Park_Chan-wook	DE	test
+8	Regie geführt	http://dbpedia.org/ontology/director	DE	test
+10	Angestellten	http://dbpedia.org/ontology/numberOfEmployees	DE	test
+10	indische	http://dbpedia.org/ontology/location##http://dbpedia.org/resource/India	DE	test
+10	Unternehmen	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Company	DE	test
+11	Obamas	http://dbpedia.org/resource/Barack_Obama	DE	test
+11	Frau	http://dbpedia.org/property/spouse	DE	test
+11	studiert	http://dbpedia.org/property/almaMater	DE	test
+14	Boston Tea Party	http://dbpedia.org/resource/Boston_Tea_Party	DE	test
+16	geschrieben	http://dbpedia.org/property/author	DE	test
+16	Harry Potter	http://dbpedia.org/resource/Harry_Potter	DE	test
+18	Land	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Country	DE	test
+18	größte	http://dbpedia.org/ontology/areaTotal	DE	test
+26	spricht	http://dbpedia.org/property/voiceactor	DE	test
+26	Bart Simpson	http://dbpedia.org/resource/Bart_Simpson	DE	test
+41	Präsident von Montenegro	http://dbpedia.org/property/office##http://dbpedia.org/resource/President_of_Montenegro	DE	test
+41	geboren	http://dbpedia.org/ontology/birthPlace	DE	test
+41	Stadt	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/City	DE	test
+45	längste	http://dbpedia.org/property/length	DE	test
+45	Fluss	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/River	DE	test
+45	China	http://dbpedia.org/resource/China	DE	test
+50	Monde	http://dbpedia.org/property/satellites	DE	test
+50	Mars	http://dbpedia.org/resource/Mars	DE	test
+53	wohnen	http://dbpedia.org/ontology/residence	DE	test
+53	USA	http://dbpedia.org/resource/United_States	DE	test
+53	Kanadiern	http://dbpedia.org/ontology/birthPlace##http://dbpedia.org/resource/Canada	DE	test
+55	Japanisch	http://dbpedia.org/ontology/language##http://dbpedia.org/resource/Japanese_language	DE	test
+55	gesprochen	http://dbpedia.org/ontology/language	DE	test
+55	Ländern	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Country	DE	test
+57	Dodos	http://dbpedia.org/resource/Dodo	DE	test
+57	ausgestorben	http://dbpedia.org/property/extinct	DE	test
+61	Red Sox	http://dbpedia.org/resource/Boston_Red_Sox	DE	test
+61	spielen	http://dbpedia.org/property/ballpark	DE	test
+63	Vogelarten	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Bird	DE	test
+63	stark bedrohten	http://dbpedia.org/ontology/conservationStatus##"CR"	DE	test
+65	Beruf	http://dbpedia.org/property/occupation	DE	test
+65	Erfinder	http://dbpedia.org/property/inventor	DE	test
+65	Lego	http://dbpedia.org/resource/Lego	DE	test
+67	US - Staaten	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/class/yago/StatesOfTheUnitedStates	DE	test
+77	Coca Cola	http://dbpedia.org/resource/Coca-Cola	DE	test
+77	erfunden	http://dbpedia.org/property/introduced	DE	test
+79	Columbus - Tag	http://dbpedia.org/resource/Columbus_Day	DE	test
+86	Länder Südamerikas	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/class/yago/SouthAmericanCountries	DE	test
+93	inspiriert	http://dbpedia.org/ontology/influenced	DE	test
+93	Vincent van Gogh	http://dbpedia.org/resource/Vincent_van_Gogh	DE	test
+100	Name	http://dbpedia.org/property/alterEgo	DE	test
+100	Batmans	http://dbpedia.org/resource/Batman	DE	test
+7	atmósfera	http://dbpedia.org/property/atmosphereComposition	ES	test
+7	Luna	http://dbpedia.org/resource/Moon	ES	test
+8	dirigió	http://dbpedia.org/ontology/director	ES	test
+8	Park Chan-wook	http://dbpedia.org/resource/Park_Chan-wook	ES	test
+10	número de empleados	http://dbpedia.org/ontology/numberOfEmployees	ES	test
+10	empresa	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Company	ES	test
+10	India	http://dbpedia.org/resource/India	ES	test
+11	esposa	http://dbpedia.org/property/spouse	ES	test
+11	Obama	http://dbpedia.org/resource/Barack_Obama	ES	test
+11	estudió	http://dbpedia.org/property/almaMater	ES	test
+14	Boston Tea Party	http://dbpedia.org/resource/Boston_Tea_Party	ES	test
+16	escribió	http://dbpedia.org/property/author	ES	test
+16	Harry Potter	http://dbpedia.org/resource/Harry_Potter	ES	test
+26	Bart Simpson	http://dbpedia.org/resource/Bart_Simpson	ES	test
+26	interpreta	http://dbpedia.org/property/voiceactor	ES	test
+41	nació	http://dbpedia.org/ontology/birthPlace	ES	test
+41	ciudad	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/City	ES	test
+41	presidente de Montenegro	http://dbpedia.org/property/office##http://dbpedia.org/resource/President_of_Montenegro	ES	test
+45	río	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/River	ES	test
+45	largo	http://dbpedia.org/property/length	ES	test
+45	China	http://dbpedia.org/resource/China	ES	test
+50	lunas	http://dbpedia.org/property/satellites	ES	test
+50	Marte	http://dbpedia.org/resource/Mars	ES	test
+57	extinguió	http://dbpedia.org/property/extinct	ES	test
+57	Dodo	http://dbpedia.org/resource/Dodo	ES	test
+61	juegan	http://dbpedia.org/property/ballpark	ES	test
+61	Red Sox	http://dbpedia.org/resource/Boston_Red_Sox	ES	test
+63	aves	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Bird	ES	test
+63	peligro de extinción	http://dbpedia.org/ontology/conservationStatus##"CR"	ES	test
+67	estados de EE.UU	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/class/yago/StatesOfTheUnitedStates	ES	test
+77	Coca Cola	http://dbpedia.org/resource/Coca-Cola	ES	test
+77	inventó	http://dbpedia.org/property/introduced	ES	test
+78	estadio	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Stadium	ES	test
+78	España	http://dbpedia.org/resource/Spain	ES	test
+78	grande	http://dbpedia.org/ontology/seatingCapacity	ES	test
+79	Dia de Colombo	http://dbpedia.org/resource/Columbus_Day	ES	test
+94	nombres	http://dbpedia.org/property/characterName	ES	test
+94	Tortugas Ninja Mutantes Adolescentes	http://dbpedia.org/resource/Teenage_Mutant_Ninja_Turtles	ES	test
+100	nombre	http://dbpedia.org/property/alterEgo	ES	test
+100	Batman	http://dbpedia.org/resource/Batman	ES	test
+14	Boston Tea Party	http://dbpedia.org/resource/Boston_Tea_Party	EN	test
+67	U.S. states	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/class/yago/StatesOfTheUnitedStates	EN	test
+94	names	http://dbpedia.org/property/characterName	EN	test
+94	Teenage Mutant Ninja Turtles	http://dbpedia.org/resource/Teenage_Mutant_Ninja_Turtles	EN	test
+100	real name	http://dbpedia.org/property/alterEgo	EN	test
+100	Batman	http://dbpedia.org/resource/Batman	EN	test
+78	Stadion	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Stadium	DE	test
+78	Spanien	http://dbpedia.org/resource/Spain	DE	test
+78	größte	http://dbpedia.org/ontology/seatingCapacity	DE	test
+94	heißen	http://dbpedia.org/property/characterName	DE	test
+94	Teenage Mutant Ninja Turtles	http://dbpedia.org/resource/Teenage_Mutant_Ninja_Turtles	DE	test
