@@ -157,6 +157,7 @@ public class QAEdgeAdvTemplate extends AbstractTemplate<AnnotatedDocument, State
 //                        features.put("NEL  GROUP 1 DEP-REL & SLOT : " + depRelation + " & " + slotNumber, 1.0);
 //                        features.put("QA  GROUP 1 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & DEP-REL : " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + depRelation, 1.0);
 //                        features.put("QA  GROUP 1 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & SLOT : " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + slotNumber, 1.0);
+                        features.put("QA  GROUP 1 PARENT POS & PARENT SEM-TYPE & CHILD LEMMA & CHILD SEM-TYPE & DEP-REL & SLOT : " + headPOS + " & " + dudeName + " & " + depToken + " & " + depDudeName + " & " + depRelation + " & " + slotNumber, 1.0);    
                         features.put("QA  GROUP 1 PARENT POS & PARENT SEM-TYPE & CHILD POS & CHILD SEM-TYPE & DEP-REL & SLOT : " + headPOS + " & " + dudeName + " & " + depPOS + " & " + depDudeName + " & " + depRelation + " & " + slotNumber, 1.0);
                         features.put("QA  GROUP 1 PARENT POS & PARENT SEM-TYPE & CHILD LEMMA & CHILD POS & CHILD SEM-TYPE & DEP-REL & SLOT : " + headPOS + " & " + dudeName + " & "+depToken+ " & " + depPOS + " & " + depDudeName + " & " + depRelation + " & " + slotNumber, 1.0);
 

@@ -73,7 +73,7 @@ public class EmbeddingLexicon {
 
             for (String language : languages) {
                 //w2v+matoll-de-100-plain-exclude-stopwords=True-ranking.txt
-                Set<String> content = FileFactory.readFile("w2v_output/w2v+matoll-" + language.toLowerCase() + "-100-plain-exclude-stopwords=True-ranking.txt");
+                Set<String> content = FileFactory.readFile("w2v_output/w2v-" + language.toLowerCase() + "-100-plain-exclude-stopwords=True-ranking.txt");
 
                 for (String c : content) {
                     //calories	http://dbpedia.org/ontology/totalPopulation	0.548456	datatype_original
