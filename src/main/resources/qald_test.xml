@@ -13,7 +13,7 @@
                 "question": [
                 {
                 "language": "en",
-                        "string": "How many movies did Park Chan-wook direct?",
+                        "string": "Who created Goofy?",
                         "keywords": "created, Goofy"
                 },
                 {
@@ -23,7 +23,7 @@
                 },
                 {
                 "language": "de",
-                        "string": "Welche Fluss fließen in die Nordsee?",
+                        "string": "Wer hat Goofy erfunden?",
                         "keywords": "erfinden, Goofy"
                 },
                 {
@@ -53,7 +53,7 @@
                 }
                 ],
                 "query": {
-                "sparql": "SELECT COUNT(DISTINCT ?uri) WHERE { ?uri <http://dbpedia.org/ontology/director> <http://dbpedia.org/resource/Park_Chan-wook> . }"
+                "sparql": "SELECT DISTINCT ?uri WHERE {  <http://dbpedia.org/resource/Goofy> <http://dbpedia.org/ontology/creator> ?uri . } "
                 },
                 "answers": [
                 {

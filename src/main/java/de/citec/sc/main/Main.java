@@ -49,9 +49,9 @@ public class Main {
 
             args = new String[32];
             args[0] = "-d1";//query dataset
-            args[1] = "qald6Train";//qald6Train  qald6Test   qaldSubset
+            args[1] = "qaldSubset";//qald6Train  qald6Test   qaldSubset
             args[2] = "-d2";  //test dataset
-            args[3] = "qald6Test";//qald6Train  qald6Test   qaldSubset
+            args[3] = "qaldSubset";//qald6Train  qald6Test   qaldSubset
             args[4] = "-m1";//manual lexicon
             args[5] = "true";//true, false
             args[6] = "-m2";//matoll
@@ -188,7 +188,7 @@ public class Main {
         specialSemanticTypes.put(semanticTypes.size() + 2, "Which");//it should be higher than semantic type size
 //        specialSemanticTypes.put(semanticTypes.size() + 3, "When");//it should be higher than semantic type size
         specialSemanticTypes.put(semanticTypes.size() + 4, "Who");//it should be higher than semantic type size
-        specialSemanticTypes.put(semanticTypes.size() + 5, "HowMany");//it should be higher than semantic type size
+//        specialSemanticTypes.put(semanticTypes.size() + 5, "HowMany");//it should be higher than semantic type size
 
         Set<String> linkingValidPOSTags = new HashSet<>();
         linkingValidPOSTags.add("PROPN");
