@@ -884,7 +884,7 @@ public class DBpediaEndpoint {
 
         } catch (Exception e) {
 //            System.out.println("Exception while querying endpoint : " + query + "\n\n");
-            e.printStackTrace();
+//            e.printStackTrace();
 
         }
 
