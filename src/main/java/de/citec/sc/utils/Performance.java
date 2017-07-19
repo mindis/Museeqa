@@ -255,7 +255,7 @@ public class Performance {
             map.put(name, score);
         }
 
-        String n = "Manual_" + ProjectConfiguration.useManualLexicon() + "_Matoll_" + ProjectConfiguration.useMatoll() + "_Dataset_" + ProjectConfiguration.getTrainingDatasetName() + "_Epoch_" + ProjectConfiguration.getNumberOfEpochs()+ "_Group_" + ProjectConfiguration.getFeatureGroup();
+        String n = "Manual_" + ProjectConfiguration.useManualLexicon() + "_Matoll_" + ProjectConfiguration.useMatoll() + "_W2V_"+ProjectConfiguration.useEmbeddingLexicon()+ "_Dataset_" + ProjectConfiguration.getTrainingDatasetName() + "_Epoch_" + ProjectConfiguration.getNumberOfEpochs()+ "_Group_" + ProjectConfiguration.getFeatureGroup();
         double s = correct;
         s = round(s,2);
 
@@ -386,7 +386,7 @@ public class Performance {
             map.put(name, score);
         }
 
-        String n = "Manual_" + ProjectConfiguration.useManualLexicon() + "_Matoll_" + ProjectConfiguration.useMatoll() + "_Dataset_" + ProjectConfiguration.getTrainingDatasetName() + "_Epoch_" + ProjectConfiguration.getNumberOfEpochs()+ "_Group_" + ProjectConfiguration.getFeatureGroup();
+        String n = "Manual_" + ProjectConfiguration.useManualLexicon() + "_Matoll_" + ProjectConfiguration.useMatoll() + "_W2V_"+ProjectConfiguration.useEmbeddingLexicon()+ "_Dataset_" + ProjectConfiguration.getTrainingDatasetName() + "_Epoch_" + ProjectConfiguration.getNumberOfEpochs()+ "_Group_" + ProjectConfiguration.getFeatureGroup();
         double s = MACROF1;
         s = round(s,2);
 

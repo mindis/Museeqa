@@ -249,10 +249,10 @@ public class Main {
 
     private static List<AnnotatedDocument> getDocuments(QALDCorpusLoader.Dataset dataset, int maxWordCount) {
 
-        boolean includeYAGO = true;
-        boolean includeAggregation = true;
-        boolean includeUNION = true;
-        boolean onlyDBO = false;
+        boolean includeYAGO = false;
+        boolean includeAggregation = false;
+        boolean includeUNION = false;
+        boolean onlyDBO = true;    
         boolean isHybrid = false;
 
         QALDCorpus corpus = QALDCorpusLoader.load(dataset, includeYAGO, includeAggregation, includeUNION, onlyDBO, isHybrid);
