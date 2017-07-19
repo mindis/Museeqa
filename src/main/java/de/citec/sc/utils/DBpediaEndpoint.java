@@ -186,10 +186,11 @@ public class DBpediaEndpoint {
             property = headURI;
 
             query = "SELECT DISTINCT ?s WHERE { ?s <" + property + "> ?o. ?o <" + classPropertyPart + "> <" + classResourcePart + ">. }";
-        } else if (isResource(depURI) && isResource(headURI)) {
-
-            query = "SELECT DISTINCT ?s WHERE { ?s1 ?p1 <" + depURI + ">. ?s2 ?p2 <" + headURI + ">. }";
-        }
+        } 
+//        else if (isResource(depURI) && isResource(headURI)) {
+//
+//            query = "SELECT DISTINCT ?s WHERE { ?s1 ?p1 <" + depURI + ">. ?s2 ?p2 <" + headURI + ">. }";
+//        }
 
         boolean isObject = DBpediaEndpoint.isValidQuery(query, true);
 
@@ -263,10 +264,11 @@ public class DBpediaEndpoint {
             String classResourcePart2 = headURI.replace(classPropertyPart2 + "###", "");
 
             query = "SELECT DISTINCT ?s WHERE { ?s <" + classPropertyPart + "> <" + classResourcePart + ">. ?s <" + classPropertyPart2 + "> <" + classResourcePart2 + ">. }";
-        } else if (isResource(depURI) && isResource(headURI)) {
-
-            query = "SELECT DISTINCT ?s WHERE { <" + depURI + "> ?p1 ?o1. <" + headURI + "> ?p2 ?o2. }";
-        }
+        } 
+//        else if (isResource(depURI) && isResource(headURI)) {
+//
+//            query = "SELECT DISTINCT ?s WHERE { <" + depURI + "> ?p1 ?o1. <" + headURI + "> ?p2 ?o2. }";
+//        }
 
         boolean isSubject = DBpediaEndpoint.isValidQuery(query, true);
 
