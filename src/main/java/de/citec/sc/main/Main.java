@@ -187,7 +187,7 @@ public class Main {
         specialSemanticTypes.put(semanticTypes.size() + 1, "What");//it should be higher than semantic type size
         specialSemanticTypes.put(semanticTypes.size() + 2, "Which");//it should be higher than semantic type size
 //        specialSemanticTypes.put(semanticTypes.size() + 3, "When");//it should be higher than semantic type size
-        specialSemanticTypes.put(semanticTypes.size() + 4, "Who");//it should be higher than semantic type size
+//        specialSemanticTypes.put(semanticTypes.size() + 4, "Who");//it should be higher than semantic type size
 //        specialSemanticTypes.put(semanticTypes.size() + 5, "HowMany");//it should be higher than semantic type size
 
         Set<String> linkingValidPOSTags = new HashSet<>();
