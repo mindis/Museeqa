@@ -249,9 +249,9 @@ public class Main {
 
     private static List<AnnotatedDocument> getDocuments(QALDCorpusLoader.Dataset dataset, int maxWordCount) {
 
-        boolean includeYAGO = true;
-        boolean includeAggregation = true;
-        boolean includeUNION = true;
+        boolean includeYAGO = false;
+        boolean includeAggregation = false;
+        boolean includeUNION = false;
         boolean onlyDBO = true;    
         boolean isHybrid = false;
 
