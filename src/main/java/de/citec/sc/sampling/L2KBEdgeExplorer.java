@@ -506,7 +506,7 @@ public class L2KBEdgeExplorer implements Explorer<State> {
                 }
                 break;
             case "Individual":
-                topK = 5;
+                topK = 1;
                 useLemmatizer = false;
                 mergePartialMatches = false;
                 useWordNet = false;
