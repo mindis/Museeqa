@@ -344,14 +344,14 @@ public class NELEdgeTemplate extends AbstractTemplate<AnnotatedDocument, State, 
                         double headSimilarityScore = StringSimilarityUtils.getSimilarityScore(headToken, headURI);
                         double depSimilarityScore = StringSimilarityUtils.getSimilarityScore(depToken, depURI);
 
-                        double score = (Math.max(depSimilarityScore, depFrequencyScore)) * 0.5 + 0.5 * (Math.max(headFrequency, headSimilarityScore));
+                        double score = (Math.max(depSimilarityScore, depFrequencyScore)) * 0.7 + 0.3 * (Math.max(headFrequency, headSimilarityScore));
 
-                        if (score > 0.6) {
-                            features.put("NEL GROUP 4 JOINT SIM > 0.6 : ", 1.0);
-                        }
-                        if (score > 0.7) {
-                            features.put("NEL GROUP 4 JOINT SIM > 0.7 : ", 1.0);
-                        }
+//                        if (score > 0.6) {
+//                            features.put("NEL GROUP 4 JOINT SIM > 0.6 : ", 1.0);
+//                        }
+//                        if (score > 0.7) {
+//                            features.put("NEL GROUP 4 JOINT SIM > 0.7 : ", 1.0);
+//                        }
                         if (score > 0.8) {
                             features.put("NEL GROUP 4 JOINT SIM > 0.8 : ", 1.0);
                         }

@@ -40,7 +40,7 @@ public class Main {
     private static final Logger log = LogManager.getFormatterLogger();
 
     public static Language lang = Language.DE;
-    
+
     public static void main(String[] args) {
 
         if (args.length > 0) {
@@ -81,10 +81,9 @@ public class Main {
             args[30] = "-b";// use embedding
             args[31] = "true"; // true, false
         }
-        
+
 //        int cores = Runtime.getRuntime().availableProcessors();
 //        System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", (cores - 5) + "");
-
         ProjectConfiguration.loadConfigurations(args);
 
         lang = Language.valueOf(ProjectConfiguration.getLanguage());
@@ -92,9 +91,8 @@ public class Main {
         log.info(ProjectConfiguration.getAllParameters());
 
         System.out.println(ProjectConfiguration.getAllParameters());
-        
-//        DBpediaEndpoint.loadCachedQueries();
 
+//        DBpediaEndpoint.loadCachedQueries();
         //load index, initialize postag lists etc.        
         initialize();
 
@@ -145,9 +143,8 @@ public class Main {
                 java.util.logging.Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
-//        DBpediaEndpoint.saveCachedQueries();
 
+//        DBpediaEndpoint.saveCachedQueries();
     }
 
     private static void initialize() {
@@ -197,7 +194,7 @@ public class Main {
         linkingValidPOSTags.add("ADJ");
         linkingValidPOSTags.add("ADV");
         linkingValidPOSTags.add("ADP");
-        
+
         Set<String> qaValidPOSTags = new HashSet<>();
         qaValidPOSTags.add("PRON");
         qaValidPOSTags.add("DET");
@@ -207,7 +204,7 @@ public class Main {
         qaValidPOSTags.add("ADJ");
 //        qaValidPOSTags.add("ADV");
 //        qaValidPOSTags.add("ADP");
-        
+
         Set<String> edges = new HashSet<>();
         edges.add("obj");
         edges.add("obl");
@@ -239,7 +236,7 @@ public class Main {
         edges.add("discourse");
 
         DBpediaLabelRetriever.load(Main.lang);
-        
+
         Pipeline.initialize(linkingValidPOSTags, qaValidPOSTags, semanticTypes, specialSemanticTypes, edges);
 
         QueryConstructor.initialize(specialSemanticTypes, semanticTypes, linkingValidPOSTags, edges);
@@ -252,8 +249,16 @@ public class Main {
         boolean includeYAGO = false;
         boolean includeAggregation = false;
         boolean includeUNION = false;
-        boolean onlyDBO = true;    
+        boolean onlyDBO = true;
         boolean isHybrid = false;
+
+        if (dataset.name().equals("qald6Test")) {
+            includeYAGO = true;
+            includeAggregation = true;
+            includeUNION = true;
+            onlyDBO = false;
+            isHybrid = false;
+        }
 
         QALDCorpus corpus = QALDCorpusLoader.load(dataset, includeYAGO, includeAggregation, includeUNION, onlyDBO, isHybrid);
 
@@ -265,11 +270,11 @@ public class Main {
 
                 if (d1.getParse() != null) {
                     String before = d1.getParse().toString();
-                    
+
                     d1.getParse().mergeEdges();
                     d1.getParse().removeLoops();
                     d1.getParse().removePunctuations();
-                    
+
                     String after = d1.getParse().toString();
 
 //                    if (!before.equals(after)) {
@@ -277,7 +282,6 @@ public class Main {
 //                        System.out.println("\nAfter:\n" + d1.getParse());
 //                        System.out.println("\n=============================================================================\n");
 //                    }
-
                     if (d1.getParse().getNodes().size() <= maxWordCount) {
                         documents.add(d1);
                     }
@@ -287,7 +291,6 @@ public class Main {
                 System.out.println("Invalid query: " + d1.getQuestionString() + " Query: " + d1.getGoldQueryString().replace("\n", " "));
             }
         }
-        
 
         System.out.print("Loaded dataset : " + dataset + " with " + documents.size() + " instances.");
 
