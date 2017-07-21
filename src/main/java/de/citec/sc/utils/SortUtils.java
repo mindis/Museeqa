@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public class SortUtils {
 
-    public static HashMap<String, Integer> sortByValue(HashMap<String, Integer> unsortMap) {
+    public static Map<String, Integer> sortByValue(Map<String, Integer> unsortMap) {
         if (unsortMap == null) {
             return new HashMap<>();
         }

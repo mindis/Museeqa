@@ -7,6 +7,7 @@ package de.citec.sc.index;
 
 import de.citec.sc.query.CandidateRetriever.Language;
 import de.citec.sc.query.Instance;
+import de.citec.sc.utils.SortUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -28,6 +29,7 @@ public class MergeIndex {
 
     public static void main(String[] args) {
         
+        merge(Language.EN);
         merge(Language.DE);
         merge(Language.ES);
     }
@@ -38,7 +40,7 @@ public class MergeIndex {
         
         System.out.println("Loading anchor files");
         
-        Map<String, Integer> mergedIndexMap = new ConcurrentHashMap<>(5000000);
+        Map<String, Map<String, Integer>> mergedIndexMap = new ConcurrentHashMap<>(5000000);
         
         int count = 0;
 
@@ -55,8 +57,25 @@ public class MergeIndex {
                     int freq = Integer.parseInt(c[2]);
 
                     String key = label + "\t" + uri;
-
-                    mergedIndexMap.put(key, freq);
+                    
+                    if(mergedIndexMap.containsKey(label)){
+                        Map<String, Integer> uri2Freq = mergedIndexMap.get(label);
+                        
+                        if(uri2Freq.containsKey(uri)){
+                            freq = uri2Freq.get(uri) + freq;
+                        }
+                        
+                        uri2Freq.put(uri, freq);
+                        
+                        mergedIndexMap.put(label, uri2Freq);
+                    }
+                    else{
+                        Map<String, Integer> uri2Freq = new HashMap<>();
+                        
+                        uri2Freq.put(uri, freq);
+                        
+                        mergedIndexMap.put(label, uri2Freq);
+                    }
                 }
             });
 
@@ -81,11 +100,23 @@ public class MergeIndex {
 
                     String key = label + "\t" + uri;
 
-                    if(mergedIndexMap.containsKey(key)){
-                        mergedIndexMap.put(key, mergedIndexMap.get(key)+ freq);
+                    if(mergedIndexMap.containsKey(label)){
+                        Map<String, Integer> uri2Freq = mergedIndexMap.get(label);
+                        
+                        if(uri2Freq.containsKey(uri)){
+                            freq = uri2Freq.get(uri) + freq;
+                        }
+                        
+                        uri2Freq.put(uri, freq);
+                        
+                        mergedIndexMap.put(label, uri2Freq);
                     }
                     else{
-                        mergedIndexMap.put(key, freq);
+                        Map<String, Integer> uri2Freq = new HashMap<>();
+                        
+                        uri2Freq.put(uri, freq);
+                        
+                        mergedIndexMap.put(label, uri2Freq);
                     }
                 }
             });
@@ -97,7 +128,7 @@ public class MergeIndex {
         writeIndex(mergedIndexMap, "rawFiles/"+lang.name().toLowerCase()+"/resourceFiles/merged.ttl");
     }
     
-    private static void writeIndex(Map<String, Integer> indexMap, String filePath) {
+    private static void writeIndex(Map<String, Map<String, Integer>> indexMap, String filePath) {
         System.out.println("Saving the file size: " + indexMap.size());
 
         try {
@@ -105,11 +136,24 @@ public class MergeIndex {
             int counter = 0;
             for (String s : indexMap.keySet()) {
 
-                String k = s + "\t" + indexMap.get(s);
-                if (k.contains("hat is one small step 	Apollo_11	2")) {
-                    int z = 1;
+                Map<String, Integer> uri2Freq = SortUtils.sortByValue(indexMap.get(s));
+                
+                int c = 0;
+                for(String uri : uri2Freq.keySet()){
+                    
+                    String k = s +"\t"+uri+"\t"+uri2Freq.get(uri);
+                    p.println(k);
+                    c++;
+                    
+                    if(c == 10){
+                        break;
+                    }
                 }
-                p.println(k);
+//                String k = s + "\t" + indexMap.get(s);
+//                if (k.contains("hat is one small step 	Apollo_11	2")) {
+//                    int z = 1;
+//                }
+//                p.println(k);
 
                 counter++;
 
