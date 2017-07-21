@@ -51,13 +51,13 @@ public class Main {
             args[0] = "-d1";//query dataset
             args[1] = "qaldSubset";//qald6Train  qald6Test   qaldSubset
             args[2] = "-d2";  //test dataset
-            args[3] = "qaldSubset";//qald6Train  qald6Test   qaldSubset
+            args[3] = "qald6Test";//qald6Train  qald6Test   qaldSubset
             args[4] = "-m1";//manual lexicon
             args[5] = "true";//true, false
             args[6] = "-m2";//matoll
             args[7] = "true";//true, false
             args[8] = "-e";//epochs
-            args[9] = "" + 1;
+            args[9] = "" + 10;
             args[10] = "-s";//sampling steps
             args[11] = "" + 15;
             args[12] = "-k1";//top k samples to select from during training NEL
@@ -71,7 +71,7 @@ public class Main {
             args[20] = "-w1";//max word count - train
             args[21] = "" + 3;
             args[22] = "-w2";//max word count - test
-            args[23] = "" + 3;
+            args[23] = "" + 5;
             args[24] = "-i";//index
             args[25] = "lucene";//lucene, memory
             args[26] = "-l";//language

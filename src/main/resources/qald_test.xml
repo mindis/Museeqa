@@ -5,81 +5,70 @@
         "questions": [
 
 {
-        "id": "15",
-                "answertype": "resource",
-                "aggregation": "false",
+        {
+        "id": "132",
+                "answertype": "number",
+                "aggregation": "true",
                 "onlydbo": "true",
                 "hybrid": "false",
                 "question": [
                 {
                 "language": "en",
-                        "string": "Who created Goofy?",
-                        "keywords": "created, Goofy"
+                        "string": "How often did Jane Fonda marry?",
+                        "keywords": "Jane Fonda, marry, how often"
                 },
                 {
                 "language": "fa",
-                        "string": "چه کسی گوفی را ساخت؟",
-                        "keywords": "گوفی، ساخت"
+                        "string": "جین فوندا چند بار ازدواج کرد؟",
+                        "keywords": "جین فوندا، ازدواج"
                 },
                 {
                 "language": "de",
-                        "string": "Wer hat Goofy erfunden?",
-                        "keywords": "erfinden, Goofy"
+                        "string": "Wie oft hat Jane Fonda geheiratet?",
+                        "keywords": "Jane Fonda, heiraten, wie oft"
                 },
                 {
                 "language": "es",
-                        "string": "¿Quién es el creador de Goofy?",
-                        "keywords": "creador, Goofy"
+                        "string": "¿Cuántas veces ha estado casada Jane Fonda?",
+                        "keywords": "Jane Fonda, casada, cuántas veces"
                 },
                 {
                 "language": "it",
-                        "string": "Chi è il creatore di Pippo?",
-                        "keywords": "creatore, Pippo"
+                        "string": "Quante volte si è sposata Jane Fonda?",
+                        "keywords": "Jane Fonda, sposata, quante volte"
                 },
                 {
                 "language": "fr",
-                        "string": "Qui est le créateur de Goofy?",
-                        "keywords": "Goofy, créateur"
+                        "string": "Combien de fois s'est mariée Jane Fonda?",
+                        "keywords": "Jane Fonda, marriages, nombre de fois"
                 },
                 {
                 "language": "nl",
-                        "string": "Wie bedacht Goofy?",
-                        "keywords": "bedenker, Goofy"
+                        "string": "Hoe vaak is Jane Fonda getrouwd?",
+                        "keywords": "Jane Fonda, getrouwd, hoe vaak"
                 },
                 {
                 "language": "ro",
-                        "string": "Cine l-a creat pe Goofy?",
-                        "keywords": "creat, Goofy"
+                        "string": "Cât de des s-a măritat Jane Fonda?",
+                        "keywords": "Jane Fonda, mărita, cât de des"
                 }
                 ],
                 "query": {
-                "sparql": "SELECT DISTINCT ?uri WHERE {  <http://dbpedia.org/resource/Goofy> <http://dbpedia.org/ontology/creator> ?uri . } "
+                "sparql": "SELECT (COUNT(DISTINCT ?uri) as ?c) WHERE {  <http://dbpedia.org/resource/Jane_Fonda> <http://dbpedia.org/ontology/spouse> ?uri . } "
                 },
                 "answers": [
                 {
                 "head": {
                 "vars": [
-                        "uri"
+                        "c"
                 ]
                 },
                         "results": {
                         "bindings": [
                         {
-                        "uri": {
-                        "type": "uri",
-                                "value": "http://dbpedia.org/resource/Walt_Disney"
-                        }
-                        },
-                        {
-                        "uri": {
-                        "type": "uri",
-                                "value": "http://dbpedia.org/resource/Del_Connell"
-                        }
-                        },
-                        {
-                        "uri": {
-                        "type": "uri",
-                                "value": "http://dbpedia.org/resource/Paul_Murry"
+                        "c": {
+                        "type": "literal",
+                                "value": "3"
                         }
                         }
                         ]

@@ -20,6 +20,8 @@ public class DBpediaEndPointTest {
     @Test
     public void test() {
         
+        DBpediaEndpoint.setToRemote();
+        
         String range = DBpediaEndpoint.getRange("http://dbpedia.org/ontology/birthPlace");
         String domain = DBpediaEndpoint.getDomain("http://dbpedia.org/ontology/birthPlace");
 
