@@ -82,7 +82,7 @@ public class Main {
             args[31] = "true"; // true, false
         }
         
-        DBpediaEndpoint.setToRemote();
+//        DBpediaEndpoint.setToRemote();
 
 //        int cores = Runtime.getRuntime().availableProcessors();
 //        System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", (cores - 5) + "");

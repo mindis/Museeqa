@@ -40,7 +40,7 @@ public class MergeIndex {
         
         System.out.println("Loading anchor files");
         
-        Map<String, Map<String, Integer>> mergedIndexMap = new ConcurrentHashMap<>(5000000);
+        Map<String, HashMap<String, Integer>> mergedIndexMap = new ConcurrentHashMap<>(5000000);
         
         int count = 0;
 
@@ -59,7 +59,7 @@ public class MergeIndex {
                     String key = label + "\t" + uri;
                     
                     if(mergedIndexMap.containsKey(label)){
-                        Map<String, Integer> uri2Freq = mergedIndexMap.get(label);
+                        HashMap<String, Integer> uri2Freq = mergedIndexMap.get(label);
                         
                         if(uri2Freq.containsKey(uri)){
                             freq = uri2Freq.get(uri) + freq;
@@ -70,7 +70,7 @@ public class MergeIndex {
                         mergedIndexMap.put(label, uri2Freq);
                     }
                     else{
-                        Map<String, Integer> uri2Freq = new HashMap<>();
+                        HashMap<String, Integer> uri2Freq = new HashMap<>();
                         
                         uri2Freq.put(uri, freq);
                         
@@ -101,7 +101,7 @@ public class MergeIndex {
                     String key = label + "\t" + uri;
 
                     if(mergedIndexMap.containsKey(label)){
-                        Map<String, Integer> uri2Freq = mergedIndexMap.get(label);
+                        HashMap<String, Integer> uri2Freq = mergedIndexMap.get(label);
                         
                         if(uri2Freq.containsKey(uri)){
                             freq = uri2Freq.get(uri) + freq;
@@ -112,7 +112,7 @@ public class MergeIndex {
                         mergedIndexMap.put(label, uri2Freq);
                     }
                     else{
-                        Map<String, Integer> uri2Freq = new HashMap<>();
+                        HashMap<String, Integer> uri2Freq = new HashMap<>();
                         
                         uri2Freq.put(uri, freq);
                         
@@ -128,7 +128,7 @@ public class MergeIndex {
         writeIndex(mergedIndexMap, "rawFiles/"+lang.name().toLowerCase()+"/resourceFiles/merged.ttl");
     }
     
-    private static void writeIndex(Map<String, Map<String, Integer>> indexMap, String filePath) {
+    private static void writeIndex(Map<String, HashMap<String, Integer>> indexMap, String filePath) {
         System.out.println("Saving the file size: " + indexMap.size());
 
         try {
