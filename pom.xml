@@ -117,7 +117,7 @@
             <artifactId>lucene-analyzers-common</artifactId>
             <version>6.5.0</version>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>org.languagetool</groupId>
             <artifactId>language-de</artifactId>
             <version>3.9-SNAPSHOT</version>
@@ -131,7 +131,7 @@
             <groupId>org.languagetool</groupId>
             <artifactId>language-es</artifactId>
             <version>3.9-SNAPSHOT</version>
-        </dependency>
+        </dependency>-->
     </dependencies>
     <build>
         <plugins>
