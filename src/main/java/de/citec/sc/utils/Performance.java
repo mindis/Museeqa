@@ -157,7 +157,7 @@ public class Performance {
 
     public static void logNELTest(List<SampledMultipleInstance<AnnotatedDocument, String, State>> testResults, ObjectiveFunction function) {
 
-        String fileName = "NEL_Manual_" + ProjectConfiguration.useManualLexicon() + "_Matoll_" + ProjectConfiguration.useMatoll() +"_W2V_" + ProjectConfiguration.useEmbeddingLexicon() + "_Dataset_" + ProjectConfiguration.getTestDatasetName() + "_Epoch_" + ProjectConfiguration.getNumberOfEpochs() + "_Word_" + ProjectConfiguration.getTestMaxWordCount() + "_Language_" + ProjectConfiguration.getLanguage() + "_Group_" + ProjectConfiguration.getFeatureGroup();
+        String fileName = "NEL_Manual_" + ProjectConfiguration.useManualLexicon() + "_Matoll_" + ProjectConfiguration.useMatoll() +"_W2V_" + ProjectConfiguration.useEmbeddingLexicon() + "_Dataset_" + ProjectConfiguration.getTestDatasetName() + "_Epoch_" + ProjectConfiguration.getNumberOfEpochs() + "_Word_" + ProjectConfiguration.getTrainMaxWordCount() + "_Language_" + ProjectConfiguration.getLanguage() + "_Group_" + ProjectConfiguration.getFeatureGroup();
 
         String allStatesAsString = "";
 
@@ -255,7 +255,7 @@ public class Performance {
             map.put(name, score);
         }
 
-        String n = "Manual_" + ProjectConfiguration.useManualLexicon() + "_Matoll_" + ProjectConfiguration.useMatoll() + "_W2V_"+ProjectConfiguration.useEmbeddingLexicon()+ "_Dataset_" + ProjectConfiguration.getTrainingDatasetName() + "_Epoch_" + ProjectConfiguration.getNumberOfEpochs()+ "_Group_" + ProjectConfiguration.getFeatureGroup();
+        String n = "Manual_" + ProjectConfiguration.useManualLexicon() + "_Matoll_" + ProjectConfiguration.useMatoll() +"_W2V_" + ProjectConfiguration.useEmbeddingLexicon() + "_Dataset_" + ProjectConfiguration.getTestDatasetName() + "_Epoch_" + ProjectConfiguration.getNumberOfEpochs() + "_Word_" + ProjectConfiguration.getTrainMaxWordCount() + "_Language_" + ProjectConfiguration.getLanguage() + "_Group_" + ProjectConfiguration.getFeatureGroup();
         double s = correct;
         s = round(s,2);
 
@@ -274,7 +274,7 @@ public class Performance {
 
     public static void logQATest(List<SampledMultipleInstance<AnnotatedDocument, String, State>> testResults, ObjectiveFunction function) {
 
-        String fileName = "QA_Manual_" + ProjectConfiguration.useManualLexicon() + "_Matoll_" + ProjectConfiguration.useMatoll() + "_W2V_" + ProjectConfiguration.useEmbeddingLexicon() +"_Dataset_" + ProjectConfiguration.getTestDatasetName() + "_Epoch_" + ProjectConfiguration.getNumberOfEpochs() + "_Word_" + ProjectConfiguration.getTestMaxWordCount() + "_Language_" + ProjectConfiguration.getLanguage() + "_Group_" + ProjectConfiguration.getFeatureGroup();
+        String fileName = "QA_Manual_" + ProjectConfiguration.useManualLexicon() + "_Matoll_" + ProjectConfiguration.useMatoll() +"_W2V_" + ProjectConfiguration.useEmbeddingLexicon() + "_Dataset_" + ProjectConfiguration.getTestDatasetName() + "_Epoch_" + ProjectConfiguration.getNumberOfEpochs() + "_Word_" + ProjectConfiguration.getTrainMaxWordCount() + "_Language_" + ProjectConfiguration.getLanguage() + "_Group_" + ProjectConfiguration.getFeatureGroup();
 
         String allStatesAsString = "";
 
@@ -386,7 +386,7 @@ public class Performance {
             map.put(name, score);
         }
 
-        String n = "Manual_" + ProjectConfiguration.useManualLexicon() + "_Matoll_" + ProjectConfiguration.useMatoll() + "_W2V_"+ProjectConfiguration.useEmbeddingLexicon()+ "_Dataset_" + ProjectConfiguration.getTrainingDatasetName() + "_Epoch_" + ProjectConfiguration.getNumberOfEpochs()+ "_Group_" + ProjectConfiguration.getFeatureGroup();
+        String n = "Manual_" + ProjectConfiguration.useManualLexicon() + "_Matoll_" + ProjectConfiguration.useMatoll() +"_W2V_" + ProjectConfiguration.useEmbeddingLexicon() + "_Dataset_" + ProjectConfiguration.getTestDatasetName() + "_Epoch_" + ProjectConfiguration.getNumberOfEpochs() + "_Word_" + ProjectConfiguration.getTrainMaxWordCount() + "_Language_" + ProjectConfiguration.getLanguage() + "_Group_" + ProjectConfiguration.getFeatureGroup();
         double s = MACROF1;
         s = round(s,2);
 
