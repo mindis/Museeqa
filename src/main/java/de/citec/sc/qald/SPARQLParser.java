@@ -144,6 +144,10 @@ public class SPARQLParser {
 
         q = q.replace("\n", " ");
         
+        if(q.toLowerCase().contains("count") && q.toLowerCase().contains("as") ){
+            return q;
+        }
+        
         if(q.contains("COUNT")){
             if(q.contains("SELECT DISTINCT")){
                 q = q.replace("DISTINCT", "");

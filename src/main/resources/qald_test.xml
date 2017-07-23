@@ -3,12 +3,81 @@
 "id": "qald-6-train-multilingual"
 },
         "questions": [
-
-{
         {
-        "id": "132",
+        "id": "173",
                 "answertype": "number",
                 "aggregation": "true",
+                "onlydbo": "true",
+                "hybrid": "false",
+                "question": [
+                {
+                "language": "en",
+                        "string": "How many children did Benjamin Franklin have?",
+                        "keywords": "Benjamin Franklin, child"
+                },
+                {
+                "language": "fa",
+                        "string": "بنجامین فرانکلین چند فرزند دارد؟",
+                        "keywords": "بنجامین فرانکلین، فرزند"
+                },
+                {
+                "language": "de",
+                        "string": "Wieviele Kinder hatte Benjamin Franklin?",
+                        "keywords": "Benjamin Franklin, Kind"
+                },
+                {
+                "language": "es",
+                        "string": "¿Cuántos hijos tuvo Benjamin Franklin?",
+                        "keywords": "Benjamin Franklin, hijos"
+                },
+                {
+                "language": "it",
+                        "string": "Quanti figli ebbe Benjamin Franklin?",
+                        "keywords": "Benjamin Franklin, figlio"
+                },
+                {
+                "language": "fr",
+                        "string": "Combien d'enfants Benjamin Franklin avait-il?",
+                        "keywords": "nombre d'enfants, Benjamin Franklin"
+                },
+                {
+                "language": "nl",
+                        "string": "Hoeveel kinderen had Benjamin Franklin?",
+                        "keywords": "Benjamin Franklin, kinderen, hoeveel"
+                },
+                {
+                "language": "ro",
+                        "string": "Câți copii a avut Benjamin Franklin?",
+                        "keywords": "Benjamin Franklin, copil"
+                }
+                ],
+                "query": {
+                "sparql": "SELECT (COUNT(DISTINCT ?uri) as ?c) WHERE {  <http://dbpedia.org/resource/Benjamin_Franklin> <http://dbpedia.org/ontology/child> ?uri . } "
+                },
+                "answers": [
+                {
+                "head": {
+                "vars": [
+                        "c"
+                ]
+                },
+                        "results": {
+                        "bindings": [
+                        {
+                        "c": {
+                        "type": "literal",
+                                "value": "3"
+                        }
+                        }
+                        ]
+                        }
+                }
+                ]
+        },
+{
+        "id": "132",
+                "answertype": "number",
+                "aggregation": "false",
                 "onlydbo": "true",
                 "hybrid": "false",
                 "question": [

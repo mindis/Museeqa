@@ -69,6 +69,7 @@ public class QueryConstructor {
                 return "";
             }
 
+            
             headDUDE.postprocess();
 
             boolean isSELECTQuery = true;
@@ -85,9 +86,9 @@ public class QueryConstructor {
                 isSELECTQuery = false;
             }
 
-            if (questionString.startsWith("Did") || questionString.startsWith("Does") || questionString.startsWith("Do") || questionString.startsWith("Is") || questionString.startsWith("Were") || questionString.startsWith("Was") || questionString.startsWith("Are")) {
-                isSELECTQuery = false;
-            }
+//            if (questionString.startsWith("Did") || questionString.startsWith("Does") || questionString.startsWith("Do") || questionString.startsWith("Is") || questionString.startsWith("Were") || questionString.startsWith("Was") || questionString.startsWith("Are")) {
+//                isSELECTQuery = false;
+//            }
 
             boolean hasReturnVariable = false;
             for (Integer i : state.getHiddenVariables().keySet()) {
@@ -111,6 +112,8 @@ public class QueryConstructor {
 
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println(state.toString());
+            
         }
 
         return query;

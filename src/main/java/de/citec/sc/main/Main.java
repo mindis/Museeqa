@@ -47,17 +47,17 @@ public class Main {
 
         } else {
 
-            args = new String[32];
+            args = new String[36];
             args[0] = "-d1";//query dataset
-            args[1] = "qald6Train";//qald6Train  qald6Test   qaldSubset
+            args[1] = "qaldSubset ";//qald6Train  qald6Test   qaldSubset
             args[2] = "-d2";  //test dataset
-            args[3] = "qald6Test";//qald6Train  qald6Test   qaldSubset
+            args[3] = "qaldSubset";//qald6Train  qald6Test   qaldSubset
             args[4] = "-m1";//manual lexicon
             args[5] = "true";//true, false
             args[6] = "-m2";//matoll
             args[7] = "true";//true, false
             args[8] = "-e";//epochs
-            args[9] = "" + 10;
+            args[9] = "" + 1;
             args[10] = "-s";//sampling steps
             args[11] = "" + 15;
             args[12] = "-k1";//top k samples to select from during training NEL
@@ -69,7 +69,7 @@ public class Main {
             args[18] = "-l2";//top k samples to select from during testing for QA
             args[19] = "" + 10;
             args[20] = "-w1";//max word count - train
-            args[21] = "" + 6;
+            args[21] = "" + 30;
             args[22] = "-w2";//max word count - test
             args[23] = "" + 30;
             args[24] = "-i";//index
@@ -80,19 +80,19 @@ public class Main {
             args[29] = "1,2,3,4,5";//1,2,3,4,5,6,7
             args[30] = "-b";// use embedding
             args[31] = "true"; // true, false
+            args[32] = "-q";// use DBpedia endpoint, query evaluator vs. answer evaluator
+            args[33] = "true"; // true, false
+            args[34] = "-n";// DBpedia endpoint 
+            args[35] = "remote"; // local, remote
         }
-        
-//        DBpediaEndpoint.setToRemote();
 
 //        int cores = Runtime.getRuntime().availableProcessors();
 //        System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", (cores - 5) + "");
         ProjectConfiguration.loadConfigurations(args);
 
-        lang = Language.valueOf(ProjectConfiguration.getLanguage());
+        
 
         log.info(ProjectConfiguration.getAllParameters());
-
-        System.out.println(ProjectConfiguration.getAllParameters());
 
 //        DBpediaEndpoint.loadCachedQueries();
         //load index, initialize postag lists etc.        
@@ -152,6 +152,8 @@ public class Main {
     private static void initialize() {
 
         System.out.println("Initialization process has started ....");
+        
+        lang = Language.valueOf(ProjectConfiguration.getLanguage());
 
         CandidateRetriever retriever = null;
 
@@ -187,7 +189,7 @@ public class Main {
         specialSemanticTypes.put(semanticTypes.size() + 2, "Which");//it should be higher than semantic type size
 //        specialSemanticTypes.put(semanticTypes.size() + 3, "When");//it should be higher than semantic type size
 //        specialSemanticTypes.put(semanticTypes.size() + 4, "Who");//it should be higher than semantic type size
-//        specialSemanticTypes.put(semanticTypes.size() + 5, "HowMany");//it should be higher than semantic type size
+        specialSemanticTypes.put(semanticTypes.size() + 5, "HowMany");//it should be higher than semantic type size
 
         Set<String> linkingValidPOSTags = new HashSet<>();
         linkingValidPOSTags.add("PROPN");
@@ -238,6 +240,10 @@ public class Main {
         edges.add("discourse");
 
         DBpediaLabelRetriever.load(Main.lang);
+        
+        if(ProjectConfiguration.useRemoteDBpediaEndpoint()){
+            DBpediaEndpoint.setToRemote();
+        }
 
         Pipeline.initialize(linkingValidPOSTags, qaValidPOSTags, semanticTypes, specialSemanticTypes, edges);
 

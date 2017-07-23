@@ -9,6 +9,7 @@ import de.citec.sc.evaluator.AnswerEvaluator;
 import de.citec.sc.evaluator.QueryEvaluator;
 import de.citec.sc.qald.SPARQLParser;
 import de.citec.sc.utils.DBpediaEndpoint;
+import de.citec.sc.utils.ProjectConfiguration;
 
 import de.citec.sc.variable.State;
 
@@ -45,7 +46,21 @@ public class QAObjectiveFunction extends ObjectiveFunction<State, String> implem
             return 0;
         }
 
-        double score = AnswerEvaluator.evaluate(constructedQuery, goldState);
+        double score = QueryEvaluator.evaluate(constructedQuery, goldState);
+        
+        if (score == 1.0) {
+            return score;
+        }
+        
+        if(!ProjectConfiguration.useDBpediaEndpoint()){
+            return score;
+        }
+        
+        if (score >= 0.65) {
+            double score2 = AnswerEvaluator.evaluate(constructedQuery, goldState);
+            
+            score = Math.max(score, score2);
+        }
 
         return score;
     }
@@ -71,6 +86,10 @@ public class QAObjectiveFunction extends ObjectiveFunction<State, String> implem
         double score1 = 0;
         if (useQueryEvaluator) {
             score2 = QueryEvaluator.evaluate(constructedQuery, goldState);
+        }
+        
+        if(!ProjectConfiguration.useDBpediaEndpoint()){
+            return score2;
         }
 
         if (score2 == 1.0) {

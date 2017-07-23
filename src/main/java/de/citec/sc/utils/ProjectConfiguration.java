@@ -41,7 +41,23 @@ public class ProjectConfiguration {
     private static final String PARAM_SETTING_LANGUAGE = "-l";
     private static final String PARAM_SETTING_FEATURE_GROUP = "-f";
     private static final String PARAM_SETTING_WORD_EMBEDDING = "-b";
+    private static final String PARAM_SETTING_USE_DBPEDIA_ENDPOINT = "-q";
+    private static final String PARAM_SETTING_DBPEDIA_ENDPOINT_SERVER = "-n";
 
+    public static boolean useRemoteDBpediaEndpoint() {
+
+        boolean useDBpediaEndpoint = "remote".equals(PARAMETERS.get(PARAM_SETTING_DBPEDIA_ENDPOINT_SERVER));
+
+        return useDBpediaEndpoint;
+    }
+    
+    public static boolean useDBpediaEndpoint() {
+
+        boolean useDBpediaEndpoint = "true".equals(PARAMETERS.get(PARAM_SETTING_USE_DBPEDIA_ENDPOINT));
+
+        return useDBpediaEndpoint;
+    }
+    
     public static boolean useEmbeddingLexicon() {
 
         boolean useEmbeddingLexicon = "true".equals(PARAMETERS.get(PARAM_SETTING_WORD_EMBEDDING));

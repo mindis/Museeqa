@@ -627,6 +627,10 @@ public class DBpediaEndpoint {
      */
     public static boolean isValidQuery(String query, boolean isTraining) {
 
+        //if it's false, return true
+        if(!ProjectConfiguration.useDBpediaEndpoint()){
+            return true;
+        }
         if (query.equals("")) {
             return false;
         }
