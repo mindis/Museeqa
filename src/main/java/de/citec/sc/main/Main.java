@@ -49,7 +49,7 @@ public class Main {
 
             args = new String[36];
             args[0] = "-d1";//query dataset
-            args[1] = "qaldSubset ";//qald6Train  qald6Test   qaldSubset
+            args[1] = "qald6Test ";//qald6Train  qald6Test   qaldSubset
             args[2] = "-d2";  //test dataset
             args[3] = "qaldSubset";//qald6Train  qald6Test   qaldSubset
             args[4] = "-m1";//manual lexicon
