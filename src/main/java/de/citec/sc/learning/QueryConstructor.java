@@ -111,8 +111,8 @@ public class QueryConstructor {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(state.toString());
+//            e.printStackTrace();
+//            System.out.println(state.toString());
             
         }
 
