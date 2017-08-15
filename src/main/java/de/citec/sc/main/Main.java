@@ -2,6 +2,7 @@ package de.citec.sc.main;
 
 import de.citec.sc.corpus.AnnotatedDocument;
 import de.citec.sc.corpus.QALDCorpus;
+import de.citec.sc.demo.API;
 import de.citec.sc.dudes.rdf.ExpressionFactory;
 import de.citec.sc.dudes.rdf.RDFDUDES;
 import de.citec.sc.index.DBpediaIndex;
@@ -47,7 +48,7 @@ public class Main {
 
         } else {
 
-            args = new String[36];
+            args = new String[38];
             args[0] = "-d1";//query dataset
             args[1] = "qald6Test";//qald6Train  qald6Test   qaldSubset
             args[2] = "-d2";  //test dataset
@@ -84,75 +85,82 @@ public class Main {
             args[33] = "true"; // true, false
             args[34] = "-n";// DBpedia endpoint 
             args[35] = "remote"; // local, remote
+            args[36] = "-api";// DBpedia endpoint 
+            args[37] = "true"; // local, remote
         }
 
 //        int cores = Runtime.getRuntime().availableProcessors();
 //        System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", (cores - 5) + "");
         ProjectConfiguration.loadConfigurations(args);
 
-        
+        if (ProjectConfiguration.startAPI()) {
 
-        log.info(ProjectConfiguration.getAllParameters());
+            API.startService();
+
+        } else {
+            log.info(ProjectConfiguration.getAllParameters());
 
 //        DBpediaEndpoint.loadCachedQueries();
-        //load index, initialize postag lists etc.        
-        initialize();
+            //load index, initialize postag lists etc.        
+            initialize();
 
-        //load training and testing corpus
-        List<AnnotatedDocument> trainDocuments = getDocuments(QALDCorpusLoader.Dataset.valueOf(ProjectConfiguration.getTrainingDatasetName()), ProjectConfiguration.getTrainMaxWordCount());
-        List<AnnotatedDocument> testDocuments = getDocuments(QALDCorpusLoader.Dataset.valueOf(ProjectConfiguration.getTestDatasetName()), ProjectConfiguration.getTestMaxWordCount());
+            //load training and testing corpus
+            List<AnnotatedDocument> trainDocuments = getDocuments(QALDCorpusLoader.Dataset.valueOf(ProjectConfiguration.getTrainingDatasetName()), ProjectConfiguration.getTrainMaxWordCount());
+            List<AnnotatedDocument> testDocuments = getDocuments(QALDCorpusLoader.Dataset.valueOf(ProjectConfiguration.getTestDatasetName()), ProjectConfiguration.getTestMaxWordCount());
 
-        System.out.println("Training on " + ProjectConfiguration.getTrainingDatasetName() + " with " + trainDocuments.size());
-        System.out.println("Testing on " + ProjectConfiguration.getTestDatasetName() + " with " + testDocuments.size());
+            System.out.println("Training on " + ProjectConfiguration.getTrainingDatasetName() + " with " + trainDocuments.size());
+            System.out.println("Testing on " + ProjectConfiguration.getTestDatasetName() + " with " + testDocuments.size());
 
-        boolean trainOnly = true;
-        if (trainOnly) {
-            //train and test model
-            try {
-                List<Model<AnnotatedDocument, State>> trainedModels = Pipeline.train(trainDocuments);
+            boolean trainOnly = true;
+            if (trainOnly) {
+                //train and test model
+                try {
+                    List<Model<AnnotatedDocument, State>> trainedModels = Pipeline.train(trainDocuments);
 
-                for (Model<AnnotatedDocument, State> m1 : trainedModels) {
-                    if (trainedModels.indexOf(m1) == 0) {
-                        m1.saveModelToFile("models", "model_nel_" + ProjectConfiguration.getLanguage() + "_" + ProjectConfiguration.getTrainMaxWordCount() + "_" + ProjectConfiguration.getNumberOfEpochs());
+                    for (Model<AnnotatedDocument, State> m1 : trainedModels) {
+                        if (trainedModels.indexOf(m1) == 0) {
+                            m1.saveModelToFile("models", "model_nel_" + ProjectConfiguration.getLanguage() + "_" + ProjectConfiguration.getTrainMaxWordCount() + "_" + ProjectConfiguration.getNumberOfEpochs());
+                        }
+                        if (trainedModels.indexOf(m1) == 1) {
+                            m1.saveModelToFile("models", "model_qa_" + ProjectConfiguration.getLanguage() + "_" + ProjectConfiguration.getTrainMaxWordCount() + "_" + ProjectConfiguration.getNumberOfEpochs());
+                        }
                     }
-                    if (trainedModels.indexOf(m1) == 1) {
-                        m1.saveModelToFile("models", "model_qa_" + ProjectConfiguration.getLanguage() + "_" + ProjectConfiguration.getTrainMaxWordCount() + "_" + ProjectConfiguration.getNumberOfEpochs());
-                    }
+
+                    Pipeline.test(trainedModels, testDocuments);
+                } catch (Exception ex) {
+                    java.util.logging.Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            } else {
+                //train and test model
+                try {
+                    List<Model<AnnotatedDocument, State>> trainedModels = new ArrayList<>();
 
-                Pipeline.test(trainedModels, testDocuments);
-            } catch (Exception ex) {
-                java.util.logging.Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                    QATemplateFactory factory = new QATemplateFactory();
+
+                    Model<AnnotatedDocument, State> modelNEL = new Model<>(Pipeline.scorer, Pipeline.nelTemplates);
+                    Model<AnnotatedDocument, State> modelQA = new Model<>(Pipeline.scorer, Pipeline.qaTemplates);
+
+                    modelNEL.loadModelFromDir("models/model_nel_" + ProjectConfiguration.getLanguage() + "_" + ProjectConfiguration.getTrainMaxWordCount() + "_" + ProjectConfiguration.getNumberOfEpochs(), factory);
+                    modelQA.loadModelFromDir("models/model_qa_" + ProjectConfiguration.getLanguage() + "_" + ProjectConfiguration.getTrainMaxWordCount() + "_" + ProjectConfiguration.getNumberOfEpochs(), factory);
+
+                    trainedModels.add(modelNEL);
+                    trainedModels.add(modelQA);
+
+                    Pipeline.test(trainedModels, testDocuments);
+                } catch (Exception ex) {
+                    java.util.logging.Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-        } else {
-            //train and test model
-            try {
-                List<Model<AnnotatedDocument, State>> trainedModels = new ArrayList<>();
-
-                QATemplateFactory factory = new QATemplateFactory();
-
-                Model<AnnotatedDocument, State> modelNEL = new Model<>(Pipeline.scorer, Pipeline.nelTemplates);
-                Model<AnnotatedDocument, State> modelQA = new Model<>(Pipeline.scorer, Pipeline.qaTemplates);
-
-                modelNEL.loadModelFromDir("models/model_nel_" + ProjectConfiguration.getLanguage() + "_" + ProjectConfiguration.getTrainMaxWordCount() + "_" + ProjectConfiguration.getNumberOfEpochs(), factory);
-                modelQA.loadModelFromDir("models/model_qa_" + ProjectConfiguration.getLanguage() + "_" + ProjectConfiguration.getTrainMaxWordCount() + "_" + ProjectConfiguration.getNumberOfEpochs(), factory);
-
-                trainedModels.add(modelNEL);
-                trainedModels.add(modelQA);
-
-                Pipeline.test(trainedModels, testDocuments);
-            } catch (Exception ex) {
-                java.util.logging.Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
 
 //        DBpediaEndpoint.saveCachedQueries();
+        }
+
     }
 
     private static void initialize() {
 
         System.out.println("Initialization process has started ....");
-        
+
         lang = Language.valueOf(ProjectConfiguration.getLanguage());
 
         CandidateRetriever retriever = null;
@@ -240,8 +248,8 @@ public class Main {
         edges.add("discourse");
 
         DBpediaLabelRetriever.load(Main.lang);
-        
-        if(ProjectConfiguration.useRemoteDBpediaEndpoint()){
+
+        if (ProjectConfiguration.useRemoteDBpediaEndpoint()) {
             DBpediaEndpoint.setToRemote();
         }
 

@@ -43,12 +43,19 @@ public class ProjectConfiguration {
     private static final String PARAM_SETTING_WORD_EMBEDDING = "-b";
     private static final String PARAM_SETTING_USE_DBPEDIA_ENDPOINT = "-q";
     private static final String PARAM_SETTING_DBPEDIA_ENDPOINT_SERVER = "-n";
+    private static final String PARAM_SETTING_API = "-api";
 
     public static boolean useRemoteDBpediaEndpoint() {
 
         boolean useDBpediaEndpoint = "remote".equals(PARAMETERS.get(PARAM_SETTING_DBPEDIA_ENDPOINT_SERVER));
 
         return useDBpediaEndpoint;
+    }
+    public static boolean startAPI(){
+
+        boolean startAPI = "true".equals(PARAMETERS.get(PARAM_SETTING_API));
+
+        return startAPI;
     }
     
     public static boolean useDBpediaEndpoint() {
