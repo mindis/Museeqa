@@ -50,7 +50,7 @@ public class Main {
 
             args = new String[38];
             args[0] = "-d1";//query dataset
-            args[1] = "qald6Test";//qald6Train  qald6Test   qaldSubset
+            args[1] = "qaldSubset";//qald6Train  qald6Test   qaldSubset
             args[2] = "-d2";  //test dataset
             args[3] = "qaldSubset";//qald6Train  qald6Test   qaldSubset
             args[4] = "-m1";//manual lexicon
@@ -76,7 +76,7 @@ public class Main {
             args[24] = "-i";//index
             args[25] = "lucene";//lucene, memory
             args[26] = "-l";//language
-            args[27] = "EN";//EN,DE,ES
+            args[27] = "ES";//EN,DE,ES
             args[28] = "-f";//language
             args[29] = "1,2,3,4,5";//1,2,3,4,5,6,7
             args[30] = "-b";// use embedding
@@ -85,8 +85,8 @@ public class Main {
             args[33] = "true"; // true, false
             args[34] = "-n";// DBpedia endpoint 
             args[35] = "remote"; // local, remote
-            args[36] = "-api";// DBpedia endpoint 
-            args[37] = "true"; // local, remote
+            args[36] = "-api";// run the api
+            args[37] = "true"; // false, true
         }
 
 //        int cores = Runtime.getRuntime().availableProcessors();
@@ -111,7 +111,7 @@ public class Main {
             System.out.println("Training on " + ProjectConfiguration.getTrainingDatasetName() + " with " + trainDocuments.size());
             System.out.println("Testing on " + ProjectConfiguration.getTestDatasetName() + " with " + testDocuments.size());
 
-            boolean trainOnly = true;
+            boolean trainOnly = false;
             if (trainOnly) {
                 //train and test model
                 try {
@@ -119,10 +119,10 @@ public class Main {
 
                     for (Model<AnnotatedDocument, State> m1 : trainedModels) {
                         if (trainedModels.indexOf(m1) == 0) {
-                            m1.saveModelToFile("models", "model_nel_" + ProjectConfiguration.getLanguage() + "_" + ProjectConfiguration.getTrainMaxWordCount() + "_" + ProjectConfiguration.getNumberOfEpochs());
+                            m1.saveModelToFile("models", "model_nel_" + ProjectConfiguration.getLanguage());
                         }
                         if (trainedModels.indexOf(m1) == 1) {
-                            m1.saveModelToFile("models", "model_qa_" + ProjectConfiguration.getLanguage() + "_" + ProjectConfiguration.getTrainMaxWordCount() + "_" + ProjectConfiguration.getNumberOfEpochs());
+                            m1.saveModelToFile("models", "model_qa_" + ProjectConfiguration.getLanguage());
                         }
                     }
 
@@ -140,8 +140,8 @@ public class Main {
                     Model<AnnotatedDocument, State> modelNEL = new Model<>(Pipeline.scorer, Pipeline.nelTemplates);
                     Model<AnnotatedDocument, State> modelQA = new Model<>(Pipeline.scorer, Pipeline.qaTemplates);
 
-                    modelNEL.loadModelFromDir("models/model_nel_" + ProjectConfiguration.getLanguage() + "_" + ProjectConfiguration.getTrainMaxWordCount() + "_" + ProjectConfiguration.getNumberOfEpochs(), factory);
-                    modelQA.loadModelFromDir("models/model_qa_" + ProjectConfiguration.getLanguage() + "_" + ProjectConfiguration.getTrainMaxWordCount() + "_" + ProjectConfiguration.getNumberOfEpochs(), factory);
+                    modelNEL.loadModelFromDir("models/model_nel_" + ProjectConfiguration.getLanguage(), factory);
+                    modelQA.loadModelFromDir("models/model_qa_" + ProjectConfiguration.getLanguage(), factory);
 
                     trainedModels.add(modelNEL);
                     trainedModels.add(modelQA);

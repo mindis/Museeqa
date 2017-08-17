@@ -19,30 +19,36 @@ import static spark.Spark.port;
  */
 public class API {
 
-    private static String query = "SELECT (COUNT(DISTINCT ?uri) as ?c) WHERE {  <http://dbpedia.org/resource/Benjamin_Franklin> <http://dbpedia.org/ontology/child> ?uri . }";
+//    private static String query = "SELECT (COUNT(DISTINCT ?uri) as ?c) WHERE {  <http://dbpedia.org/resource/Benjamin_Franklin> <http://dbpedia.org/ontology/child> ?uri . }";
 
     public static void main(String[] args) {
+
         startService();
+
     }
 
     public static void startService() {
+
+        APIPipeline.initialize();
 
         port(2000);
 
         System.out.println("Server has started on port 2000.\n");
 
         get("/api/:question/:language", "application/json", (request, response) -> {
-            
+
             String question = request.params(":question");
             String language = request.params(":language");
-            
+
             String input = request.body();
 
             System.out.println("Question: " + question + " Lang: " + language);
-
-            Set<String> answers = DBpediaEndpoint.runQuery(query, false);
             
-            Response r = new Response(query, answers);
+            String constructedQuery = APIPipeline.run(question);
+
+            Set<String> answers = DBpediaEndpoint.runQuery(constructedQuery, false);
+
+            Response r = new Response(constructedQuery, answers);
 
             return r;
         }, new JsonTransformer());

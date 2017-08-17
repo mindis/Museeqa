@@ -144,6 +144,12 @@
             <artifactId>language-es</artifactId>
             <version>3.9-SNAPSHOT</version>
         </dependency>-->
+        <dependency>
+            <groupId>apacheTika</groupId>
+            <artifactId>apacheTika</artifactId>
+            <version>1.12</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

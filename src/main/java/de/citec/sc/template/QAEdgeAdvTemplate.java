@@ -286,6 +286,19 @@ public class QAEdgeAdvTemplate extends AbstractTemplate<AnnotatedDocument, State
                     if (specialSemanticTypes.containsKey(depDudeID)) {
                         depDudeName = specialSemanticTypes.get(depDudeID);
                     }
+                    
+                    //GROUP 7
+                    if (featureGroup.contains("7")) {
+                        features.put("QA  GROUP 1 BROTHER : Lemma & URI : " + headToken + " & " + headURI, 1.0);
+                        features.put("QA  GROUP 1 BROTHER : Lemma & SEM-TYPE : " + depToken + " & " + dudeName, 1.0);
+                        features.put("QA  GROUP 1 BROTHER : POS & SEM-TYPE : " + headPOS + " & " + dudeName, 1.0);
+
+                        features.put("QA  GROUP 1 SIBLING : Lemma & URI : " + depToken + " & " + depURI, 1.0);
+                        features.put("QA  GROUP 1 SIBLING : Lemma & SEM-TYPE : " + depToken + " & " + depDudeName, 1.0);
+                        features.put("QA  GROUP 1 SIBLING : POS & SEM-TYPE : " + depPOS + " & " + depDudeName, 1.0);
+                        features.put("QA  GROUP 1 DEP-REL & SLOT : " + depRelation + " & " + slotNumber, 1.0);
+
+                    }
 
                     //GROUP 1
                     if (featureGroup.contains("1")) {
