@@ -236,7 +236,7 @@ public class APIPipeline {
 
         //dependency parse 
         DependencyParse parseTree = UDPipe.parse(text, Main.lang);
-        Question qaldInstance = new Question(Main.lang, text, "");
+        Question qaldInstance = new Question(Main.lang, text, "SELECT DISTINCT ?uri WHERE {  <http://dbpedia.org/resource/Goofy> <http://dbpedia.org/ontology/creator> ?uri . }");
 
         //created annotated document
         AnnotatedDocument doc = new AnnotatedDocument(parseTree, qaldInstance);

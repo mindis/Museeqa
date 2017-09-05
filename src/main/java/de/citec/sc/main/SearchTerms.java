@@ -46,7 +46,7 @@ public class SearchTerms {
         System.out.println(ManualLexicon.getResources("nordsee", CandidateRetriever.Language.DE));
         
 
-        String word = "nordsee";
+        String word = "party";
         int topK = 100;
         boolean lemmatize = true;
         boolean useWordNet = false;

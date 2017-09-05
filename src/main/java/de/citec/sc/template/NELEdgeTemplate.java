@@ -11,7 +11,7 @@ import de.citec.sc.query.DBpediaLabelRetriever;
 import de.citec.sc.utils.DBpediaEndpoint;
 import de.citec.sc.utils.ProjectConfiguration;
 import de.citec.sc.utils.StringSimilarityUtils;
-import de.citec.sc.variable.HiddenVariable;
+import de.citec.sc.variable.URIVariable;
 
 import de.citec.sc.variable.State;
 import factors.Factor;
@@ -61,7 +61,7 @@ public class NELEdgeTemplate extends AbstractTemplate<AnnotatedDocument, State, 
 
         for (Integer key : state.getDocument().getParse().getNodes().keySet()) {
 
-            HiddenVariable a = state.getHiddenVariables().get(key);
+            URIVariable a = state.getHiddenVariables().get(key);
 
             factors.add(new StateFactorScope<>(this, state));
         }

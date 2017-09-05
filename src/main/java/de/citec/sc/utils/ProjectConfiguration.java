@@ -44,6 +44,17 @@ public class ProjectConfiguration {
     private static final String PARAM_SETTING_USE_DBPEDIA_ENDPOINT = "-q";
     private static final String PARAM_SETTING_DBPEDIA_ENDPOINT_SERVER = "-n";
     private static final String PARAM_SETTING_API = "-api";
+    private static final String PARAM_SETTING_LINKING_SAMPLING_LEVEL = "-linkingSamplingLevel";
+    private static final String PARAM_SETTING_QA_SAMPLING_LEVEL = "-qaSamplingLevel";
+    
+    public static String getLinkingSamplingLevel() {
+
+        return PARAMETERS.get(PARAM_SETTING_LINKING_SAMPLING_LEVEL);
+    }
+    public static String getQASamplingLevel() {
+
+        return PARAMETERS.get(PARAM_SETTING_QA_SAMPLING_LEVEL);
+    }
 
     public static boolean useRemoteDBpediaEndpoint() {
 

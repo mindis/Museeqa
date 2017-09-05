@@ -3,141 +3,82 @@
 "id": "qald-6-train-multilingual"
 },
         "questions": [
-        {
-        "id": "173",
-                "answertype": "number",
-                "aggregation": "true",
-                "onlydbo": "true",
-                "hybrid": "false",
-                "question": [
-                {
-                "language": "en",
-                        "string": "How many children did Benjamin Franklin have?",
-                        "keywords": "Benjamin Franklin, child"
-                },
-                {
-                "language": "fa",
-                        "string": "بنجامین فرانکلین چند فرزند دارد؟",
-                        "keywords": "بنجامین فرانکلین، فرزند"
-                },
-                {
-                "language": "de",
-                        "string": "Wieviele Kinder hatte Benjamin Franklin?",
-                        "keywords": "Benjamin Franklin, Kind"
-                },
-                {
-                "language": "es",
-                        "string": "¿Cuántos hijos tuvo Benjamin Franklin?",
-                        "keywords": "Benjamin Franklin, hijos"
-                },
-                {
-                "language": "it",
-                        "string": "Quanti figli ebbe Benjamin Franklin?",
-                        "keywords": "Benjamin Franklin, figlio"
-                },
-                {
-                "language": "fr",
-                        "string": "Combien d'enfants Benjamin Franklin avait-il?",
-                        "keywords": "nombre d'enfants, Benjamin Franklin"
-                },
-                {
-                "language": "nl",
-                        "string": "Hoeveel kinderen had Benjamin Franklin?",
-                        "keywords": "Benjamin Franklin, kinderen, hoeveel"
-                },
-                {
-                "language": "ro",
-                        "string": "Câți copii a avut Benjamin Franklin?",
-                        "keywords": "Benjamin Franklin, copil"
-                }
-                ],
-                "query": {
-                "sparql": "SELECT (COUNT(DISTINCT ?uri) as ?c) WHERE {  <http://dbpedia.org/resource/Benjamin_Franklin> <http://dbpedia.org/ontology/child> ?uri . } "
-                },
-                "answers": [
-                {
-                "head": {
-                "vars": [
-                        "c"
-                ]
-                },
-                        "results": {
-                        "bindings": [
-                        {
-                        "c": {
-                        "type": "literal",
-                                "value": "3"
-                        }
-                        }
-                        ]
-                        }
-                }
-                ]
-        },
 {
-        "id": "132",
-                "answertype": "number",
+        "id": "15",
+                "answertype": "resource",
                 "aggregation": "false",
                 "onlydbo": "true",
                 "hybrid": "false",
                 "question": [
                 {
                 "language": "en",
-                        "string": "How often did Jane Fonda marry?",
-                        "keywords": "Jane Fonda, marry, how often"
+                        "string": "Who created Goofy?",
+                        "keywords": "created, Goofy"
                 },
                 {
                 "language": "fa",
-                        "string": "جین فوندا چند بار ازدواج کرد؟",
-                        "keywords": "جین فوندا، ازدواج"
+                        "string": "چه کسی گوفی را ساخت؟",
+                        "keywords": "گوفی، ساخت"
                 },
                 {
                 "language": "de",
-                        "string": "Wie oft hat Jane Fonda geheiratet?",
-                        "keywords": "Jane Fonda, heiraten, wie oft"
+                        "string": "Wer hat Goofy erfunden?",
+                        "keywords": "erfinden, Goofy"
                 },
                 {
                 "language": "es",
-                        "string": "¿Cuántas veces ha estado casada Jane Fonda?",
-                        "keywords": "Jane Fonda, casada, cuántas veces"
+                        "string": "¿Quién es el creador de Goofy?",
+                        "keywords": "creador, Goofy"
                 },
                 {
                 "language": "it",
-                        "string": "Quante volte si è sposata Jane Fonda?",
-                        "keywords": "Jane Fonda, sposata, quante volte"
+                        "string": "Chi è il creatore di Pippo?",
+                        "keywords": "creatore, Pippo"
                 },
                 {
                 "language": "fr",
-                        "string": "Combien de fois s'est mariée Jane Fonda?",
-                        "keywords": "Jane Fonda, marriages, nombre de fois"
+                        "string": "Qui est le créateur de Goofy?",
+                        "keywords": "Goofy, créateur"
                 },
                 {
                 "language": "nl",
-                        "string": "Hoe vaak is Jane Fonda getrouwd?",
-                        "keywords": "Jane Fonda, getrouwd, hoe vaak"
+                        "string": "Wie bedacht Goofy?",
+                        "keywords": "bedenker, Goofy"
                 },
                 {
                 "language": "ro",
-                        "string": "Cât de des s-a măritat Jane Fonda?",
-                        "keywords": "Jane Fonda, mărita, cât de des"
+                        "string": "Cine l-a creat pe Goofy?",
+                        "keywords": "creat, Goofy"
                 }
                 ],
                 "query": {
-                "sparql": "SELECT (COUNT(DISTINCT ?uri) as ?c) WHERE {  <http://dbpedia.org/resource/Jane_Fonda> <http://dbpedia.org/ontology/spouse> ?uri . } "
+                "sparql": "SELECT DISTINCT ?uri WHERE {  <http://dbpedia.org/resource/Goofy> <http://dbpedia.org/ontology/creator> ?uri . }"
                 },
                 "answers": [
                 {
                 "head": {
                 "vars": [
-                        "c"
+                        "uri"
                 ]
                 },
                         "results": {
                         "bindings": [
                         {
-                        "c": {
-                        "type": "literal",
-                                "value": "3"
+                        "uri": {
+                        "type": "uri",
+                                "value": "http://dbpedia.org/resource/Walt_Disney"
+                        }
+                        },
+                        {
+                        "uri": {
+                        "type": "uri",
+                                "value": "http://dbpedia.org/resource/Del_Connell"
+                        }
+                        },
+                        {
+                        "uri": {
+                        "type": "uri",
+                                "value": "http://dbpedia.org/resource/Paul_Murry"
                         }
                         }
                         ]

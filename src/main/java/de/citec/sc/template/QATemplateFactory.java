@@ -48,6 +48,8 @@ public class QATemplateFactory implements TemplateFactory<AnnotatedDocument, Sta
                 return new QAEdgeTemplate(qaValidPOSTags, validEdges, specialSemanticTypes);
             case "QAEdgeAdvTemplate":
                 return new QAEdgeAdvTemplate(qaValidPOSTags, validEdges,semanticTypes, specialSemanticTypes);
+            case "QueryTypeTemplate":
+                return new QueryTypeTemplate(qaValidPOSTags, validEdges,semanticTypes, specialSemanticTypes);
 
         }
 

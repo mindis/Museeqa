@@ -72,24 +72,28 @@ public class QueryConstructor {
             
             headDUDE.postprocess();
 
-            boolean isSELECTQuery = true;
-            
-            List<Integer> tokenIDs = new ArrayList<>(state.getDocument().getParse().getNodes().keySet());
-            Collections.sort(tokenIDs);
-        
-            Integer firstToken = tokenIDs.get(0);
-            String firstPOS = state.getDocument().getParse().getPOSTag(firstToken);
-
-            String questionString = state.getDocument().getQuestionString();
-            
-            if(firstPOS.equals("PRON")){
-                isSELECTQuery = false;
+            boolean hasCorrectQueryType = true;
+            //1=SELECT, 2 = COUNT , 3 = ASK
+            if(state.getQueryTypeVariable().getType() == 3){
+                hasCorrectQueryType = false;
             }
-
-//            if (questionString.startsWith("Did") || questionString.startsWith("Does") || questionString.startsWith("Do") || questionString.startsWith("Is") || questionString.startsWith("Were") || questionString.startsWith("Was") || questionString.startsWith("Are")) {
+            
+//            List<Integer> tokenIDs = new ArrayList<>(state.getDocument().getParse().getNodes().keySet());
+//            Collections.sort(tokenIDs);
+//        
+//            Integer firstToken = tokenIDs.get(0);
+//            String firstPOS = state.getDocument().getParse().getPOSTag(firstToken);
+//
+//            String questionString = state.getDocument().getQuestionString();
+//            
+//            if(firstPOS.equals("PRON")){
 //                isSELECTQuery = false;
 //            }
-
+//
+////            if (questionString.startsWith("Did") || questionString.startsWith("Does") || questionString.startsWith("Do") || questionString.startsWith("Is") || questionString.startsWith("Were") || questionString.startsWith("Was") || questionString.startsWith("Are")) {
+////                isSELECTQuery = false;
+////            }
+//
             boolean hasReturnVariable = false;
             for (Integer i : state.getHiddenVariables().keySet()) {
                 if (specialSemanticTypes.containsKey(state.getHiddenVariables().get(i).getDudeId())) {
@@ -100,8 +104,13 @@ public class QueryConstructor {
 //                    }
                 }
             }
+            
+            boolean isSELECTQuery = false;
+            if(hasReturnVariable && hasCorrectQueryType){
+                isSELECTQuery = true;
+            }
 
-            isSELECTQuery = hasReturnVariable;
+            
 
             query = headDUDE.convertToSPARQL(isSELECTQuery).toString();
 
@@ -114,27 +123,6 @@ public class QueryConstructor {
 //            e.printStackTrace();
 //            System.out.println(state.toString());
             
-        }
-
-        return query;
-    }
-
-    private static String getQueryFromTriples(List<Triple> triples) {
-        String query = "";
-        String variables = "";
-
-        for (Triple t : triples) {
-            if (!t.IsReturnVariable()) {
-                query += t.toString();
-            } else {
-                variables += " " + t.toString();
-            }
-        }
-
-        if (!variables.equals("")) {
-            query = "SELECT DISTINCT " + variables + " WHERE { " + query + " }";
-        } else {
-            query = "ASK WHERE { " + query + " }";
         }
 
         return query;
@@ -205,6 +193,10 @@ public class QueryConstructor {
                     break;
                 case "RestrictionClass":
                     RDFDUDES someRestrictionClass = new RDFDUDES(RDFDUDES.Type.CLASS, "1");
+                    
+                    if(uri.equals("http://dbpedia.org/ontology/conservationStatus###'CR'^^<http://www.w3.org/2001/XMLSchema#string>")){
+                        int z=1;
+                    }
 
                     if (uri.contains("###")) {
                         String classURI = uri.substring(0, uri.indexOf("###"));

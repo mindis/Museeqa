@@ -13,7 +13,7 @@ import de.citec.sc.query.DBpediaLabelRetriever;
 import de.citec.sc.utils.DBpediaEndpoint;
 import de.citec.sc.utils.ProjectConfiguration;
 import de.citec.sc.utils.StringSimilarityUtils;
-import de.citec.sc.variable.HiddenVariable;
+import de.citec.sc.variable.URIVariable;
 
 import de.citec.sc.variable.State;
 import factors.Factor;
@@ -73,7 +73,7 @@ public class QAEdgeAdvTemplate extends AbstractTemplate<AnnotatedDocument, State
 
         for (Integer key : state.getDocument().getParse().getNodes().keySet()) {
 
-            HiddenVariable a = state.getHiddenVariables().get(key);
+            URIVariable a = state.getHiddenVariables().get(key);
 
             factors.add(new StateFactorScope<>(this, state));
         }
@@ -88,10 +88,14 @@ public class QAEdgeAdvTemplate extends AbstractTemplate<AnnotatedDocument, State
         Vector featureVector = factor.getFeatureVector();
 
         Map<String, Double> depFeatures = getDependencyFeatures(state, ProjectConfiguration.getFeatureGroup());
+        Map<String, Double> queryTypeFeatures = getQueryTypeFeatures(state);
 //        Map<String, Double> siblingFeatures = getSiblingFeatures(state, ProjectConfiguration.getFeatureGroup());
 
         for (String k : depFeatures.keySet()) {
             featureVector.addToValue(k, depFeatures.get(k));
+        }
+        for (String k : queryTypeFeatures.keySet()) {
+            featureVector.addToValue(k, queryTypeFeatures.get(k));
         }
 
 //        for (String k : siblingFeatures.keySet()) {
@@ -99,6 +103,41 @@ public class QAEdgeAdvTemplate extends AbstractTemplate<AnnotatedDocument, State
 //        }
     }
 
+    /**
+     * returns features for query type
+     */
+    private Map<String, Double> getQueryTypeFeatures(State state) {
+        Map<String, Double> features = new HashMap<>();
+        
+        String query = QueryConstructor.getSPARQLQuery(state);
+        String constructedQueryType = "";
+        if(query.contains("SELECT")){
+            if(query.contains("COUNT")){
+                constructedQueryType = "COUNT";
+            }
+            else{
+                constructedQueryType = "SELECT";
+            }
+        }
+        else{
+            constructedQueryType = "ASK";
+        }
+        
+        List<Integer> tokenIDs = new ArrayList<>(state.getDocument().getParse().getNodes().keySet());
+        Collections.sort(tokenIDs);
+        
+        Integer firstTokenId = tokenIDs.get(0);
+        String firstPOS = state.getDocument().getParse().getPOSTag(firstTokenId);
+        String firstToken = state.getDocument().getParse().getToken(firstTokenId);
+        
+        String queryType = state.getQueryTypeVariable().toString();
+        
+        features.put("QUERY TYPE FEATURE: TOKEN:"+firstToken+" POS:"+firstPOS+" "+queryType, 1.0);
+//        features.put("QUERY TYPE FEATURE: TOKEN:"+firstToken+" POS:"+firstPOS+" "+queryType +" Constructed Type: " +constructedQueryType, 1.0);
+        
+        return features;
+    }
+    
     /**
      * returns features that involve edge exploration.
      */

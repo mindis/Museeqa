@@ -12,8 +12,11 @@ import de.citec.sc.query.Instance;
 import de.citec.sc.query.ManualLexicon;
 
 import de.citec.sc.query.Search;
+import de.citec.sc.utils.DBpediaEndpoint;
 import de.citec.sc.utils.ProjectConfiguration;
+import de.citec.sc.utils.StateEntityMap;
 import de.citec.sc.utils.Stopwords;
+import de.citec.sc.variable.URIVariable;
 import de.citec.sc.variable.State;
 
 import java.util.ArrayList;
@@ -28,12 +31,12 @@ import sampling.Explorer;
  *
  * @author sherzod
  */
-public class SingleNodeExplorer implements Explorer<State> {
+public class EntityBasedSingleNodeExplorer implements Explorer<State> {
 
     private Map<Integer, String> semanticTypes;
     private Set<String> validPOSTags;
 
-    public SingleNodeExplorer(Map<Integer, String> semanticTypes, Set<String> validPOSTags) {
+    public EntityBasedSingleNodeExplorer(Map<Integer, String> semanticTypes, Set<String> validPOSTags) {
         this.semanticTypes = semanticTypes;
         this.validPOSTags = validPOSTags;
     }
@@ -42,50 +45,125 @@ public class SingleNodeExplorer implements Explorer<State> {
     public List getNextStates(State currentState) {
         List<State> newStates = new ArrayList<>();
 
-        for (int indexOfNode : currentState.getDocument().getParse().getNodes().keySet()) {
-            String node = currentState.getDocument().getParse().getNodes().get(indexOfNode);
+        Set<URIVariable> entityURIs = StateEntityMap.getEntities(currentState.getDocument().getQaldInstance().getQuestionText().get(Main.lang));
 
-            String pos = currentState.getDocument().getParse().getPOSTag(indexOfNode);
+        if (entityURIs.isEmpty()) {
 
-            if (validPOSTags.contains(pos)) {
+            //get all Individual uris and add to the map
+            for (int indexOfNode : currentState.getDocument().getParse().getNodes().keySet()) {
+                String node = currentState.getDocument().getParse().getNodes().get(indexOfNode);
 
-                //assign all dudes
-                for (Integer indexOfDude : semanticTypes.keySet()) {
+                String pos = currentState.getDocument().getParse().getPOSTag(indexOfNode);
 
-                    String dudeName = semanticTypes.get(indexOfDude);
+                if (validPOSTags.contains(pos)) {
 
-                    Set<State> newCreatedStates = createNewStates(node.toLowerCase(), currentState, indexOfNode, dudeName, indexOfDude);
+                    //assign all dudes
+                    for (Integer indexOfDude : semanticTypes.keySet()) {
 
-                    for (State s1 : newCreatedStates) {
+                        String dudeName = semanticTypes.get(indexOfDude);
 
-                        if (!newStates.contains(s1)) {
-                            newStates.add(new State(s1));
+                        if (!dudeName.equals("Individual")) {
+                            continue;
                         }
+
+                        Set<Candidate> uris = getDBpediaMatches(dudeName, node, pos);
+
+                        for (Candidate c : uris) {
+                            URIVariable v = new URIVariable(indexOfNode, indexOfDude, c);
+
+                            State s = new State(currentState);
+
+                            s.addHiddenVariable(indexOfNode, indexOfDude, c);
+
+                            if (!s.equals(currentState)) {
+                                newStates.add(s);
+                            }
+
+                            entityURIs.add(v);
+                        }
+                    }
+                }
+            }
+
+            //update the results
+            StateEntityMap.addEntities(currentState.getDocument().getQaldInstance().getQuestionText().get(Main.lang), entityURIs);
+
+            if (newStates.isEmpty()) {
+                newStates.add(currentState);
+            }
+        } else {
+            for (int indexOfNode : currentState.getDocument().getParse().getNodes().keySet()) {
+                String node = currentState.getDocument().getParse().getNodes().get(indexOfNode);
+
+                String pos = currentState.getDocument().getParse().getPOSTag(indexOfNode);
+
+                if (validPOSTags.contains(pos)) {
+
+                    //assign all dudes
+                    for (Integer indexOfDude : semanticTypes.keySet()) {
+
+                        String dudeName = semanticTypes.get(indexOfDude);
+
+                        Set<State> newCreatedStates = createNewStates(node.toLowerCase(), currentState, indexOfNode, dudeName, indexOfDude, entityURIs);
+
+                        for (State s1 : newCreatedStates) {
+
+                            if (!newStates.contains(s1)) {
+                                newStates.add(new State(s1));
+                            }
+                        }
+
                     }
 
                 }
-
             }
         }
 
         return newStates;
     }
 
-    private Set<State> createNewStates(String node, State currentState, int indexOfNode, String dude, Integer indexOfDude) {
+    private Set<State> createNewStates(String node, State currentState, int indexOfNode, String dude, Integer indexOfDude, Set<URIVariable> entityURIs) {
         Set<State> newStates = new LinkedHashSet<>();
 
         String posTag = currentState.getDocument().getParse().getPOSTag(indexOfNode);
         Set<Candidate> uris = getDBpediaMatches(dude, node, posTag);
 
-        //create new State for each URI
-        for (Candidate i : uris) {
+        for (Candidate headNodeCandidate : uris) {
 
-            State s = new State(currentState);
+            for (URIVariable entityHiddenVar : entityURIs) {
 
-            s.addHiddenVariable(indexOfNode, indexOfDude, i);
+                //not for the same token
+                if (indexOfNode == entityHiddenVar.getTokenId()) {
+                    continue;
+                }
 
-            if (!s.equals(currentState)) {
-                newStates.add(s);
+                boolean isChildSubject = DBpediaEndpoint.isSubjectTriple(headNodeCandidate.getUri(), entityHiddenVar.getCandidate().getUri());
+                boolean isChildObject = DBpediaEndpoint.isObjectTriple(headNodeCandidate.getUri(), entityHiddenVar.getCandidate().getUri());
+
+                if (isChildSubject) {
+
+                    State s = new State(currentState);
+
+                    s.addHiddenVariable(indexOfNode, indexOfDude, headNodeCandidate);
+                    s.addHiddenVariable(entityHiddenVar.getTokenId(), entityHiddenVar.getDudeId(), entityHiddenVar.getCandidate());
+
+                    if (!s.equals(currentState)) {
+                        newStates.add(s);
+                    }
+
+                }
+                if (isChildObject) {
+
+                    State s = new State(currentState);
+
+                    s.addHiddenVariable(indexOfNode, indexOfDude, headNodeCandidate);
+                    s.addHiddenVariable(entityHiddenVar.getTokenId(), entityHiddenVar.getDudeId(), entityHiddenVar.getCandidate());
+
+                    if (!s.equals(currentState)) {
+                        newStates.add(s);
+                    }
+
+                }
             }
         }
 

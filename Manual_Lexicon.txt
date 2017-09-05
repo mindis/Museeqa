@@ -256,6 +256,7 @@
 50	Bruce Carver	http://dbpedia.org/resource/Bruce_Carver	DE	train
 54	Frau	http://dbpedia.org/ontology/spouse	DE	train
 54	US - Präsident Lincoln	http://dbpedia.org/resource/Abraham_Lincoln	DE	train
+54	U.S. president Lincoln	http://dbpedia.org/resource/Abraham_Lincoln	EN	train
 57	Die Sopranos	http://dbpedia.org/resource/The_Sopranos	DE	train
 57	Fernsehserie	http://dbpedia.org/ontology/series	DE	train
 57	ersten Staffel	http://dbpedia.org/ontology/seasonNumber###"1"^^http://www.w3.org/2001/XMLSchema#integer	DE	train
@@ -1093,7 +1094,6 @@
 50	die	http://dbpedia.org/ontology/deathCause	EN	train
 50	Bruce Carver	http://dbpedia.org/resource/Bruce_Carver	EN	train
 54	wife	http://dbpedia.org/ontology/spouse	EN	train
-54	Lincoln	http://dbpedia.org/resource/Abraham_Lincoln	EN	train
 57	The Sopranos	http://dbpedia.org/resource/The_Sopranos	EN	train
 57	first season	http://dbpedia.org/ontology/seasonNumber###"1"^^http://www.w3.org/2001/XMLSchema#integer	EN	train
 57	television series	http://dbpedia.org/ontology/series	EN	train
@@ -1667,7 +1667,7 @@
 62	time zone	http://dbpedia.org/ontology/timeZone	EN	test
 62	Rome	http://dbpedia.org/resource/Rome	EN	test
 63	birds	http://www.w3.org/1999/02/22-rdf-syntax-ns#type##http://dbpedia.org/ontology/Bird	EN	test
-63	endangered	http://dbpedia.org/ontology/conservationStatus##"CR"	EN	test
+63	endangered	http://dbpedia.org/ontology/conservationStatus##'CR'^^<http://www.w3.org/2001/XMLSchema#string>	EN	test
 65	inventor	http://dbpedia.org/property/inventor	EN	test
 65	Lego	http://dbpedia.org/resource/Lego	EN	test
 65	occupation	http://dbpedia.org/property/occupation	EN	test

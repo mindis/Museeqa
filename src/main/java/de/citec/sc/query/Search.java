@@ -214,6 +214,9 @@ public class Search {
             List<Instance> matches = retriever.getAllResources(queryTerm, topK, lang);
 
             for (Instance i : matches) {
+                if(i.getUri().startsWith("http://dbpedia.org/resource/List") || i.getUri().startsWith("http://dbpedia.org/resource/Category")){
+                    continue;
+                }
                 if (!result.contains(i)) {
                     result.add(i);
                 }

@@ -9,6 +9,7 @@ import de.citec.sc.evaluator.AnswerEvaluator;
 import de.citec.sc.evaluator.QueryEvaluator;
 import de.citec.sc.learning.NELObjectiveFunction;
 import de.citec.sc.learning.QAObjectiveFunction;
+import de.citec.sc.learning.QueryTypeObjectiveFunction;
 import junit.framework.Assert;
 import org.junit.Test;
 
@@ -23,19 +24,21 @@ public class ObjectiveFunctionTest {
 
         NELObjectiveFunction function1 = new NELObjectiveFunction();
         QAObjectiveFunction function2 = new QAObjectiveFunction();
+        QueryTypeObjectiveFunction function3 = new QueryTypeObjectiveFunction();
 
-        String q1 = "SELECT DISTINCT ?uri WHERE {  ?uri <http://dbpedia.org/ontology/publisher> <http://dbpedia.org/resource/GMT_Games> . ?uri <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Game> } ";
-        String q2 = "SELECT  *\n"
-                + "WHERE\n"
-                + "  { ?v4  <http://dbpedia.org/ontology/publisher>  <http://dbpedia.org/resource/GMT_Games> . \n"
-                + "    ?v4  a                     <http://dbpedia.org/ontology/Game>\n"
-                + "  }";
+        String q1 = "SELECT COUNT(DISTINCT ?uri) WHERE {  <http://dbpedia.org/resource/Goofy> <http://dbpedia.org/ontology/creator> ?uri . }";
+        String q2 = "\n" +
+"SELECT DISTINCT  ?v8\n" +
+"WHERE\n" +
+"  { ?v2  <http://dbpedia.org/ontology/creator>  ?v8}";
 
         double score1 = function1.computeValue(q1, q2);
         double score2 = function2.computeValue(q1, q2);
+        double score3 = function3.computeValue(q1, q2);
 
         System.out.println("Sim score NEL: " + score1);
         System.out.println("Sim score QA: " + score2);
+        System.out.println("Sim score Query Type: " + score3);
 
         Assert.assertEquals(true, score1 >= 0.5);
         Assert.assertEquals(true, score2 > 0.5);

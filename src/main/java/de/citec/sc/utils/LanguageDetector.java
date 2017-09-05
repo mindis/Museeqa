@@ -17,7 +17,7 @@ public class LanguageDetector {
     
     public static String detect(String text) {
         LanguageIdentifier identifier = new LanguageIdentifier(text);
-        String language = identifier.getLanguage();
+        String language = "en";//identifier.getLanguage();
         
         //if it's not german or english then it has to be spanish
         if(!(language.equals("en") || language.equals("de"))){

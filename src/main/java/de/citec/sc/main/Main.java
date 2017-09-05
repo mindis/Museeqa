@@ -24,6 +24,7 @@ import de.citec.sc.variable.State;
 import de.citec.sc.wordNet.WordNetAnalyzer;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -48,17 +49,17 @@ public class Main {
 
         } else {
 
-            args = new String[38];
+            args = new String[42];
             args[0] = "-d1";//query dataset
-            args[1] = "qaldSubset";//qald6Train  qald6Test   qaldSubset
+            args[1] = "qald6Train";//qald6Train  qald6Test   qaldSubset
             args[2] = "-d2";  //test dataset
-            args[3] = "qaldSubset";//qald6Train  qald6Test   qaldSubset
+            args[3] = "qald6Test";//qald6Train  qald6Test   qaldSubset
             args[4] = "-m1";//manual lexicon
             args[5] = "true";//true, false
             args[6] = "-m2";//matoll
             args[7] = "true";//true, false
             args[8] = "-e";//epochs
-            args[9] = "" + 1;
+            args[9] = "" + 10;
             args[10] = "-s";//sampling steps
             args[11] = "" + 15;
             args[12] = "-k1";//top k samples to select from during training NEL
@@ -70,23 +71,27 @@ public class Main {
             args[18] = "-l2";//top k samples to select from during testing for QA
             args[19] = "" + 10;
             args[20] = "-w1";//max word count - train
-            args[21] = "" + 30;
+            args[21] = "" + 3;
             args[22] = "-w2";//max word count - test
             args[23] = "" + 30;
             args[24] = "-i";//index
             args[25] = "lucene";//lucene, memory
             args[26] = "-l";//language
-            args[27] = "ES";//EN,DE,ES
-            args[28] = "-f";//language
+            args[27] = "EN";//EN,DE,ES
+            args[28] = "-f";//features
             args[29] = "1,2,3,4,5";//1,2,3,4,5,6,7
             args[30] = "-b";// use embedding
             args[31] = "true"; // true, false
             args[32] = "-q";// use DBpedia endpoint, query evaluator vs. answer evaluator
             args[33] = "true"; // true, false
             args[34] = "-n";// DBpedia endpoint 
-            args[35] = "remote"; // local, remote
+            args[35] = "local"; // local, remote
             args[36] = "-api";// run the api
-            args[37] = "true"; // false, true
+            args[37] = "false"; // false, true
+            args[38] = "-linkingSamplingLevel";// run the api
+            args[39] = "1+2+3"; // 1 = direct children, 2=include children of children, 3 = include siblings
+            args[40] = "-qaSamplingLevel";// run the api
+            args[41] = "1+2+3"; // 1 = direct children, 2=include children of children, 3 = include siblings
         }
 
 //        int cores = Runtime.getRuntime().availableProcessors();
@@ -111,7 +116,7 @@ public class Main {
             System.out.println("Training on " + ProjectConfiguration.getTrainingDatasetName() + " with " + trainDocuments.size());
             System.out.println("Testing on " + ProjectConfiguration.getTestDatasetName() + " with " + testDocuments.size());
 
-            boolean trainOnly = false;
+            boolean trainOnly = true;
             if (trainOnly) {
                 //train and test model
                 try {
@@ -121,9 +126,12 @@ public class Main {
                         if (trainedModels.indexOf(m1) == 0) {
                             m1.saveModelToFile("models", "model_nel_" + ProjectConfiguration.getLanguage());
                         }
-                        if (trainedModels.indexOf(m1) == 1) {
+                        else if (trainedModels.indexOf(m1) == 1) {
                             m1.saveModelToFile("models", "model_qa_" + ProjectConfiguration.getLanguage());
                         }
+//                        else if (trainedModels.indexOf(m1) == 2) {
+//                            m1.saveModelToFile("models", "model_queryType_" + ProjectConfiguration.getLanguage());
+//                        }
                     }
 
                     Pipeline.test(trainedModels, testDocuments);
@@ -189,14 +197,14 @@ public class Main {
         semanticTypes.put(2, "Individual");
         semanticTypes.put(3, "Class");
         semanticTypes.put(4, "RestrictionClass");
-//        semanticTypes.put(5, "UnderSpecifiedClass");
+        semanticTypes.put(5, "UnderSpecifiedClass");
 
         //semantic types with special meaning
         Map<Integer, String> specialSemanticTypes = new LinkedHashMap<>();
         specialSemanticTypes.put(semanticTypes.size() + 1, "What");//it should be higher than semantic type size
         specialSemanticTypes.put(semanticTypes.size() + 2, "Which");//it should be higher than semantic type size
-//        specialSemanticTypes.put(semanticTypes.size() + 3, "When");//it should be higher than semantic type size
-//        specialSemanticTypes.put(semanticTypes.size() + 4, "Who");//it should be higher than semantic type size
+        specialSemanticTypes.put(semanticTypes.size() + 3, "When");//it should be higher than semantic type size
+        specialSemanticTypes.put(semanticTypes.size() + 4, "Who");//it should be higher than semantic type size
         specialSemanticTypes.put(semanticTypes.size() + 5, "HowMany");//it should be higher than semantic type size
 
         Set<String> linkingValidPOSTags = new HashSet<>();
@@ -261,9 +269,11 @@ public class Main {
     }
 
     private static List<AnnotatedDocument> getDocuments(QALDCorpusLoader.Dataset dataset, int maxWordCount) {
+        
+        long startTime = System.currentTimeMillis();
 
         boolean includeYAGO = false;
-        boolean includeAggregation = true;
+        boolean includeAggregation = false;
         boolean includeUNION = false;
         boolean onlyDBO = true;
         boolean isHybrid = false;
@@ -308,8 +318,12 @@ public class Main {
             }
         }
 
-        System.out.print("Loaded dataset : " + dataset + " with " + documents.size() + " instances.");
+        long endTime = System.currentTimeMillis();
+        
+        System.out.print("Loaded dataset : " + dataset + " with " + documents.size() + " instances. " + (endTime - startTime)+" ms.");
 
+        Collections.shuffle(documents);
+        
         return documents;
     }
 }

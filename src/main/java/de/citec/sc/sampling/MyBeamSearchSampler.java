@@ -1,7 +1,7 @@
 package de.citec.sc.sampling;
 
 import de.citec.sc.utils.Performance;
-import de.citec.sc.variable.HiddenVariable;
+import de.citec.sc.variable.URIVariable;
 import de.citec.sc.variable.State;
 import java.util.ArrayList;
 import java.util.HashMap;

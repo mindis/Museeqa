@@ -23,7 +23,7 @@ import java.util.Set;
  */
 public class QueryEvaluator {
 
-    public static double evaluate(String derived, String goldStandard) {
+    public static double evaluate(String derived, String goldStandard, boolean isStructure) {
 
         Set<Triple> constructedTriples = SPARQLParser.extractTriplesFromQuery(derived);
 
@@ -33,14 +33,14 @@ public class QueryEvaluator {
 
         Set<Triple> goldStandardTriples = SPARQLParser.extractTriplesFromQuery(goldStandard);
 
-        return similarity(constructedTriples, goldStandardTriples);
+        return similarity(constructedTriples, goldStandardTriples, isStructure);
     }
 
-    private static double similarity(Set<Triple> derived, Set<Triple> goldStandard) {
+    private static double similarity(Set<Triple> derived, Set<Triple> goldStandard, boolean isStructure) {
         double sim = 0;
 
-        double p = score(derived, goldStandard);
-        double r = score(goldStandard, derived);
+        double p = score(derived, goldStandard, isStructure);
+        double r = score(goldStandard, derived, isStructure);
 
         sim = (2 * p * r) / (p + r);
 
@@ -51,7 +51,7 @@ public class QueryEvaluator {
         return sim;
     }
 
-    private static double score(Set<Triple> derived, Set<Triple> goldStandard) {
+    private static double score(Set<Triple> derived, Set<Triple> goldStandard, boolean isStructure) {
         double score = 0;
 
         //remove sameAsVariables
@@ -105,6 +105,10 @@ public class QueryEvaluator {
             double structure = structure(triplesWithReturnVar, goldSetWithReturnVar, map);
 
             double alpha = 0.95;
+            
+            if(isStructure){
+                alpha = 0;
+            }
 
             score = alpha * body + (1 - alpha) * structure;
 

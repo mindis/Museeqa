@@ -80,10 +80,25 @@ public class L2KBEdgeExplorer implements Explorer<State> {
                 if (headNodeCandidates.isEmpty()) {
                     continue;
                 }
+                
+                String samplingLevel = ProjectConfiguration.getLinkingSamplingLevel();
+                
+                //1 = direct children, 2 = children of children with 2 depth, 3 = siblings
 
-                List<Integer> childNodes_Level_1 = currentState.getDocument().getParse().getDependentEdges(indexOfHeadNode, validPOSTags, 1);
-                List<Integer> childNodes_Level_2 = currentState.getDocument().getParse().getDependentEdges(indexOfHeadNode, validPOSTags, 2);
-                List<Integer> siblings = currentState.getDocument().getParse().getSiblings(indexOfHeadNode, validPOSTags);
+                List<Integer> childNodes_Level_1 = new ArrayList<>();
+                List<Integer> childNodes_Level_2 = new ArrayList<>();
+                List<Integer> siblings = new ArrayList<>();
+                
+                if(samplingLevel.contains("1")){
+                    childNodes_Level_1 = currentState.getDocument().getParse().getDependentEdges(indexOfHeadNode, validPOSTags, 1);
+                }
+                if(samplingLevel.contains("2")){
+                    childNodes_Level_2 = currentState.getDocument().getParse().getDependentEdges(indexOfHeadNode, validPOSTags, 2);
+                }
+                if(samplingLevel.contains("3")){
+                    siblings = currentState.getDocument().getParse().getSiblings(indexOfHeadNode, validPOSTags);
+                }
+
 
                 boolean hasValidDepNode = false;
 
@@ -100,20 +115,19 @@ public class L2KBEdgeExplorer implements Explorer<State> {
                     }
 
                     String depNode = currentState.getDocument().getParse().getNodes().get(indexOfDepNode);
-                    
 
                     for (Integer indexOfDepDude : semanticTypes.keySet()) {
-                        
+
                         Set<State> statesFromEdge = getStatesFromEdge(depNode, indexOfDepNode, indexOfDepDude, headNodeCandidates, currentState, indexOfHeadNode, indexOfHeadDude, headDudeName);
-                        
+
                         newStates.addAll(statesFromEdge);
                     }
                 }
-                
-                if(!newStates.isEmpty()){
+
+                if (!newStates.isEmpty()) {
                     continue;
                 }
-                
+
                 for (Integer indexOfDepNode : siblings) {
                     //greedy exploring, skip nodes with assigned URI
 //                    if (!currentState.getHiddenVariables().get(depNodeIndex).getCandidate().getUri().equals("EMPTY_STRING")) {
@@ -127,21 +141,20 @@ public class L2KBEdgeExplorer implements Explorer<State> {
                     }
 
                     String depNode = currentState.getDocument().getParse().getNodes().get(indexOfDepNode);
-                    
 
                     for (Integer indexOfDepDude : semanticTypes.keySet()) {
-                        
+
                         Set<State> statesFromEdge = getStatesFromEdge(depNode, indexOfDepNode, indexOfDepDude, headNodeCandidates, currentState, indexOfHeadNode, indexOfHeadDude, headDudeName);
-                        
+
                         newStates.addAll(statesFromEdge);
                     }
                 }
-                
+
                 //if there are some states created from dependent nodes(level 1) and siblings no need to explore level2 dep nodes.
-                if(!newStates.isEmpty()){
+                if (!newStates.isEmpty()) {
                     continue;
                 }
-                
+
                 for (Integer indexOfDepNode : childNodes_Level_2) {
                     //consider certain edges, skip others
                     String depRelation = currentState.getDocument().getParse().getDependencyRelation(indexOfDepNode);
@@ -151,19 +164,17 @@ public class L2KBEdgeExplorer implements Explorer<State> {
                     }
 
                     String depNode = currentState.getDocument().getParse().getNodes().get(indexOfDepNode);
-                    
 
                     for (Integer indexOfDepDude : semanticTypes.keySet()) {
-                        
+
                         Set<State> statesFromEdge = getStatesFromEdge(depNode, indexOfDepNode, indexOfDepDude, headNodeCandidates, currentState, indexOfHeadNode, indexOfHeadDude, headDudeName);
-                        
+
                         newStates.addAll(statesFromEdge);
                     }
                 }
 
                 //if the dependent nodes have been explored, then no need to explore the siblings
 //                if (!hasValidDepNode) {
-
 //                    for (Integer depNodeIndex : siblings) {
 //
 ////                        //greedy exploring, skip nodes with assigned URI
@@ -273,7 +284,7 @@ public class L2KBEdgeExplorer implements Explorer<State> {
         Set<State> states = new HashSet<>();
 
         String depDudeName = semanticTypes.get(indexOfDepDude);
-        
+
         String depPOS = currentState.getDocument().getParse().getPOSTag(indexOfDepNode);
 
         Set<Candidate> depNodeCandidates = getDBpediaMatches(depDudeName, depNode, depPOS);
@@ -285,17 +296,16 @@ public class L2KBEdgeExplorer implements Explorer<State> {
         for (Candidate headNodeCandidate : headNodeCandidates) {
 
             for (Candidate depNodeCandidate : depNodeCandidates) {
-                
-                if(headNodeCandidate.getUri().equals("http://dbpedia.org/ontology/creator") && depNodeCandidate.getUri().equals("http://dbpedia.org/resource/Family_Guy")){
-                    int z=2;
-                }
+
+//                if (headNodeCandidate.getUri().equals("http://dbpedia.org/ontology/creator") && depNodeCandidate.getUri().equals("http://dbpedia.org/resource/Battle_of_Gettysburg")) {
+//                    int z = 2;
+//                }
 
                 boolean isChildSubject = DBpediaEndpoint.isSubjectTriple(headNodeCandidate.getUri(), depNodeCandidate.getUri());
                 boolean isChildObject = DBpediaEndpoint.isObjectTriple(headNodeCandidate.getUri(), depNodeCandidate.getUri());
 
 //                boolean isParentSubject = DBpediaEndpoint.isSubjectTriple(depNodeCandidate.getUri(), headNodeCandidate.getUri());
 //                boolean isParentObject = DBpediaEndpoint.isObjectTriple(depNodeCandidate.getUri(), headNodeCandidate.getUri());
-
                 Set<State> s1 = getValidStates(currentState, indexOfHeadNode, indexOfHeadDude, indexOfDepNode, indexOfDepDude, headDUDEName, depDudeName, headNodeCandidate, depNodeCandidate, isChildSubject, isChildObject);
 //                Set<State> s2 = getValidStates(currentState, indexOfHeadNode, indexOfHeadDude, indexOfDepNode, indexOfDepDude, headDUDEName, depDudeName, headNodeCandidate, depNodeCandidate, isParentSubject, isParentObject);
 
@@ -328,7 +338,7 @@ public class L2KBEdgeExplorer implements Explorer<State> {
 //                    s.addSlotVariable(indexOfDepNode, indexOfHeadNode, 2);
 //
 //                } else {
-                    s.addSlotVariable(indexOfDepNode, indexOfHeadNode, 1);
+                s.addSlotVariable(indexOfDepNode, indexOfHeadNode, 1);
 //                }
             }
 
@@ -351,7 +361,7 @@ public class L2KBEdgeExplorer implements Explorer<State> {
 //                if (usedSlots.contains(2)) {
 //                    s.addSlotVariable(indexOfDepNode, indexOfHeadNode, 1);
 //                } else {
-                    s.addSlotVariable(indexOfDepNode, indexOfHeadNode, 2);
+                s.addSlotVariable(indexOfDepNode, indexOfHeadNode, 2);
 //                }
             }
 
@@ -383,7 +393,6 @@ public class L2KBEdgeExplorer implements Explorer<State> {
         int topK = 80;
 
         String queryTerm = node;
-        
 
         Set<String> indexURIs = new HashSet<>();
 
@@ -392,7 +401,7 @@ public class L2KBEdgeExplorer implements Explorer<State> {
                 useLemmatizer = true;
                 useWordNet = false;
                 mergePartialMatches = false;
-                
+
                 topK = 20;
 
                 if (!Stopwords.isStopWord(queryTerm)) {
@@ -413,9 +422,9 @@ public class L2KBEdgeExplorer implements Explorer<State> {
                         }
                     }
                 }
-                
-                if(ProjectConfiguration.useEmbeddingLexicon() && (pos.equals("NOUN") || pos.equals("VERB"))){
-                    
+
+                if (ProjectConfiguration.useEmbeddingLexicon() && (pos.equals("NOUN") || pos.equals("VERB"))) {
+
                     Set<String> embeddingLexica = EmbeddingLexicon.getProperties(queryTerm, Main.lang);
                     for (String d : embeddingLexica) {
                         if (!indexURIs.contains(d)) {
@@ -423,7 +432,7 @@ public class L2KBEdgeExplorer implements Explorer<State> {
                         }
                     }
                 }
-                
+
                 break;
 
             case "Class":
@@ -453,7 +462,7 @@ public class L2KBEdgeExplorer implements Explorer<State> {
                 useLemmatizer = true;
                 useWordNet = false;
                 mergePartialMatches = false;
-                
+
                 topK = 20;
 
                 if (!Stopwords.isStopWord(queryTerm)) {
@@ -468,6 +477,11 @@ public class L2KBEdgeExplorer implements Explorer<State> {
                 //check manual lexicon for Restriction Classes
                 if (ManualLexicon.useManualLexicon || ProjectConfiguration.getTrainingDatasetName().toLowerCase().contains("train")) {
                     Set<String> definedLexica = ManualLexicon.getRestrictionClasses(queryTerm, Main.lang);
+
+                    if (queryTerm.equals("endangered")) {
+                        int z = 1;
+                    }
+
                     for (String d : definedLexica) {
                         if (!indexURIs.contains(d)) {
                             uris.add(new Candidate(new Instance(d, 10000), 0, 1.0, 1.0));

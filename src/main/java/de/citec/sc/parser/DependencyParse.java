@@ -64,6 +64,7 @@ public class DependencyParse {
 
         List<String> patterns = new ArrayList<>();
 //        patterns.add("NOUN ADP PROPN");//Battle (NN) 		5,of (IN) 		6,Gettysburg (NNP)
+        patterns.add("PROPN PROPN");//John (PROPN) 		6,F (PROPN) 		7,. (PUNCT) 		8,Kennedy (PROPN)
         patterns.add("PROPN PROPN PUNCT PROPN");//John (PROPN) 		6,F (PROPN) 		7,. (PUNCT) 		8,Kennedy (PROPN)
         patterns.add("PROPN PROPN PROPN PROPN");//West (PROPN) 		10,African (PROPN) 		11,CFA (PROPN) 		12,franc (PROPN)
         patterns.add("PROPN PROPN PROPN");//West (PROPN) 		10,African (PROPN) 		11,CFA (PROPN) 		12,franc (PROPN)
@@ -172,7 +173,7 @@ public class DependencyParse {
                             }
 
                             boolean b = Search.matches(mergedTokens.toLowerCase(), Main.lang);
-
+                            
                             //if matches then remove nodes
                             if (b) {
 

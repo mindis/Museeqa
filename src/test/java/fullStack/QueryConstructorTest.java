@@ -164,7 +164,7 @@ public class QueryConstructorTest {
 
         String expectedQuery = "SELECT DISTINCT ?uri WHERE { <http://dbpedia.org/resource/Family_Guy> <http://dbpedia.org/ontology/creator> ?uri . }  ";
 
-        double simScore = QueryEvaluator.evaluate(query, expectedQuery);
+        double simScore = QueryEvaluator.evaluate(query, expectedQuery, false);
 
         System.out.println("Similarity score to expected query: " + simScore);
 
@@ -298,7 +298,7 @@ public class QueryConstructorTest {
 
         String expectedQuery = "SELECT DISTINCT ?num WHERE {  <http://dbpedia.org/resource/Michael_Jordan> <http://dbpedia.org/ontology/height> ?num . }";
 
-        double simScore = QueryEvaluator.evaluate(query, expectedQuery);
+        double simScore = QueryEvaluator.evaluate(query, expectedQuery, false);
 
         System.out.println("Similarity score to expected query: " + simScore);
 
@@ -417,7 +417,7 @@ public class QueryConstructorTest {
 
         String expectedQuery = "SELECT COUNT(DISTINCT ?uri) WHERE { ?uri <http://dbpedia.org/ontology/director> <http://dbpedia.org/resource/Michael_Jordan> . }";
 
-        double simScore = QueryEvaluator.evaluate(query, expectedQuery);
+        double simScore = QueryEvaluator.evaluate(query, expectedQuery, false);
 
         System.out.println("Similarity score to expected query: " + simScore);
 

@@ -9,7 +9,7 @@ import de.citec.sc.evaluator.BagOfLinksEvaluator;
 
 import de.citec.sc.qald.SPARQLParser;
 import de.citec.sc.utils.FreshVariable;
-import de.citec.sc.variable.HiddenVariable;
+import de.citec.sc.variable.URIVariable;
 
 import de.citec.sc.variable.State;
 
@@ -29,7 +29,7 @@ public class NELObjectiveFunction extends ObjectiveFunction<State, String> imple
         return computeScore(deptState, goldState);
     }
 
-    public double computeValue(String query, String goldState) {
+    public static double computeValue(String query, String goldState) {
 
         Set<String> uris1 = SPARQLParser.extractURIsFromQuery(query);
         Set<String> uris2 = SPARQLParser.extractURIsFromQuery(goldState);
@@ -43,8 +43,12 @@ public class NELObjectiveFunction extends ObjectiveFunction<State, String> imple
     protected double computeScore(State deptState, String goldState) {
 
         Set<String> derived = new HashSet<>();
-        for (HiddenVariable var : deptState.getHiddenVariables().values()) {
+        for (URIVariable var : deptState.getHiddenVariables().values()) {
             if (!var.getCandidate().getUri().equals("EMPTY_STRING")) {
+                
+                if(var.getCandidate().getUri().equals("http://dbpedia.org/ontology/conservationStatus###'CR'^^<http://www.w3.org/2001/XMLSchema#string>")){
+                    int z=1;
+                }
 
                 if (var.getCandidate().getUri().contains("###")) {
                     String property = var.getCandidate().getUri().substring(0, var.getCandidate().getUri().indexOf("###"));
